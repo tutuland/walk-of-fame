@@ -47,4 +47,7 @@ issues.
 
 ### How?
 
+**[[wof-core]](/wof-core)** is a Kotlin Multiplatform library where the business logic motor lives.
+
 `TODO: explain each module's responsibilities and link to their changelog`
+
