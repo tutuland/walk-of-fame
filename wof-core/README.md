@@ -6,7 +6,7 @@ Currently, it supports the following platforms:
 
 - Android
 - Desktop (through JVM)
-- iOS (X64 and Arm64)
+- iOS
 
 ***Note:***
 <br>`Until enough test coverage is implemented, a driver application is available to quickly validate the core library on each platform.`

@@ -5,8 +5,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31")
-        classpath("com.android.tools.build:gradle:7.0.4")
+        val libs = project.extensions.getByType<VersionCatalogsExtension>()
+            .named("libs") as org.gradle.accessors.dm.LibrariesForLibs
+        classpath(libs.bundles.gradlePlugins)
+        classpath(kotlin("gradle-plugin", libs.versions.kotlin.get()))
     }
 }
 

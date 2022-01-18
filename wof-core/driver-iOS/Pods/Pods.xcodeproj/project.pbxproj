@@ -9,9 +9,9 @@
 /* Begin PBXAggregateTarget section */
 		19F71CC6D1110E2EF706A022AB55F1DA /* core */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 7633F190854BFFFDEA2AE7E23307B354 /* Build configuration list for PBXAggregateTarget "core" */;
+			buildConfigurationList = 594FFD79008FFE1CDFBC18AEAB08F9ED /* Build configuration list for PBXAggregateTarget "core" */;
 			buildPhases = (
-				B476F548BDA106BB73C5A463C8B8D19D /* [CP-User] Build core */,
+				DCF48CB54EAD6F37CD61CE2BD098F566 /* [CP-User] Build core */,
 			);
 			dependencies = (
 			);
@@ -241,7 +241,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B476F548BDA106BB73C5A463C8B8D19D /* [CP-User] Build core */ = {
+		DCF48CB54EAD6F37CD61CE2BD098F566 /* [CP-User] Build core */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -249,7 +249,7 @@
 			name = "[CP-User] Build core";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "                if [ \"YES\" = \"$COCOAPODS_SKIP_KOTLIN_BUILD\" ]; then\n                  echo \"Skipping Gradle build task invocation due to COCOAPODS_SKIP_KOTLIN_BUILD environment variable set to \"YES\"\"\n                  exit 0\n                fi\n                set -ev\n                REPO_ROOT=\"$PODS_TARGET_SRCROOT\"\n                \"$REPO_ROOT/../gradlew\" -p \"$REPO_ROOT\" $KOTLIN_PROJECT_PATH:syncFramework                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME                     -Pkotlin.native.cocoapods.archs=\"$ARCHS\"                     -Pkotlin.native.cocoapods.configuration=$CONFIGURATION                     -Pkotlin.native.cocoapods.cflags=\"$OTHER_CFLAGS\"                     -Pkotlin.native.cocoapods.paths.headers=\"$HEADER_SEARCH_PATHS\"                     -Pkotlin.native.cocoapods.paths.frameworks=\"$FRAMEWORK_SEARCH_PATHS\"\n";
+			shellScript = "                if [ \"YES\" = \"$COCOAPODS_SKIP_KOTLIN_BUILD\" ]; then\n                  echo \"Skipping Gradle build task invocation due to COCOAPODS_SKIP_KOTLIN_BUILD environment variable set to \"YES\"\"\n                  exit 0\n                fi\n                set -ev\n                REPO_ROOT=\"$PODS_TARGET_SRCROOT\"\n                \"$REPO_ROOT/../gradlew\" -p \"$REPO_ROOT\" $KOTLIN_PROJECT_PATH:syncFramework                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME                     -Pkotlin.native.cocoapods.archs=\"$ARCHS\"                     -Pkotlin.native.cocoapods.configuration=$CONFIGURATION\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -351,7 +351,24 @@
 			};
 			name = Debug;
 		};
-		32EB5FF3C8B90CBC1EC847901FE1467B /* Release */ = {
+		5F830002310A222312AD4C1562811F63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFF1799F98225F9F6E2572F23F8148DF /* core.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		85CE6207D752596EFA596A724BF2532B /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 648AB407D51D4E8595A7F2A110ACC1D9 /* core.release.xcconfig */;
 			buildSettings = {
@@ -368,23 +385,6 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
-		};
-		4E0F612B778C5C5BC568C728EB8C4A2B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BFF1799F98225F9F6E2572F23F8148DF /* core.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
 		};
 		922C8359306D0A3B8ED7131B46F5A721 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -522,11 +522,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7633F190854BFFFDEA2AE7E23307B354 /* Build configuration list for PBXAggregateTarget "core" */ = {
+		594FFD79008FFE1CDFBC18AEAB08F9ED /* Build configuration list for PBXAggregateTarget "core" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4E0F612B778C5C5BC568C728EB8C4A2B /* Debug */,
-				32EB5FF3C8B90CBC1EC847901FE1467B /* Release */,
+				5F830002310A222312AD4C1562811F63 /* Debug */,
+				85CE6207D752596EFA596A724BF2532B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

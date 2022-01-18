@@ -13,9 +13,9 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-    iosX64()
-    iosArm64()
-    //iosSimulatorArm64() sure all ios dependencies support this target
+    ios()
+    // Note: iosSimulatorArm64 target requires that all dependencies have M1 support
+    iosSimulatorArm64()
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -28,48 +28,68 @@ kotlin {
     }
     
     sourceSets {
-        val commonMain by getting
+        all {
+            languageSettings.apply {
+                optIn("kotlin.RequiresOptIn")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.coroutines.core)
+                implementation(libs.bundles.ktor.common)
+                api(libs.touchlab.kermit)
+            }
+        }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(libs.bundles.shared.commonTest)
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okHttp)
+            }
+        }
         val androidTest by getting {
             dependencies {
-                implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.13.2")
+                implementation(libs.bundles.shared.androidTest)
             }
         }
-        val desktopMain by getting
-        val desktopTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        //val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            //iosSimulatorArm64Main.dependsOn(this)
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.java)
+            }
         }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        //val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            //iosSimulatorArm64Test.dependsOn(this)
+        val desktopTest by getting
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.ios)
+                val coroutineCore = libs.coroutines.core.get()
+                implementation(
+                    "${coroutineCore.module.group}:${coroutineCore.module.name}:${coroutineCore.versionConstraint.displayName}"
+                ) {
+                    version {
+                        strictly(libs.versions.coroutines.get())
+                    }
+                }
+            }
+        }
+        val iosTest by getting
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
         }
     }
 }
 
 android {
-    compileSdk = 31
+    compileSdk = libs.versions.compileSdk.get().toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 24
-        targetSdk = 31
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
     }
 }
