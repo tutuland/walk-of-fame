@@ -20,9 +20,9 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(project(":core"))
+                implementation(libs.coroutines.core)
                 implementation(compose.desktop.currentOs)
-                implementation(compose.runtime)
-                implementation(compose.foundation)
+                implementation(compose.ui)
                 implementation(compose.material)
             }
         }
