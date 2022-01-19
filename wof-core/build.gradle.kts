@@ -20,6 +20,8 @@ allprojects {
     }
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
+// TODO: this seemed to be causing side-effects for the "js { browser() }" build configuration,
+//  commenting for now
+//tasks.register("clean", Delete::class) {
+//    delete(rootProject.buildDir)
+//}

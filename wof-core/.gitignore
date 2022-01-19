@@ -1,0 +1,31 @@
+*.iml
+.gradle
+/local.properties
+.idea
+.DS_Store
+/build
+*/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+### Xcode ###
+## User settings
+xcuserdata/
+
+## Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
+### Xcode Patch ###
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcworkspace/contents.xcworkspacedata
+/*.gcno
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+## js
+/kotlin-js-store/yarn.lock
+/node_modules/.yarn-integrity

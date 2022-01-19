@@ -7,6 +7,7 @@ Currently, it supports the following platforms:
 - Android
 - Desktop (through JVM)
 - iOS
+- Web
 
 ### Building the Library
 

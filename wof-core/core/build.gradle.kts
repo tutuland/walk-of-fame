@@ -17,6 +17,9 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
+    js {
+        browser()
+    }
     ios()
     // Note: iosSimulatorArm64 target requires that all dependencies have M1 support
     iosSimulatorArm64()
@@ -66,6 +69,12 @@ kotlin {
             }
         }
         val desktopTest by getting
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.js)
+            }
+        }
+        val jsTest by getting
         val iosMain by getting {
             dependencies {
                 implementation(libs.ktor.client.ios)
