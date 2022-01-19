@@ -1,6 +1,10 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
+    id("com.codingfeline.buildkonfig")
     id("com.android.library")
 }
 
@@ -26,7 +30,7 @@ kotlin {
             baseName = "core"
         }
     }
-    
+
     sourceSets {
         all {
             languageSettings.apply {
@@ -91,5 +95,17 @@ android {
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
+    }
+}
+
+buildkonfig {
+    packageName = "com.tutuland.wof.core"
+    defaultConfigs {
+        val props = Properties()
+        props.load(project.rootProject.file("local.properties").inputStream())
+        val apiKey = props["com.tutuland.wof.core.apikey"]?.toString() ?: "couldNotLoadApiKey"
+
+        buildConfigField(STRING, "API_KEY", apiKey)
+        buildConfigField(STRING, "BASE_URL", "https://api.themoviedb.org/3/")
     }
 }

@@ -1,6 +1,8 @@
 package com.tutuland.wof.core.networking
 
 import co.touchlab.kermit.Logger
+import com.tutuland.wof.core.BuildKonfig.API_KEY
+import com.tutuland.wof.core.BuildKonfig.BASE_URL
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.ContentNegotiation
 import io.ktor.client.plugins.HttpTimeout
@@ -10,19 +12,15 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.url
 import io.ktor.serialization.kotlinx.json.json
 
-private const val BASE_URL = "https://api.themoviedb.org/3/"
-// TODO: Never commit api keys! Look for a dynamic solution
-// maybe https://github.com/yshrsmz/BuildKonfig
-private const val API_KEY = "api_key="
-
 fun HttpRequestBuilder.makeUrlFor(path: String) {
     val cleanPath = path.dropWhile { it == '/' }.replace(" ", "%20")
     val jointWith = if (cleanPath.contains('?')) '&' else '?'
+    val apiKey = "api_key=$API_KEY"
     val finalUrl = buildString {
         append(BASE_URL)
         append(cleanPath)
         append(jointWith)
-        append(API_KEY)
+        append(apiKey)
     }
     url(finalUrl)
 }
