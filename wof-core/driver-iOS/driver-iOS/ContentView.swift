@@ -3,6 +3,7 @@ import core
 
 class ViewModel : ObservableObject{
     @Published var content: String = "loading"
+    let api = ServiceLocator.shared.searchApi
 
     init() {
         load()
@@ -10,8 +11,8 @@ class ViewModel : ObservableObject{
 
 
     func load() -> Void {
-        NativeSearchApi().searchFor(person: "Wes Anderson") { [weak self] result in
-            if (result == "") {
+        api.searchFor(person: "Wes Anderson") { [weak self] data, error in
+            if (error != nil) {
                 self?.content = "Failure!"
             } else {
                 self?.content = "Success!"
