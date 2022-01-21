@@ -11,6 +11,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.url
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 
 fun HttpRequestBuilder.makeUrlFor(path: String) {
     val cleanPath = path.dropWhile { it == '/' }.replace(" ", "%20")
@@ -27,7 +28,9 @@ fun HttpRequestBuilder.makeUrlFor(path: String) {
 
 fun makeHttpClient() = HttpClient {
     install(ContentNegotiation) {
-        json()
+        json(
+            Json { ignoreUnknownKeys = true }
+        )
     }
     install(Logging) {
         logger = object : io.ktor.client.plugins.logging.Logger {
@@ -36,7 +39,7 @@ fun makeHttpClient() = HttpClient {
             }
         }
 
-        level = LogLevel.ALL
+        level = LogLevel.BODY
     }
     install(HttpTimeout) {
         val timeout = 30000L

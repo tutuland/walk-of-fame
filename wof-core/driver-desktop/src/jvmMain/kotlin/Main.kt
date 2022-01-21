@@ -25,7 +25,7 @@ fun main() = application {
         runCatching {
             api.searchFor("Wes Anderson")
         }.onSuccess {
-            Logger.d("Success!")
+            Logger.d("Success: $it")
         }.onFailure {
             Logger.d("Failure!\n--------\n$it")
         }

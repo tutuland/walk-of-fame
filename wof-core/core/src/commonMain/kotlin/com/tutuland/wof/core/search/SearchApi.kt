@@ -7,8 +7,8 @@ import io.ktor.client.request.get
 
 class SearchApi(private val client: HttpClient) : Search.Api {
 
-    override suspend fun searchFor(person: String): String {
-        val result: String = client.get {
+    override suspend fun searchFor(person: String): Search.Result {
+        val result: Search.Result = client.get {
             makeUrlFor("search/person?query=$person")
         }.body()
         return result

@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
             runCatching {
                 api.searchFor("Wes Anderson")
             }.onSuccess {
-                Logger.d("Success!")
+                Logger.d("Success: $it")
             }.onFailure {
                 Logger.d("Failure!\n--------\n$it")
             }

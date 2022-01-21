@@ -11,7 +11,7 @@ fun main() {
         runCatching {
             api.searchFor("Wes Anderson")
         }.onSuccess {
-            Logger.d("Success!")
+            Logger.d("Success: $it")
             div.textContent = "Success!"
         }.onFailure {
             Logger.d("Failure!\n--------\n$it")

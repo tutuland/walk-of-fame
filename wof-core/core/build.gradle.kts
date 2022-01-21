@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
+    id("kotlinx-serialization")
     id("com.codingfeline.buildkonfig")
     id("com.android.library")
 }
