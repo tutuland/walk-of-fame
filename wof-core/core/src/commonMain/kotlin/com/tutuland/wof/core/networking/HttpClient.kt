@@ -39,7 +39,7 @@ fun makeHttpClient() = HttpClient {
             }
         }
 
-        level = LogLevel.BODY
+        level = LogLevel.INFO
     }
     install(HttpTimeout) {
         val timeout = 30000L

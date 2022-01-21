@@ -10,7 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.ServiceLocator
+import com.tutuland.wof.core.ServiceLocator.detailsApi
+import com.tutuland.wof.core.ServiceLocator.searchApi
 import com.tutuland.wof.core.android.ui.theme.WoFCoreTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -19,7 +20,6 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private lateinit var scope: CoroutineScope
-    private val api = ServiceLocator.searchApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +32,20 @@ class MainActivity : ComponentActivity() {
 
         scope.launch {
             runCatching {
-                api.searchFor("Wes Anderson")
-            }.onSuccess {
-                Logger.d("Success: $it")
+                searchApi.searchFor("Wes Anderson")
+            }.onSuccess { result ->
+                Logger.d("Success on searchApi: $result")
+                result.people.orEmpty().getOrNull(0)?.id?.let { id ->
+                    runCatching {
+                        detailsApi.getDetailsFor(id.toString())
+                    }.onSuccess { result ->
+                        Logger.d("Success on detailsApi: $result")
+                    }.onFailure {
+                        Logger.d("Failure on detailsApi!\n--------\n$it")
+                    }
+                }
             }.onFailure {
-                Logger.d("Failure!\n--------\n$it")
+                Logger.d("Failure on searchApi!\n--------\n$it")
             }
         }
     }

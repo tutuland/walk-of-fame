@@ -20,14 +20,25 @@ fun main() = application {
         }
     }
     val scope = rememberCoroutineScope()
-    val api = ServiceLocator.searchApi
+    val searchApi = ServiceLocator.searchApi
+    val detailsApi = ServiceLocator.detailsApi
+
     scope.launch {
         runCatching {
-            api.searchFor("Wes Anderson")
-        }.onSuccess {
-            Logger.d("Success: $it")
+            searchApi.searchFor("Wes Anderson")
+        }.onSuccess { result ->
+            Logger.d("Success on searchApi: $result")
+            result.people.orEmpty().getOrNull(0)?.id?.let { id ->
+                runCatching {
+                    detailsApi.getDetailsFor(id.toString())
+                }.onSuccess { result ->
+                    Logger.d("Success on detailsApi: $result")
+                }.onFailure {
+                    Logger.d("Failure on detailsApi!\n--------\n$it")
+                }
+            }
         }.onFailure {
-            Logger.d("Failure!\n--------\n$it")
+            Logger.d("Failure on searchApi!\n--------\n$it")
         }
     }
 }
