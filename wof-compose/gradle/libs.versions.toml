@@ -1,0 +1,57 @@
+[versions]
+## SDK Versions
+minSdk = "21"
+targetSdk = "31"
+compileSdk = "31"
+
+# Dependencies
+android-tools = "7.0.4" # https://developer.android.com/studio/releases/gradle-plugin
+androidx-activity = "1.4.0" # https://developer.android.com/jetpack/androidx/releases/activity
+androidx-core = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/core
+coil = "1.4.0" # https://github.com/coil-kt/coil/releases/tag/1.4.0
+compose-jb = "1.0.1" # https://github.com/JetBrains/compose-jb/releases
+coroutines = "1.6.0" # https://github.com/Kotlin/kotlinx.coroutines/releases
+kotlin = "1.6.10" # https://github.com/JetBrains/kotlin/releases
+mockk = "1.10.3-jdk8" # https://github.com/mockk/mockk/releases
+touchlab-kermit = "1.0.0" # https://github.com/touchlab/Kermit/releases
+turbine = "0.7.0" # https://github.com/cashapp/turbine/releases
+
+[libraries]
+
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+
+coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
+
+gradlePlugin-android-tools = { module = "com.android.tools.build:gradle", version.ref = "android-tools" }
+gradlePlugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "touchlab-kermit" }
+
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
+[bundles]
+
+app = [
+    "androidx-core",
+    "androidx-activity-compose",
+    "coil",
+    "touchlab-kermit",
+]
+gradlePlugins = [
+    "gradlePlugin-android-tools",
+    "gradlePlugin-kotlinSerialization",
+]
+test = [
+    "coroutines-test",
+    "kotlin-test-junit",
+    "mockk",
+    "turbine",
+]
