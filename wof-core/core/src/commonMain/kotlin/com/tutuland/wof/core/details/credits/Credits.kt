@@ -16,6 +16,7 @@ interface Credits {
         @Serializable
         data class Cast(
             @SerialName("title") val title: String? = null,
+            @SerialName("poster_path") val posterPath: String? = null,
             @SerialName("character") val character: String? = null,
             @SerialName("release_date") val releaseDate: String? = null,
         )
@@ -23,6 +24,7 @@ interface Credits {
         @Serializable
         data class Crew(
             @SerialName("title") val title: String? = null,
+            @SerialName("poster_path") val posterPath: String? = null,
             @SerialName("job") val job: String? = null,
             @SerialName("release_date") val releaseDate: String? = null,
         )

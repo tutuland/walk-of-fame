@@ -23,5 +23,9 @@ Also, this library uses [The Movie DB api](https://www.themoviedb.org/about), wh
 After you aquire your api key, please include it on your local.properties file as: `com.tutuland.wof.core.apikey`
 <br>*(it's always good practice not to commit keys and secrets to source control)*
 
+### Publising the Library
+For now, no remote maven is configured. The library is meant to be published locally, with the `publishToMavenLocal` 
+gradle task.
+
 ***Note:***
 <br>`Until enough test coverage is implemented, a driver application is available to quickly validate the core library on each platform.`

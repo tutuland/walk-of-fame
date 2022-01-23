@@ -7,12 +7,16 @@ plugins {
     id("kotlinx-serialization")
     id("com.codingfeline.buildkonfig")
     id("com.android.library")
+    id("maven-publish")
 }
 
-version = "1.0"
+group = "com.tutuland.wof.core"
+version = "0.0.1"
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release")
+    }
     jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
