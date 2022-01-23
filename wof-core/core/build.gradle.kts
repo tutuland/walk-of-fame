@@ -49,6 +49,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.coroutines.core)
+                implementation(libs.dateTime)
                 implementation(libs.bundles.ktor.common)
                 api(libs.touchlab.kermit)
             }

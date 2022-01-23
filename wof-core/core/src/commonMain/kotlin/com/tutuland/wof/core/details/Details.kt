@@ -1,19 +1,25 @@
 package com.tutuland.wof.core.details
 
-import com.tutuland.wof.core.details.credits.Credits
-import com.tutuland.wof.core.details.person.Person
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-
 interface Details {
-    interface Api {
-        suspend fun getDetailsFor(id: String): Result
+    interface Provider {
+        suspend fun with(id: String, knownFor: List<String> = listOf()): Model
     }
 
-    @Serializable
-    data class Result(
-        @SerialName("person") val person: Person.Result,
-        @SerialName("credits") val credits: Credits.Result,
-    )
+    data class Model(
+        val pictureUrl: String,
+        val name: String,
+        val department: String,
+        val bornIn: String,
+        val diedIn: String,
+        val biography: String,
+        val credits: List<Credit>,
+    ) {
+        data class Credit(
+            val posterUrl: String,
+            val title: String,
+            val credit: String,
+            val year: String
+        )
+    }
 }
 

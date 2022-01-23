@@ -3,8 +3,8 @@ import core
 
 class ViewModel : ObservableObject{
     @Published var content: String = "loading"
-    let searchApi = ServiceLocator.shared.searchApi
-    let detailsApi = ServiceLocator.shared.detailsApi
+    let searchForPeople = ServiceLocator.shared.searchForPeople
+    let requestDetails = ServiceLocator.shared.requestDetails
     
     init() {
         load()
@@ -12,18 +12,12 @@ class ViewModel : ObservableObject{
     
     
     func load() -> Void {
-        searchApi.searchFor(person: "Wes Anderson") { [weak self] data, error in
+        //skipping searchForPeople for now
+        requestDetails.with(id: "172069", knownFor: []) { [weak self] data, error in
             if (error != nil) {
                 self?.content = "Failure!"
             } else {
-                let id = data?.people?[0].id ?? 0
-                self?.detailsApi.getDetailsFor(id: "\(id)") { [weak self] data, error in
-                    if (error != nil) {
-                        self?.content = "Failure!"
-                    } else {
-                        self?.content = "Success!"
-                    }
-                }
+               self?.content = "Success!"
             }
         }
     }
