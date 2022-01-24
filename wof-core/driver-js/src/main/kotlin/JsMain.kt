@@ -1,4 +1,4 @@
-import co.touchlab.kermit.Logger
+import com.tutuland.wof.core.ServiceLocator.log
 import com.tutuland.wof.core.ServiceLocator.requestDetails
 import com.tutuland.wof.core.ServiceLocator.searchForPeople
 import com.tutuland.wof.core.search.Search
@@ -15,9 +15,9 @@ fun main() {
     GlobalScope.launch {
         val results = mutableListOf<Search.Model>()
         searchForPeople.withName("Chadwick Boseman")
-            .catch { Logger.d("Failure on searchApi!\n--------\n$it") }
+            .catch { log.d("Failure on searchApi!\n--------\n$it") }
             .onEach {
-                Logger.d("Received: $it")
+                log.d("Received: $it")
                 results.add(it)
             }
             .onCompletion {
@@ -26,14 +26,14 @@ fun main() {
                     runCatching {
                         requestDetails.with(model.id, model.knownFor)
                     }.onSuccess { result ->
-                        Logger.d("Success on detailsApi: $result")
+                        log.d("Success on detailsApi: $result")
                         div.textContent = "Success!"
                     }.onFailure {
-                        Logger.d("Failure on detailsApi!\n--------\n$it")
+                        log.d("Failure on detailsApi!\n--------\n$it")
                         div.textContent = "Failure!"
                     }
                 } else {
-                    Logger.d("SearchApi ended with FAILURE!")
+                    log.d("SearchApi ended with FAILURE!")
                     div.textContent = "Failure!"
                 }
             }.collect()

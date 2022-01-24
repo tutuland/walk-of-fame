@@ -1,6 +1,5 @@
 package com.tutuland.wof.core.networking
 
-import co.touchlab.kermit.Logger
 import com.tutuland.wof.core.BuildKonfig.API_KEY
 import com.tutuland.wof.core.BuildKonfig.BASE_URL
 import io.ktor.client.HttpClient
@@ -12,6 +11,8 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.url
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import co.touchlab.kermit.Logger as KermitLogger
+import io.ktor.client.plugins.logging.Logger as KtorLogger
 
 fun HttpRequestBuilder.makeUrlFor(path: String) {
     val cleanPath = path.dropWhile { it == '/' }.replace(" ", "%20")
@@ -26,16 +27,16 @@ fun HttpRequestBuilder.makeUrlFor(path: String) {
     url(finalUrl)
 }
 
-fun makeHttpClient() = HttpClient {
+fun makeHttpClient(log: KermitLogger) = HttpClient {
     install(ContentNegotiation) {
         json(
             Json { ignoreUnknownKeys = true }
         )
     }
     install(Logging) {
-        logger = object : io.ktor.client.plugins.logging.Logger {
+        logger = object : KtorLogger {
             override fun log(message: String) {
-                Logger.v { message }
+                log.d { message }
             }
         }
 

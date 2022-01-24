@@ -5,6 +5,7 @@ targetSdk = "31"
 compileSdk = "31"
 
 # Dependencies
+android-desugaring = "1.1.5" # https://github.com/google/desugar_jdk_libs/tags
 android-tools = "7.0.4" # https://developer.android.com/studio/releases/gradle-plugin
 androidx-activity = "1.4.0" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-core = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/core
@@ -15,9 +16,11 @@ kotlin = "1.6.10" # https://github.com/JetBrains/kotlin/releases
 mockk = "1.10.3-jdk8" # https://github.com/mockk/mockk/releases
 touchlab-kermit = "1.0.0" # https://github.com/touchlab/Kermit/releases
 turbine = "0.7.0" # https://github.com/cashapp/turbine/releases
+wof-core = "0.0.1" # https://github.com/tutuland/walk-of-fame/tree/main/wof-core -> but currently it's published locally
 
 [libraries]
 
+android-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugaring" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 
@@ -36,6 +39,10 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "touchlab-kermit" }
 
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
+wof-core-common = { module = "com.tutuland.wof.core:core", version.ref = "wof-core" }
+wof-core-android = { module = "com.tutuland.wof.core:core-android", version.ref = "wof-core" }
+wof-core-desktop = { module = "com.tutuland.wof.core:core-desktop", version.ref = "wof-core" }
 
 [bundles]
 

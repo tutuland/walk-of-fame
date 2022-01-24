@@ -9,8 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.ServiceLocator
+import com.tutuland.wof.core.ServiceLocator.log
+import com.tutuland.wof.core.ServiceLocator.requestDetails
 import com.tutuland.wof.core.ServiceLocator.searchForPeople
 import com.tutuland.wof.core.android.ui.theme.WoFCoreTheme
 import com.tutuland.wof.core.search.Search
@@ -38,22 +38,22 @@ class MainActivity : ComponentActivity() {
         scope.launch {
             val results = mutableListOf<Search.Model>()
             searchForPeople.withName("Chadwick Boseman")
-                .catch { Logger.d("Failure on searchApi!\n--------\n$it") }
+                .catch { log.d("Failure on searchApi!\n--------\n$it") }
                 .onEach {
-                    Logger.d("Received: $it")
+                    log.d("Received: $it")
                     results.add(it)
                 }
                 .onCompletion {
                     if (it == null) {
                         val model = results[0]
                         runCatching {
-                            ServiceLocator.requestDetails.with(model.id, model.knownFor)
+                            requestDetails.with(model.id, model.knownFor)
                         }.onSuccess { result ->
-                            Logger.d("Success on detailsApi: $result")
+                            log.d("Success on detailsApi: $result")
                         }.onFailure {
-                            Logger.d("Failure on detailsApi!\n--------\n$it")
+                            log.d("Failure on detailsApi!\n--------\n$it")
                         }
-                    } else Logger.d("SearchApi ended with FAILURE!")
+                    } else log.d("SearchApi ended with FAILURE!")
                 }.collect()
         }
     }

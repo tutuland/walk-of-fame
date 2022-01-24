@@ -47,9 +47,10 @@ issues.
 
 ### How?
 
-**[[wof-core]](/wof-core)** is a Kotlin Multiplatform library where the business logic motor lives.
-<br>**[[wof-compose]](/wof-compose)** The Android and Desktop clients are defined here. Using the Compose library, they
-can share UI components and models.
+**[wof-core](/wof-core)** is a Kotlin Multiplatform library where the business logic motor lives.
+
+**[wof-compose](/wof-compose)** is where the Android and Desktop clients are defined. Using Compose library, they can 
+share UI components.
 
 `TODO: explain each module's responsibilities and link to their changelog`
 

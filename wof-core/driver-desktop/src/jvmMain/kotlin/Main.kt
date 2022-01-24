@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import co.touchlab.kermit.Logger
+import com.tutuland.wof.core.ServiceLocator.log
 import com.tutuland.wof.core.ServiceLocator.requestDetails
 import com.tutuland.wof.core.ServiceLocator.searchForPeople
 import com.tutuland.wof.core.search.Search
@@ -30,9 +30,9 @@ fun main() = application {
     scope.launch {
         val results = mutableListOf<Search.Model>()
         searchForPeople.withName("Chadwick Boseman")
-            .catch { Logger.d("Failure on searchApi!\n--------\n$it") }
+            .catch { log.d("Failure on searchApi!\n--------\n$it") }
             .onEach {
-                Logger.d("Received: $it")
+                log.d("Received: $it")
                 results.add(it)
             }
             .onCompletion {
@@ -41,11 +41,11 @@ fun main() = application {
                     runCatching {
                         requestDetails.with(model.id, model.knownFor)
                     }.onSuccess { result ->
-                        Logger.d("Success on detailsApi: $result")
+                        log.d("Success on detailsApi: $result")
                     }.onFailure {
-                        Logger.d("Failure on detailsApi!\n--------\n$it")
+                        log.d("Failure on detailsApi!\n--------\n$it")
                     }
-                } else Logger.d("SearchApi ended with FAILURE!")
+                } else log.d("SearchApi ended with FAILURE!")
             }.collect()
     }
 }
