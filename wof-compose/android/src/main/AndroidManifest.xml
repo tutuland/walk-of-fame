@@ -7,8 +7,9 @@
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WoFCompose">
+        android:theme="@style/Theme.WofSplashTheme">
         <activity
             android:name=".MainActivity"
             android:exported="true">

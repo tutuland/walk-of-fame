@@ -21,8 +21,6 @@ kotlin {
             dependencies {
                 implementation(project(":common"))
                 implementation(compose.desktop.currentOs)
-                implementation(compose.ui)
-                implementation(compose.material)
             }
         }
         val jvmTest by getting

@@ -48,6 +48,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    coreLibraryDesugaring(libs.android.desugaring)
     implementation(libs.bundles.app)
+    debugImplementation(compose.uiTooling)
+    coreLibraryDesugaring(libs.android.desugaring)
 }

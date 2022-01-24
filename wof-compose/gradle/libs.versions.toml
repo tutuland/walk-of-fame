@@ -9,6 +9,7 @@ android-desugaring = "1.1.5" # https://github.com/google/desugar_jdk_libs/tags
 android-tools = "7.0.4" # https://developer.android.com/studio/releases/gradle-plugin
 androidx-activity = "1.4.0" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-core = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/core
+androidx-splashscreen = "1.0.0-beta01" # https://developer.android.com/jetpack/androidx/releases/core
 coil = "1.4.0" # https://github.com/coil-kt/coil/releases/tag/1.4.0
 compose-jb = "1.0.1" # https://github.com/JetBrains/compose-jb/releases
 coroutines = "1.6.0" # https://github.com/Kotlin/kotlinx.coroutines/releases
@@ -21,8 +22,9 @@ wof-core = "0.0.1" # https://github.com/tutuland/walk-of-fame/tree/main/wof-core
 [libraries]
 
 android-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "android-desugaring" }
-androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-splashscreen" }
 
 coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
@@ -47,10 +49,9 @@ wof-core-desktop = { module = "com.tutuland.wof.core:core-desktop", version.ref 
 [bundles]
 
 app = [
-    "androidx-core",
     "androidx-activity-compose",
-    "coil",
-    "touchlab-kermit",
+    "androidx-core",
+    "androidx-splashscreen",
 ]
 gradlePlugins = [
     "gradlePlugin-android-tools",

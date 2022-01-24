@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="brand_primary">#6D5FFD</color>
-    <color name="brand_primary_variant">#5749D8</color>
+    <color name="brand_text">#E5E5E5</color>
+    <color name="brand_background">#12121D</color>
 </resources>

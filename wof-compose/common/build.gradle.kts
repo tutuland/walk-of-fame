@@ -19,10 +19,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                api(libs.coil)
                 api(libs.wof.core.common)
-                api(compose.runtime)
-                api(compose.foundation)
+                api(compose.ui)
                 api(compose.material)
+                api(compose.preview)
             }
         }
         val commonTest by getting {
