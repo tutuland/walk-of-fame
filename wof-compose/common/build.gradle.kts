@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 group = "com.tutuland.wof.compose"
@@ -20,20 +21,31 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.coil)
+                api(libs.moko.resources.common)
                 api(libs.wof.core.common)
                 api(compose.ui)
                 api(compose.material)
+                api(compose.materialIconsExtended)
                 api(compose.preview)
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(libs.bundles.test)
+                implementation(libs.moko.resources.test)
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.moko.resources.compose)
+            }
+        }
         val androidTest by getting
-        val desktopMain by getting
+        val desktopMain by getting {
+            dependencies {
+                implementation(libs.moko.resources.compose)
+            }
+        }
         val desktopTest by getting
     }
 }
@@ -49,4 +61,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+}
+
+multiplatformResources {
+    multiplatformResourcesPackage = "com.tutuland.wof.compose"
 }

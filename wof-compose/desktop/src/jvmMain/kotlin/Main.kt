@@ -1,5 +1,4 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.window.Window
@@ -11,9 +10,7 @@ fun main() = application {
     val scope = rememberCoroutineScope()
     val viewModel = SearchViewModel(scope)
     Window(onCloseRequest = ::exitApplication) {
-        MaterialTheme {
-            WofApp(viewModel)
-        }
+        WofApp(viewModel)
     }
 }
 
@@ -22,7 +19,5 @@ fun main() = application {
 fun WofAppPreview() {
     val scope = rememberCoroutineScope()
     val viewModel = SearchViewModel(scope)
-    MaterialTheme {
-        WofApp(viewModel)
-    }
+    WofApp(viewModel)
 }

@@ -3,7 +3,6 @@ package com.tutuland.wof.android
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,9 +22,7 @@ class MainActivity : ComponentActivity() {
         scope = MainScope()
         val viewModel = SearchViewModel(scope)
         setContent {
-            MaterialTheme {
-                WofApp(viewModel)
-            }
+            WofApp(viewModel)
         }
     }
 
@@ -40,7 +37,5 @@ class MainActivity : ComponentActivity() {
 fun WofAppPreview() {
     val scope = rememberCoroutineScope()
     val viewModel = SearchViewModel(scope)
-    MaterialTheme {
-        WofApp(viewModel)
-    }
+    WofApp(viewModel)
 }

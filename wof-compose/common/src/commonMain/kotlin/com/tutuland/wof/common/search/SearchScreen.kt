@@ -2,6 +2,7 @@ package com.tutuland.wof.common.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -10,8 +11,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,18 +28,31 @@ import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Text(
-            text = "Walk of Fame",
-            style = MaterialTheme.typography.h4,
-            modifier = Modifier.padding(16.dp)
-        )
-        SearchContent(viewModel)
+    Scaffold { innerPadding ->
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            SearchHeader()
+            SearchContent(viewModel)
+        }
     }
     viewModel.searchFor("Wes Anderson")
+}
+
+@Composable
+fun SearchHeader() {
+    Text(
+        text = "Walk of fame",
+        style = MaterialTheme.typography.h2,
+    )
+    Spacer(Modifier.height(16.dp))
+    Text(
+        text = "Let's find movie stars and amazing creativity people!",
+        style = MaterialTheme.typography.h4,
+    )
 }
 
 @Composable
@@ -69,10 +87,25 @@ fun SearchResults(searchResults: List<Search.Model>) {
 
 @Composable
 fun SearchResult(model: Search.Model) {
-    Text(
-        text = model.name,
-        modifier = Modifier.padding(16.dp)
-    )
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Column(Modifier.weight(1f)) {
+            Text(
+                text = model.name,
+                style = MaterialTheme.typography.h3,
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                text = model.department,
+                style = MaterialTheme.typography.subtitle1,
+                color = MaterialTheme.colors.secondary,
+            )
+        }
+        Icon(
+            imageVector = Icons.Filled.ArrowForwardIos,
+            tint = MaterialTheme.colors.secondary,
+            contentDescription = null,
+        )
+    }
 }
 
 @Composable
