@@ -20,6 +20,7 @@ actual fun NetworkImage(
             data = url,
             builder = {
                 crossfade(crossfade)
+                placeholder(R.drawable.placeholder)
                 error(R.drawable.placeholder)
             }
         ),

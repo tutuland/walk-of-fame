@@ -43,7 +43,7 @@ actual fun NetworkImage(
     }
 
     Image(
-        painter = image?.let { painterFor(it) } ?: painterResource("MR/images/placeholder@4x.jpg"),
+        painter = image?.let { painterFor(it) } ?: painterResource("MR/images/placeholder@4x.png"),
         contentDescription = contentDescription,
         contentScale = contentScale,
         modifier = modifier
