@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberImagePainter
+import com.tutuland.wof.common.R
 
 @Composable
 actual fun NetworkImage(
@@ -17,7 +18,10 @@ actual fun NetworkImage(
     Image(
         painter = rememberImagePainter(
             data = url,
-            builder = { crossfade(crossfade) }
+            builder = {
+                crossfade(crossfade)
+                error(R.drawable.placeholder)
+            }
         ),
         contentDescription = contentDescription,
         contentScale = contentScale,

@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.loadImageBitmap
+import androidx.compose.ui.res.painterResource
 import com.tutuland.wof.core.ServiceLocator.log
-import java.io.IOException
 import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -28,28 +28,27 @@ actual fun NetworkImage(
     contentScale: ContentScale,
     crossfade: Boolean,
 ) {
+
     val painterFor: @Composable (ImageBitmap) -> Painter = { remember { BitmapPainter(it) } }
     val image: ImageBitmap? by produceState<ImageBitmap?>(null) {
         value = withContext(Dispatchers.IO) {
             try {
+                if (url.isBlank()) throw IllegalArgumentException("Image url cannot be empty")
                 loadImageBitmap(url)
-            } catch (e: IOException) {
+            } catch (e: Exception) {
                 log.e("AsyncImage error: $e")
                 null
             }
         }
     }
 
-    image?.let {
-        Image(
-            painter = painterFor(it),
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-            modifier = modifier
-        )
-    }
+    Image(
+        painter = image?.let { painterFor(it) } ?: painterResource("MR/images/placeholder@4x.jpg"),
+        contentDescription = contentDescription,
+        contentScale = contentScale,
+        modifier = modifier
+    )
 }
-
 
 fun loadImageBitmap(url: String): ImageBitmap =
     URL(url).openStream().buffered().use(::loadImageBitmap)

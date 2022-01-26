@@ -12,7 +12,7 @@ class DetailsViewModel(
     private val scope: CoroutineScope,
     private val log: Logger = ServiceLocator.log,
     private val requestDetails: Details.Provider = ServiceLocator.requestDetails,
-    initialDetails: Details.Model?,
+    initialDetails: Details.Model? = null,
 ) {
     private val _state = MutableStateFlow(ViewState(details = initialDetails))
     val viewState: StateFlow<ViewState> = _state

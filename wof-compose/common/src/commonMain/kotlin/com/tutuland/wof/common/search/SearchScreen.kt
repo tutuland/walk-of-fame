@@ -26,20 +26,25 @@ import androidx.compose.ui.unit.dp
 import com.tutuland.wof.core.search.Search
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 
+// TODO: make these constants adaptive
+private val contentPadding = 16.dp
+
 @Composable
 fun SearchScreen(viewModel: SearchViewModel) {
     Scaffold { innerPadding ->
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            SearchHeader()
-            SearchContent(viewModel)
-        }
+        SearchContent(viewModel, Modifier.fillMaxSize().padding(innerPadding))
     }
     viewModel.searchFor("Wes Anderson")
+}
+
+@Composable
+fun SearchContent(viewModel: SearchViewModel, modifier: Modifier = Modifier) {
+    val viewState: SearchViewModel.ViewState by viewModel.viewState.collectAsState()
+
+    Column(modifier = modifier) {
+        SearchHeader()
+        SearchBody(viewModel)
+    }
 }
 
 @Composable
@@ -56,7 +61,7 @@ fun SearchHeader() {
 }
 
 @Composable
-fun SearchContent(
+fun SearchBody(
     viewModel: SearchViewModel,
     modifier: Modifier = Modifier,
 ) {

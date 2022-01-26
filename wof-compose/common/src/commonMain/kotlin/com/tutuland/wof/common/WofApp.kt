@@ -1,59 +1,30 @@
 package com.tutuland.wof.common
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.details.DetailsScreen
-import com.tutuland.wof.common.search.SearchHeader
-import com.tutuland.wof.common.search.SearchResult
+import com.tutuland.wof.common.search.SearchScreen
 import com.tutuland.wof.common.theme.WofTheme
 import com.tutuland.wof.core.details.Details
-import com.tutuland.wof.core.search.Search
+import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
+import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun WofApp(coroutineScope: CoroutineScope) {
     //TODO: setup navigation routes
     WofTheme {
-        TestDetails()
+        TestDetails(coroutineScope)
     }
 }
 
 @Composable
-fun TestSearch() {
-    Scaffold { innerPadding ->
-        val scrollState = rememberScrollState()
-        Column(
-            Modifier
-                .padding(innerPadding)
-                .padding(16.dp)
-                .verticalScroll(scrollState)
-        ) {
-            val searchModel = Search.Model(
-                id = "",
-                name = "Chloé Zhao",
-                department = "Director • Screenwriter • Producer",
-                knownFor = listOf()
-            )
-            SearchHeader()
-
-            Spacer(Modifier.height(48.dp))
-
-            SearchResult(searchModel)
-
-        }
-    }
+fun TestSearch(coroutineScope: CoroutineScope) {
+    val viewModel = SearchViewModel(coroutineScope)
+    SearchScreen(viewModel)
 }
 
 @Composable
-fun TestDetails() {
+fun TestDetails(coroutineScope: CoroutineScope) {
     val detailsCredit = Details.Model.Credit(
         posterUrl = "https://image.tmdb.org/t/p/w300/uxzzxijgPIY7slzFvMotPv8wjKA.jpg",
         title = "Black Panther",
@@ -70,6 +41,6 @@ fun TestDetails() {
                 "T'Challa / Black Panther in the Marvel Cinematic Universe from 2016 to 2019...",
         credits = buildList { repeat(7) { add(detailsCredit) } },
     )
-
-    DetailsScreen(detailsModel)
+    val viewModel = DetailsViewModel(coroutineScope)
+    DetailsScreen(viewModel)
 }
