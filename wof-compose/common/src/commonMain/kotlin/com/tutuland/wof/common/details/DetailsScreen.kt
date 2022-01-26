@@ -67,7 +67,6 @@ fun DetailsScreen(viewModel: DetailsViewModel) {
 fun DetailsContent(model: Details.Model, contentPadding: Dp, creditColumns: Int, fullBioClicked: () -> Unit) {
     val scrollState = rememberScrollState()
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(scrollState)
@@ -101,44 +100,46 @@ fun DetailsHeader(model: Details.Model, contentPadding: Dp) {
                 .fillMaxWidth()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(
-                            OverlayColorEnd,
-                            OverlayColorStart,
-                        )
+                        colors = listOf(OverlayColorEnd, OverlayColorStart)
                     )
                 )
                 .padding(horizontal = contentPadding)
                 .padding(bottom = 4.dp, top = 64.dp)
         ) {
-            Text(
-                text = model.name,
-                style = MaterialTheme.typography.h1,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                text = model.department,
-                style = MaterialTheme.typography.subtitle1,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = model.bornIn,
-                style = MaterialTheme.typography.subtitle2,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = model.diedIn,
-                style = MaterialTheme.typography.subtitle2,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            DetailsHeaderTexts(model)
         }
     }
+}
+
+@Composable
+fun DetailsHeaderTexts(model: Details.Model) {
+    Text(
+        text = model.name,
+        style = MaterialTheme.typography.h1,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+    )
+    Text(
+        text = model.department,
+        style = MaterialTheme.typography.subtitle1,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.padding(top = 4.dp),
+    )
+    Text(
+        text = model.bornIn,
+        style = MaterialTheme.typography.subtitle2,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.padding(top = 8.dp),
+    )
+    Text(
+        text = model.diedIn,
+        style = MaterialTheme.typography.subtitle2,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = Modifier.padding(top = 8.dp),
+    )
 }
 
 @Composable
