@@ -20,7 +20,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(libs.coil)
                 api(libs.moko.resources.common)
                 api(libs.wof.core.common)
                 api(compose.ui)
@@ -37,6 +36,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                implementation(libs.coil)
                 implementation(libs.moko.resources.compose)
             }
         }

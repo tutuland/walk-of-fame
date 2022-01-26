@@ -49,7 +49,7 @@ class RequestDetails(
     private fun CreditsApi.Result.mapCreditsWith(knownFor: List<String>): List<Details.Model.Credit> {
         val cast = cast.orEmpty()
             .filter { it.isValid && it.id.isAllowedBy(knownFor) }
-            .map { it.mapToCredit { "Cast as ${job ?: "uncredited"}" } }
+            .map { it.mapToCredit { "Acting" } }
         val crew = crew.orEmpty()
             .filter { it.isValid && it.id.isAllowedBy(knownFor) }
             .map { it.mapToCredit { job ?: "uncredited" } }
