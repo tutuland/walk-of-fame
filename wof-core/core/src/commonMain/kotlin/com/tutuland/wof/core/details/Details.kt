@@ -2,7 +2,7 @@ package com.tutuland.wof.core.details
 
 interface Details {
     interface Provider {
-        suspend fun with(id: String, knownFor: List<String> = listOf()): Model
+        suspend fun with(id: String): Model
     }
 
     data class Model(

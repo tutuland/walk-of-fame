@@ -14,7 +14,7 @@ class RequestDetails(
     private val creditsApi: CreditsApi,
 ) : Details.Provider {
 
-    override suspend fun with(id: String, knownFor: List<String>): Details.Model {
+    override suspend fun with(id: String): Details.Model {
         val personResult = getPersonFor(id)
         val creditsResult = creditsApi.getCreditsFor(id)
         return Details.Model(
@@ -24,7 +24,7 @@ class RequestDetails(
             bornIn = personResult.mapBornIn(),
             diedIn = personResult.mapDiedIn(),
             biography = personResult.biography.orEmpty(),
-            credits = creditsResult.mapCreditsWith(knownFor)
+            credits = creditsResult.mapCredits()
         )
     }
 
@@ -46,12 +46,12 @@ class RequestDetails(
         ?.let { "Died in $it" }
         .orEmpty()
 
-    private fun CreditsApi.Result.mapCreditsWith(knownFor: List<String>): List<Details.Model.Credit> {
+    private fun CreditsApi.Result.mapCredits(): List<Details.Model.Credit> {
         val cast = cast.orEmpty()
-            .filter { it.isValid && it.id.isAllowedBy(knownFor) }
+            .filter { it.isValid }
             .map { it.mapToCredit { "Acting" } }
         val crew = crew.orEmpty()
-            .filter { it.isValid && it.id.isAllowedBy(knownFor) }
+            .filter { it.isValid }
             .map { it.mapToCredit { job ?: "uncredited" } }
         return cast + crew
     }
@@ -62,9 +62,6 @@ class RequestDetails(
         credit = credit(),
         year = releaseDate.mapYear().orEmpty(),
     )
-
-    private fun Int?.isAllowedBy(allowedIds: List<String>) =
-        this != null && (allowedIds.isEmpty() || allowedIds.contains(this.toString()))
 }
 
 object InvalidPersonResult : Exception("Invalid result for get person api.")

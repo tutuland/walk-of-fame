@@ -14,14 +14,29 @@ class DetailsViewModel(
     private val requestDetails: Details.Provider = ServiceLocator.requestDetails,
     initialDetails: Details.Model? = null,
 ) {
+    private var currentId: String = ""
     private val _state = MutableStateFlow(ViewState(details = initialDetails))
     val viewState: StateFlow<ViewState> = _state
 
-    fun requestDetailsWith(id: String, knownFor: List<String>) {
+    fun requestDetailsWith(id: String) {
+        val details = _state.value.details
+        if (currentId == id && details != null) {
+            process { details }
+        } else {
+            currentId = id
+            process { requestDetails.with(currentId) }
+        }
+    }
+
+    fun reloadDetails() {
+        requestDetailsWith(currentId)
+    }
+
+    private fun process(request: suspend () -> Details.Model) {
         scope.launch {
             startLoading()
             try {
-                val model = requestDetails.with(id, knownFor)
+                val model = request()
                 displayResult(model)
                 log.d("requestDetails succeeded: $model")
             } catch (error: Exception) {

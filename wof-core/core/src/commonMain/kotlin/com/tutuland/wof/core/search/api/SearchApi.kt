@@ -23,17 +23,9 @@ class SearchApi(private val client: HttpClient) {
         data class Person(
             @SerialName("id") val id: Int? = null,
             @SerialName("name") val name: String? = null,
-            @SerialName("known_for") val knownFor: List<Credit>? = null,
             @SerialName("known_for_department") val department: String? = null,
         ) {
             val isValid: Boolean get() = id != null && name.isNullOrEmpty().not()
-
-            @Serializable
-            data class Credit(
-                @SerialName("id") val id: Int? = null,
-            ) {
-                val isValid: Boolean get() = id != null
-            }
         }
     }
 }

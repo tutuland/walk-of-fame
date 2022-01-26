@@ -24,7 +24,7 @@ fun main() {
                 if (it == null) {
                     val model = results[0]
                     runCatching {
-                        requestDetails.with(model.id, model.knownFor)
+                        requestDetails.with(model.id)
                     }.onSuccess { result ->
                         log.d("Success on detailsApi: $result")
                         div.textContent = "Success!"

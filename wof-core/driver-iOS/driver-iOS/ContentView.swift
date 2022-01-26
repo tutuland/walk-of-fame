@@ -13,7 +13,7 @@ class ViewModel : ObservableObject{
     
     func load() -> Void {
         //skipping searchForPeople for now
-        requestDetails.with(id: "172069", knownFor: []) { [weak self] data, error in
+        requestDetails.with(id: "172069") { [weak self] data, error in
             if (error != nil) {
                 self?.content = "Failure!"
             } else {

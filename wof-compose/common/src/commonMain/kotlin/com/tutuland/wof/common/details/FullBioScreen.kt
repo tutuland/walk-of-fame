@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.tutuland.wof.common.WofNavigator
 import com.tutuland.wof.common.utils.BackButton
-import com.tutuland.wof.core.ServiceLocator
 import com.tutuland.wof.core.details.Details
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 
@@ -25,14 +25,14 @@ import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 private val contentPadding = 16.dp
 
 @Composable
-fun FullBioScreen(viewModel: DetailsViewModel) {
+fun FullBioScreen(viewModel: DetailsViewModel, nav: WofNavigator) {
     Scaffold {
         Box(
             contentAlignment = Alignment.TopStart,
             modifier = Modifier.fillMaxSize(),
         ) {
             viewModel.viewState.value.details?.let { FullBioContent(it, contentPadding) }
-            BackButton(Modifier.padding(contentPadding)) { ServiceLocator.log.d("BACK CLICKED!") }
+            BackButton(modifier = Modifier.padding(contentPadding), onClick = nav::goBack)
         }
     }
 }

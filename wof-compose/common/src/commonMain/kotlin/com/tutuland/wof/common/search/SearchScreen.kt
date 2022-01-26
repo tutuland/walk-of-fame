@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.tutuland.wof.common.WofNavigator
 import com.tutuland.wof.core.search.Search
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 
@@ -30,20 +31,24 @@ import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 private val contentPadding = 16.dp
 
 @Composable
-fun SearchScreen(viewModel: SearchViewModel) {
+fun SearchScreen(viewModel: SearchViewModel, nav: WofNavigator) {
     Scaffold { innerPadding ->
-        SearchContent(viewModel, Modifier.fillMaxSize().padding(innerPadding))
+        SearchContent(viewModel, nav, Modifier.fillMaxSize().padding(innerPadding))
     }
-    viewModel.searchFor("Wes Anderson")
 }
 
 @Composable
-fun SearchContent(viewModel: SearchViewModel, modifier: Modifier = Modifier) {
+fun SearchContent(viewModel: SearchViewModel, nav: WofNavigator, modifier: Modifier = Modifier) {
     val viewState: SearchViewModel.ViewState by viewModel.viewState.collectAsState()
 
     Column(modifier = modifier) {
         SearchHeader()
-        SearchBody(viewModel)
+        //SearchBody(viewModel)
+        Button(
+            onClick = { nav.goToDetailsFor("172069") }
+        ) {
+            Text("Go to details")
+        }
     }
 }
 

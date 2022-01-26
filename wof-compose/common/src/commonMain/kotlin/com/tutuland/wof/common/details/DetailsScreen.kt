@@ -33,11 +33,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.tutuland.wof.common.WofNavigator
 import com.tutuland.wof.common.theme.OverlayColorEnd
 import com.tutuland.wof.common.theme.OverlayColorStart
 import com.tutuland.wof.common.utils.BackButton
 import com.tutuland.wof.common.utils.NetworkImage
-import com.tutuland.wof.core.ServiceLocator.log
 import com.tutuland.wof.core.details.Details
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 
@@ -45,22 +45,20 @@ import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 private val contentPadding = 16.dp
 private const val creditColumns = 2
 
-//TODO: receive viewModel
 @Composable
-fun DetailsScreen(viewModel: DetailsViewModel) {
+fun DetailsScreen(viewModel: DetailsViewModel, nav: WofNavigator) {
     val viewState: DetailsViewModel.ViewState by viewModel.viewState.collectAsState()
     Scaffold {
         Box(
             contentAlignment = Alignment.TopStart,
             modifier = Modifier.fillMaxSize(),
         ) {
-            viewState.details?.let { DetailsContent(it, contentPadding, creditColumns) { log.d("FULL BIO CLICKED!") } }
+            viewState.details?.let { DetailsContent(it, contentPadding, creditColumns, nav::goToFullBio) }
             if (viewState.isLoading) DetailsLoading()
-            if (viewState.showError) DetailsErrorState(onRetry = { log.d("RETRY CLICKED!") })
-            BackButton(Modifier.padding(contentPadding)) { log.d("BACK CLICKED!") }
+            if (viewState.showError) DetailsErrorState(onRetry = viewModel::reloadDetails)
+            BackButton(Modifier.padding(contentPadding), onClick = nav::goBack)
         }
     }
-    viewModel.requestDetailsWith("172069", listOf())
 }
 
 @Composable

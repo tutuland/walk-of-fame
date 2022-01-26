@@ -11,6 +11,5 @@ interface Search {
         val id: String,
         val name: String,
         val department: String,
-        val knownFor: List<String>
     )
 }

@@ -28,16 +28,11 @@ class SearchForPeople(private val api: SearchApi) : Search.Provider {
         id = id.toString(),
         name = name.orEmpty(),
         department = mapDepartment(),
-        knownFor = knownFor.mappedToDomain()
     )
 
     private fun SearchApi.Result.Person.mapDepartment(): String = department
         ?.let { "Known for $it" }
         .orEmpty()
-
-    private fun List<SearchApi.Result.Person.Credit>?.mappedToDomain(): List<String> = orEmpty()
-        .filter { it.isValid }
-        .map { it.id?.toString().orEmpty() }
 }
 
 class NoSearchResultsException(name: String) : Exception("Search for person failed for: $name")
