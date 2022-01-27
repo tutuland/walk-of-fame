@@ -28,10 +28,6 @@ class DetailsViewModel(
         }
     }
 
-    fun reloadDetails() {
-        requestDetailsWith(currentId)
-    }
-
     private fun process(request: suspend () -> Details.Model) {
         scope.launch {
             startLoading()

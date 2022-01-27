@@ -18,7 +18,7 @@ fun <T> MutableList<T>.peek(): T? = if (count() > 0) this[count() - 1] else null
 
 class WofNavigator(
     scope: CoroutineScope,
-    private val exitApp: () -> Unit,
+    var finishNavigation: () -> Unit,
     private val screenStack: MutableList<Screen> = mutableListOf(),
     private val searchViewModel: SearchViewModel = SearchViewModel(scope),
     private val detailsViewModel: DetailsViewModel = DetailsViewModel(scope),
@@ -27,12 +27,16 @@ class WofNavigator(
     private val _screenState = MutableStateFlow(noScreen)
     val currentScreen: StateFlow<Screen> = _screenState
 
+    init {
+        goToSearch()
+    }
+
     fun goToSearch() {
         navigateTo { SearchScreen(searchViewModel, this) }
     }
 
     fun goToDetailsFor(id: String) {
-        navigateTo { DetailsScreen(detailsViewModel, this) }
+        navigateTo { DetailsScreen(id, detailsViewModel, this) }
         detailsViewModel.requestDetailsWith(id)
     }
 
@@ -42,7 +46,7 @@ class WofNavigator(
 
     fun goBack() {
         screenStack.pop()
-        screenStack.peek()?.let { _screenState.value = it } ?: exitApp()
+        screenStack.peek()?.let { _screenState.value = it } ?: finishNavigation()
     }
 
     private fun navigateTo(screen: Screen) {

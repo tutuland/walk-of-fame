@@ -46,7 +46,7 @@ private val contentPadding = 16.dp
 private const val creditColumns = 2
 
 @Composable
-fun DetailsScreen(viewModel: DetailsViewModel, nav: WofNavigator) {
+fun DetailsScreen(id: String, viewModel: DetailsViewModel, nav: WofNavigator) {
     val viewState: DetailsViewModel.ViewState by viewModel.viewState.collectAsState()
     Scaffold {
         Box(
@@ -55,7 +55,7 @@ fun DetailsScreen(viewModel: DetailsViewModel, nav: WofNavigator) {
         ) {
             viewState.details?.let { DetailsContent(it, contentPadding, creditColumns, nav::goToFullBio) }
             if (viewState.isLoading) DetailsLoading()
-            if (viewState.showError) DetailsErrorState(onRetry = viewModel::reloadDetails)
+            if (viewState.showError) DetailsErrorState(onRetry = { viewModel.requestDetailsWith(id) })
             BackButton(Modifier.padding(contentPadding), onClick = nav::goBack)
         }
     }

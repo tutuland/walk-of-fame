@@ -10,7 +10,6 @@ import com.tutuland.wof.common.theme.WofTheme
 fun WofApp(navigator: WofNavigator) {
     val currentNavigator = remember { navigator }
     val currentScreen by currentNavigator.currentScreen.collectAsState()
-    currentNavigator.goToSearch()
     WofTheme {
         currentScreen()
     }

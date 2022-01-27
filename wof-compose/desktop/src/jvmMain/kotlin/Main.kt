@@ -8,7 +8,7 @@ import com.tutuland.wof.common.WofNavigator
 
 fun main() = application {
     val scope = rememberCoroutineScope()
-    val navigator = WofNavigator(scope, exitApp = ::exitApplication)
+    val navigator = WofNavigator(scope, finishNavigation = ::exitApplication)
     val title = "Walk of Fame"
     val icon = painterResource("ic_launcher.png")
 
