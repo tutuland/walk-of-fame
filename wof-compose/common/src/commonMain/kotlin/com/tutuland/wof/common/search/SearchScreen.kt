@@ -1,10 +1,18 @@
 package com.tutuland.wof.common.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,8 +28,15 @@ import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.WofNavigator
 import com.tutuland.wof.core.search.Search
@@ -32,72 +47,91 @@ private val contentPadding = 16.dp
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel, nav: WofNavigator) {
+    var showHeader by remember { mutableStateOf(true) }
+
     Scaffold { innerPadding ->
-        SearchContent(viewModel, nav, Modifier.fillMaxSize().padding(innerPadding))
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            SearchHeader(showHeader, contentPadding)
+            SearchField(viewModel, contentPadding, showHeader = { showHeader = it })
+            SearchContent(viewModel, contentPadding, onResultClicked = { nav.goToDetailsFor(it.id) })
+        }
     }
+    viewModel.searchFor("Sheen")
 }
 
 @Composable
-fun SearchContent(viewModel: SearchViewModel, nav: WofNavigator, modifier: Modifier = Modifier) {
-    val viewState: SearchViewModel.ViewState by viewModel.viewState.collectAsState()
-
-    Column(modifier = modifier) {
-        SearchHeader()
-        //SearchBody(viewModel)
-        Button(
-            onClick = { nav.goToDetailsFor("172069") }
-        ) {
-            Text("Go to details")
+fun SearchHeader(isVisible: Boolean, contentPadding: Dp) {
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut(),
+    ) {
+        Column(modifier = Modifier.padding(vertical = 16.dp, horizontal = contentPadding)) {
+            Text(
+                text = "Walk of fame",
+                style = MaterialTheme.typography.h2,
+            )
+            Text(
+                text = "Let's find movie stars and amazing creativity people!",
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier.padding(top = 16.dp),
+            )
         }
     }
 }
 
 @Composable
-fun SearchHeader() {
-    Text(
-        text = "Walk of fame",
-        style = MaterialTheme.typography.h2,
-    )
-    Spacer(Modifier.height(16.dp))
-    Text(
-        text = "Let's find movie stars and amazing creativity people!",
-        style = MaterialTheme.typography.h4,
-    )
-}
-
-@Composable
-fun SearchBody(
-    viewModel: SearchViewModel,
-    modifier: Modifier = Modifier,
-) {
-    val viewState: SearchViewModel.ViewState by viewModel.viewState.collectAsState()
-    val onRetry = { viewModel.searchFor("Wes Anderson") } //TODO
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize(),
-    ) {
-        SearchResults(viewState.searchResults)
-        if (viewState.isLoading) SearchLoading()
-        if (viewState.showError) SearchErrorState(onRetry = onRetry)
+fun SearchField(viewModel: SearchViewModel, contentPadding: Dp, showHeader: (Boolean) -> Unit) {
+    Row(Modifier.padding(vertical = 16.dp).fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        Button(onClick = { showHeader(true) }) {
+            Text("Show")
+        }
+        Button(onClick = { showHeader(false) }) {
+            Text("Hide")
+        }
     }
 }
 
 @Composable
-fun SearchResults(searchResults: List<Search.Model>) {
+fun SearchContent(viewModel: SearchViewModel, contentPadding: Dp, onResultClicked: (Search.Model) -> Unit) {
+    val state: SearchViewModel.ViewState by viewModel.viewState.collectAsState()
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        if (state.searchResults.isNotEmpty()) SearchResults(state.searchResults, contentPadding, onResultClicked)
+        if (state.isLoading) SearchLoading()
+        if (state.showError) SearchErrorState(state.searchedTerm)
+    }
+}
+
+@Composable
+fun SearchResults(searchResults: List<Search.Model>, contentPadding: Dp, onResultClicked: (Search.Model) -> Unit) {
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
         modifier = Modifier.fillMaxSize(),
     ) {
         items(count = searchResults.size) { index ->
-            SearchResult(searchResults[index])
+            SearchResult(searchResults[index], contentPadding, onResultClicked)
         }
     }
 }
 
 @Composable
-fun SearchResult(model: Search.Model) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+fun SearchResult(model: Search.Model, contentPadding: Dp, onResultClicked: (Search.Model) -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .clickable(onClickLabel = "Click to see details") { onResultClicked(model) }
+            .padding(vertical = 16.dp, horizontal = contentPadding)
+            .semantics(mergeDescendants = true) {}
+
+    ) {
         Column(Modifier.weight(1f)) {
             Text(
                 text = model.name,
@@ -114,6 +148,7 @@ fun SearchResult(model: Search.Model) {
             imageVector = Icons.Filled.ArrowForwardIos,
             tint = MaterialTheme.colors.secondary,
             contentDescription = null,
+            modifier = Modifier.scale(0.7f)
         )
     }
 }
@@ -124,12 +159,22 @@ fun SearchLoading() {
 }
 
 @Composable
-fun SearchErrorState(onRetry: () -> Unit) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "Something went wrong!")
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onRetry) {
-            Text(text = "Try Again")
-        }
+fun SearchErrorState(searchTerm: String) {
+    Column(
+        verticalArrangement = Arrangement.SpaceAround,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Text(
+            text = "Couldn't find\n\"$searchTerm\"",
+            style = MaterialTheme.typography.h1,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            text = "Please, try again using\ndifferent terms or spelling",
+            style = MaterialTheme.typography.body1,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 16.dp),
+        )
     }
 }

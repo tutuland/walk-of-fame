@@ -14,6 +14,6 @@ fun String?.mapDate(): String? = transformDate { "${month.name.titlecase()} $day
 fun String?.mapYear(): String? = transformDate { "$year" }
 fun String?.transformDate(transform: LocalDate.() -> String): String? = try {
     this?.toLocalDate()?.run(transform)
-} catch (error: Error) {
+} catch (error: Throwable) {
     null
 }

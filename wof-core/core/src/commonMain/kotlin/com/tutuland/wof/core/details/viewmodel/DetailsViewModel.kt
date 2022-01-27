@@ -19,13 +19,13 @@ class DetailsViewModel(
     val viewState: StateFlow<ViewState> = _state
 
     fun requestDetailsWith(id: String) {
-        val details = _state.value.details
-        if (currentId == id && details != null) {
-            process { details }
-        } else {
+        if (currentId != id) {
+            cleanDetails()
             currentId = id
-            process { requestDetails.with(currentId) }
         }
+        _state.value.details
+            ?.let { process { it } }
+            ?: process { requestDetails.with(currentId) }
     }
 
     private fun process(request: suspend () -> Details.Model) {
@@ -41,6 +41,10 @@ class DetailsViewModel(
             }
             endLoading()
         }
+    }
+
+    private fun cleanDetails() {
+        _state.value = _state.value.copy(details = null)
     }
 
     private fun startLoading() {

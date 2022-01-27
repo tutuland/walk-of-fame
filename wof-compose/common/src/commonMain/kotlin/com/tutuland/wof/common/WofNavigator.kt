@@ -36,8 +36,8 @@ class WofNavigator(
     }
 
     fun goToDetailsFor(id: String) {
-        navigateTo { DetailsScreen(id, detailsViewModel, this) }
         detailsViewModel.requestDetailsWith(id)
+        navigateTo { DetailsScreen(id, detailsViewModel, this) }
     }
 
     fun goToFullBio() {

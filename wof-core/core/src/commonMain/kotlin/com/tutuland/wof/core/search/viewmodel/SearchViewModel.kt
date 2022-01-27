@@ -23,7 +23,7 @@ class SearchViewModel(
 
     fun searchFor(personName: String) {
         scope.launch {
-            startLoading()
+            startLoadingSearchFor(personName)
             searchForPeople.withName(personName)
                 .onEach { model ->
                     displayResult(model)
@@ -32,13 +32,14 @@ class SearchViewModel(
                     log.d("searchForPeople failed: $it")
                 }.onCompletion {
                     endLoading()
+                    if (hasNoResults) showError()
                     log.d("searchForPeople complete.")
                 }.collect()
         }
     }
 
-    private fun startLoading() {
-        _state.value = _state.value.copy(isLoading = true, showError = false)
+    private fun startLoadingSearchFor(personName: String) {
+        _state.value = _state.value.copy(searchedTerm = personName, isLoading = true, showError = false)
     }
 
     private fun endLoading() {
@@ -54,8 +55,12 @@ class SearchViewModel(
         _state.value = _state.value.copy(searchResults = listOf(), showError = true)
     }
 
+    private val hasNoResults: Boolean get() = _state.value.searchResults.isEmpty()
+
     data class ViewState(
+        val searchedTerm: String = "",
         val searchResults: List<Search.Model> = listOf(),
+        val showHeader: Boolean = true,
         val isLoading: Boolean = false,
         val showError: Boolean = false,
     )
