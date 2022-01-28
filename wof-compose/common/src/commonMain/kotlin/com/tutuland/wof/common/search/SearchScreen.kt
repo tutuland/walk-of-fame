@@ -29,7 +29,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tutuland.wof.common.WofNavigator
+import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.core.search.Search
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 
@@ -37,7 +37,7 @@ import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 private val contentPadding = 16.dp
 
 @Composable
-fun SearchScreen(viewModel: SearchViewModel, nav: WofNavigator) {
+fun SearchScreen(viewModel: SearchViewModel, nav: Navigator) {
     Scaffold { innerPadding ->
         Column(
             Modifier
@@ -71,9 +71,11 @@ fun SearchResults(searchResults: List<Search.Model>, contentPadding: Dp, onResul
         state = scrollState,
         modifier = Modifier.fillMaxSize(),
     ) {
+        item { Spacer(Modifier.height(16.dp)) }
         items(count = searchResults.size) { index ->
             SearchResult(searchResults[index], contentPadding, onResultClicked)
         }
+        item { Spacer(Modifier.height(16.dp)) }
     }
 }
 

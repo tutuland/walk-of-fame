@@ -22,8 +22,8 @@ class SearchViewModel(
     val viewState: StateFlow<ViewState> = _state
 
     fun searchFor(personName: String) {
-        if (personName.isBlank()) cleanResults()
-        if (personName != _state.value.searchedTerm) scope.launch {
+        cleanResults()
+        if (personName.isNotBlank()) scope.launch {
             startLoadingSearchFor(personName)
             searchForPeople.withName(personName)
                 .onEach { model ->
@@ -44,7 +44,7 @@ class SearchViewModel(
     }
 
     private fun startLoadingSearchFor(personName: String) {
-        _state.value = _state.value.copy(searchedTerm = personName, isLoading = true, showError = false)
+        _state.value = _state.value.copy(searchedTerm = personName, isLoading = true)
     }
 
     private fun endLoading() {

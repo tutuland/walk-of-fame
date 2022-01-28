@@ -1,6 +1,5 @@
-package com.tutuland.wof.common
+package com.tutuland.wof.common.navigation
 
-import androidx.compose.runtime.Composable
 import com.tutuland.wof.common.details.DetailsScreen
 import com.tutuland.wof.common.details.FullBioScreen
 import com.tutuland.wof.common.search.SearchScreen
@@ -10,44 +9,38 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-typealias Screen = @Composable () -> Unit
-
-fun <T> MutableList<T>.push(item: T) = add(count(), item)
-fun <T> MutableList<T>.pop(): T? = if (count() > 0) removeAt(count() - 1) else null
-fun <T> MutableList<T>.peek(): T? = if (count() > 0) this[count() - 1] else null
-
-class WofNavigator(
+class DesktopNavigator(
     scope: CoroutineScope,
     var finishNavigation: () -> Unit,
     private val screenStack: MutableList<Screen> = mutableListOf(),
     private val searchViewModel: SearchViewModel = SearchViewModel(scope),
     private val detailsViewModel: DetailsViewModel = DetailsViewModel(scope),
-) {
+) : Navigator {
     private val noScreen: Screen = { }
     private val _screenState = MutableStateFlow(noScreen)
-    val currentScreen: StateFlow<Screen> = _screenState
+    override val currentScreen: StateFlow<Screen> = _screenState
 
     init {
         goToSearch()
     }
 
-    fun goToSearch() {
+    override fun goToSearch() {
         navigateTo { SearchScreen(searchViewModel, this) }
     }
 
-    fun goToDetailsFor(id: String) {
+    override fun goToDetailsFor(id: String) {
         detailsViewModel.requestDetailsWith(id)
         navigateTo { DetailsScreen(id, detailsViewModel, this) }
-        searchViewModel.searchFor("")
     }
 
-    fun goToFullBio() {
+    override fun goToFullBio() {
         navigateTo { FullBioScreen(detailsViewModel, this) }
     }
 
-    fun goBack() {
+    override fun goBack(): Boolean {
         screenStack.pop()
         screenStack.peek()?.let { _screenState.value = it } ?: finishNavigation()
+        return true
     }
 
     private fun navigateTo(screen: Screen) {

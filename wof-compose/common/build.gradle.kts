@@ -36,6 +36,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
+                api(libs.accompanist.navigation.animation)
                 implementation(libs.coil)
                 implementation(libs.moko.resources.compose)
             }

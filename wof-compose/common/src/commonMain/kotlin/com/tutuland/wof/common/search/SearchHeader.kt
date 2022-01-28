@@ -59,14 +59,13 @@ fun SearchHeader(viewModel: SearchViewModel, contentPadding: Dp) {
     var trailingIcon: @Composable (() -> Unit)? by remember { mutableStateOf(null) }
     val localFocusManager = LocalFocusManager.current
 
-    fun submit(text: String) {
-        viewModel.searchFor(text)
+    fun submit(search: String) {
+        viewModel.searchFor(search)
         localFocusManager.clearFocus()
     }
 
     fun clearSearch() {
         text = ""
-        submit("")
     }
 
     fun backFromField() {
@@ -91,7 +90,7 @@ fun SearchHeader(viewModel: SearchViewModel, contentPadding: Dp) {
             text = text,
             onTextChange = { text = it },
             onFocusChange = { focusChanged(it) },
-            onImeAction = { submit(text) },
+            onImeAction = { submit(it) },
             leadingIcon = leadingIcon,
             trailingIcon = trailingIcon,
             contentPadding = contentPadding,
@@ -105,14 +104,14 @@ fun SearchField(
     text: String,
     onTextChange: (String) -> Unit,
     onFocusChange: (Boolean) -> Unit,
-    onImeAction: () -> Unit,
+    onImeAction: (String) -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     contentPadding: Dp,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     fun onDone() {
-        onImeAction()
+        onImeAction(text)
         keyboardController?.hide()
     }
     Box(
@@ -120,7 +119,7 @@ fun SearchField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = contentPadding)
-            .padding(top = 16.dp, bottom = 48.dp)
+            .padding(top = 16.dp, bottom = 16.dp)
             .defaultMinSize(minHeight = 60.dp)
             .background(color = SearchBackgroundColor, shape = CircleCornerShape),
     ) {

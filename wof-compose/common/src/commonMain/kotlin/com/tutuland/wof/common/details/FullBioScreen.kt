@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.tutuland.wof.common.WofNavigator
+import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.common.utils.BackButton
 import com.tutuland.wof.core.details.Details
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
@@ -25,7 +25,7 @@ import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 private val contentPadding = 16.dp
 
 @Composable
-fun FullBioScreen(viewModel: DetailsViewModel, nav: WofNavigator) {
+fun FullBioScreen(viewModel: DetailsViewModel, nav: Navigator) {
     Scaffold {
         Box(
             contentAlignment = Alignment.TopStart,
@@ -43,10 +43,10 @@ fun FullBioContent(model: Details.Model, contentPadding: Dp) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(contentPadding)
+            .padding(horizontal = contentPadding)
             .verticalScroll(scrollState)
     ) {
-        Spacer(Modifier.height(80.dp))
+        Spacer(Modifier.height(96.dp))
         DetailsHeaderTexts(model)
         Text(
             text = model.biography + model.biography + model.biography,
