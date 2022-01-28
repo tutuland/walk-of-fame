@@ -1,6 +1,6 @@
 # Walk of Fame
 
-![Walk of Fame image](https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Hollywood_Walk_of_Fame.jpg/800px-Hollywood_Walk_of_Fame.jpg)
+![Walk of Fame logo](.github/wof-01.jpg)
 
 ***You decide who gets to be the star!***
 
@@ -10,15 +10,16 @@
 
 Walk Of Fame is an exercise in code sharing and modularization:
 
-- First, it uses [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) to develop a core library
-  containing the business logic and external dependencies.
+- First, it used [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) to develop a core library
+  containing the business logic and external dependencies, deploying to Android, iOS, JVM for Desktop and JS.
 - This core lib is deployed as a published artifact to multiple platforms.
 - For each platform a client implementation will be provided and the published artifact included as a dependency.
-    - Android will use [Jetpack Compose](https://developer.android.com/jetpack/compose) to build its UI
-    - Desktop and Web will use [Compose Multiplatform](https://www.jetbrains.com/pt-br/lp/compose-mpp/), and possibly we
-      will be able to reuse some UI elements between Android, Desktop and Web (at least that's the plan 🙏)
-    - For iOS, we will use swift UI (to be confirmed)
-    - And possibly there will be a JVM based CLI client too (when time allows it)
+    - For Android and Desktop [Jetpack Compose](https://developer.android.com/jetpack/compose) and
+    [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) were used to build the UI, sharing most of
+    the components (see [wof-compose](/wof-compose))
+    - JS will likely also use [Compose for Web](https://github.com/JetBrains/compose-jb/tree/master/tutorials/Web)
+    - For iOS, we will probably use swift UI at first
+    - And possibly there will be a JVM based CLI client too in the future (_because why not?_)
 - The application will be using [The Movie DB api](https://www.themoviedb.org/about) to:
     - Search for personalities listed in the DB
     - See details about them and their work
@@ -52,5 +53,10 @@ issues.
 **[wof-compose](/wof-compose)** is where the Android and Desktop clients are defined. Using Compose library, they can 
 share UI components.
 
-`TODO: explain each module's responsibilities and link to their changelog`
+_(remaining modules will be added in the future)_
+
+### Who?
+*Design - [melocs](https://github.com/melocs)*
+<br>*[gacordeiro](https://github.com/gacordeiro) - Programming*
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*by [tutuland](https://github.com/tutuland), with 💕*
 
