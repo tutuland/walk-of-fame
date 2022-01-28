@@ -23,7 +23,7 @@ fun BackButton(
         elevation = FloatingActionButtonDefaults.elevation(0.dp, 0.dp, 0.dp, 0.dp),
     ) {
         Icon(
-            imageVector = Icons.Filled.ArrowBack,
+            imageVector = Icons.Default.ArrowBack,
             tint = ButtonIconColor,
             contentDescription = null,
         )

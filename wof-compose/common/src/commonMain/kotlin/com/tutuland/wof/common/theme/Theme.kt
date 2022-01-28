@@ -21,6 +21,8 @@ val OverlayColorStart = Color(0xA812121d)
 val OverlayColorEnd = Color(0x00000000)
 val ButtonIconColor = Color(0xFFFFFFFF)
 val ButtonBackgroundColor = Color(0x4012121d)
+val SearchIconColor = Color(0xFF7B7988)
+val SearchBackgroundColor = Color(0xFF28272E)
 
 val ColorPalette = darkColors(
     primary = BrandPrimary,
@@ -93,6 +95,8 @@ val BrandTypography: Typography = Typography(
         lineHeight = 24.sp,
     )
 )
+
+val CircleCornerShape = RoundedCornerShape(percent = 50)
 
 val Shapes = Shapes(
     small = RoundedCornerShape(4.dp),

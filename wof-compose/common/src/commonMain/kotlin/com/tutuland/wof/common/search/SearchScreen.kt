@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -33,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -60,7 +59,6 @@ fun SearchScreen(viewModel: SearchViewModel, nav: WofNavigator) {
             SearchContent(viewModel, contentPadding, onResultClicked = { nav.goToDetailsFor(it.id) })
         }
     }
-    viewModel.searchFor("Sheen")
 }
 
 @Composable
@@ -70,7 +68,9 @@ fun SearchHeader(isVisible: Boolean, contentPadding: Dp) {
         enter = expandVertically() + fadeIn(),
         exit = shrinkVertically() + fadeOut(),
     ) {
-        Column(modifier = Modifier.padding(vertical = 16.dp, horizontal = contentPadding)) {
+        Column(
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = contentPadding)
+        ) {
             Text(
                 text = "Walk of fame",
                 style = MaterialTheme.typography.h2,
@@ -84,17 +84,6 @@ fun SearchHeader(isVisible: Boolean, contentPadding: Dp) {
     }
 }
 
-@Composable
-fun SearchField(viewModel: SearchViewModel, contentPadding: Dp, showHeader: (Boolean) -> Unit) {
-    Row(Modifier.padding(vertical = 16.dp).fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        Button(onClick = { showHeader(true) }) {
-            Text("Show")
-        }
-        Button(onClick = { showHeader(false) }) {
-            Text("Hide")
-        }
-    }
-}
 
 @Composable
 fun SearchContent(viewModel: SearchViewModel, contentPadding: Dp, onResultClicked: (Search.Model) -> Unit) {
@@ -145,10 +134,12 @@ fun SearchResult(model: Search.Model, contentPadding: Dp, onResultClicked: (Sear
             )
         }
         Icon(
-            imageVector = Icons.Filled.ArrowForwardIos,
+            imageVector = Icons.Default.ArrowForwardIos,
             tint = MaterialTheme.colors.secondary,
             contentDescription = null,
-            modifier = Modifier.scale(0.7f)
+            modifier = Modifier
+                .scale(0.7f)
+                .alpha(0.7f)
         )
     }
 }
@@ -161,9 +152,9 @@ fun SearchLoading() {
 @Composable
 fun SearchErrorState(searchTerm: String) {
     Column(
-        verticalArrangement = Arrangement.SpaceAround,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(bottom = 48.dp),
     ) {
         Text(
             text = "Couldn't find\n\"$searchTerm\"",
