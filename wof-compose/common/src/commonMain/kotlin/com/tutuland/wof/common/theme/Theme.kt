@@ -20,7 +20,7 @@ val BrandOnPrimary = Color(0xFFFFFFFF)
 val OverlayColorStart = Color(0xA812121d)
 val OverlayColorEnd = Color(0x00000000)
 val ButtonIconColor = Color(0xFFFFFFFF)
-val ButtonBackgroundColor = Color(0x4012121d)
+val ButtonBackgroundColor = Color(0xA812121d)
 val SearchIconColor = Color(0xFF7B7988)
 val SearchBackgroundColor = Color(0xFF28272E)
 

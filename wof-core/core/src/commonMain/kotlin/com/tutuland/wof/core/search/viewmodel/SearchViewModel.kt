@@ -23,7 +23,7 @@ class SearchViewModel(
 
     fun searchFor(personName: String) {
         if (personName.isBlank()) cleanResults()
-        else scope.launch {
+        if (personName != _state.value.searchedTerm) scope.launch {
             startLoadingSearchFor(personName)
             searchForPeople.withName(personName)
                 .onEach { model ->

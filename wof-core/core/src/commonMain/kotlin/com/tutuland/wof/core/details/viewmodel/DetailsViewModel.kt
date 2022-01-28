@@ -14,23 +14,21 @@ class DetailsViewModel(
     private val requestDetails: Details.Provider = ServiceLocator.requestDetails,
     initialDetails: Details.Model? = null,
 ) {
-    private var currentId: String = ""
     private val _state = MutableStateFlow(ViewState(details = initialDetails))
     val viewState: StateFlow<ViewState> = _state
 
     fun requestDetailsWith(id: String) {
-        if (currentId != id) {
+        if (_state.value.id != id) {
             cleanDetails()
-            currentId = id
         }
         _state.value.details
-            ?.let { process { it } }
-            ?: process { requestDetails.with(currentId) }
+            ?.let { process(id) { it } }
+            ?: process(id) { requestDetails.with(id) }
     }
 
-    private fun process(request: suspend () -> Details.Model) {
+    private fun process(id: String, request: suspend () -> Details.Model) {
         scope.launch {
-            startLoading()
+            startLoadingWith(id)
             try {
                 val model = request()
                 displayResult(model)
@@ -44,11 +42,11 @@ class DetailsViewModel(
     }
 
     private fun cleanDetails() {
-        _state.value = _state.value.copy(details = null)
+        _state.value = _state.value.copy(id = "", details = null)
     }
 
-    private fun startLoading() {
-        _state.value = _state.value.copy(isLoading = true, showError = false)
+    private fun startLoadingWith(id: String) {
+        _state.value = _state.value.copy(id = id, isLoading = true, showError = false)
     }
 
     private fun endLoading() {
@@ -64,6 +62,7 @@ class DetailsViewModel(
     }
 
     data class ViewState(
+        val id: String = "",
         val details: Details.Model? = null,
         val isLoading: Boolean = false,
         val showError: Boolean = false,

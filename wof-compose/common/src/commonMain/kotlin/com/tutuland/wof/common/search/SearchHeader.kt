@@ -1,8 +1,14 @@
 package com.tutuland.wof.common.search
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,13 +28,18 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
@@ -41,16 +52,20 @@ import com.tutuland.wof.common.theme.SearchIconColor
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 
 @Composable
-fun SearchField(viewModel: SearchViewModel, contentPadding: Dp, showHeader: (Boolean) -> Unit) {
-    val (text, setText) = remember { mutableStateOf("") }
+fun SearchHeader(viewModel: SearchViewModel, contentPadding: Dp) {
+    var showHeader by remember { mutableStateOf(true) }
+    var text by remember { mutableStateOf("") }
+    var leadingIcon: @Composable (() -> Unit)? by remember { mutableStateOf({ SearchFieldIcon() }) }
+    var trailingIcon: @Composable (() -> Unit)? by remember { mutableStateOf(null) }
     val localFocusManager = LocalFocusManager.current
 
     fun submit(text: String) {
         viewModel.searchFor(text)
+        localFocusManager.clearFocus()
     }
 
     fun clearSearch() {
-        setText("")
+        text = ""
         submit("")
     }
 
@@ -60,9 +75,46 @@ fun SearchField(viewModel: SearchViewModel, contentPadding: Dp, showHeader: (Boo
     }
 
     fun focusChanged(isFocused: Boolean) {
-        showHeader(isFocused.not())
+        showHeader = isFocused.not()
+        if (isFocused) {
+            leadingIcon = { SearchFieldBack { backFromField() } }
+            trailingIcon = { SearchFieldClean { clearSearch() } }
+        } else {
+            leadingIcon = { SearchFieldIcon() }
+            trailingIcon = null
+        }
     }
 
+    Column {
+        SearchIntro(showHeader, contentPadding)
+        SearchField(
+            text = text,
+            onTextChange = { text = it },
+            onFocusChange = { focusChanged(it) },
+            onImeAction = { submit(text) },
+            leadingIcon = leadingIcon,
+            trailingIcon = trailingIcon,
+            contentPadding = contentPadding,
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalComposeUiApi::class)
+fun SearchField(
+    text: String,
+    onTextChange: (String) -> Unit,
+    onFocusChange: (Boolean) -> Unit,
+    onImeAction: () -> Unit,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    contentPadding: Dp,
+) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    fun onDone() {
+        onImeAction()
+        keyboardController?.hide()
+    }
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -72,48 +124,30 @@ fun SearchField(viewModel: SearchViewModel, contentPadding: Dp, showHeader: (Boo
             .defaultMinSize(minHeight = 60.dp)
             .background(color = SearchBackgroundColor, shape = CircleCornerShape),
     ) {
-        SearchFieldInput(
-            text = text,
-            onTextChange = setText,
-            onFocusChange = { focusChanged(it) },
-            onImeAction = { submit(text) },
-            leadingIcon = { SearchFieldBack { backFromField() } },
-            trailingIcon = { SearchFieldClean { clearSearch() } },
-        )
-    }
-}
-
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-fun SearchFieldInput(
-    text: String,
-    onTextChange: (String) -> Unit,
-    onFocusChange: (Boolean) -> Unit,
-    onImeAction: () -> Unit,
-    leadingIcon: @Composable (() -> Unit)? = null,
-    trailingIcon: @Composable (() -> Unit)? = null,
-) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
-        TextField(
-            value = text,
-            placeholder = placeholder,
-            onValueChange = onTextChange,
-            colors = textFieldColors(),
-            maxLines = 1,
-            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = {
-                onImeAction()
-                keyboardController?.hide()
-            }),
-            leadingIcon = leadingIcon,
-            trailingIcon = trailingIcon,
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged {
-                    onFocusChange(it.isFocused)
-                },
-        )
+        CompositionLocalProvider(LocalTextSelectionColors provides customTextSelectionColors) {
+            TextField(
+                value = text,
+                placeholder = placeholder,
+                onValueChange = onTextChange,
+                colors = textFieldColors(),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(onDone = { onDone() }),
+                leadingIcon = leadingIcon,
+                trailingIcon = trailingIcon,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged {
+                        onFocusChange(it.isFocused)
+                    }
+                    .onPreviewKeyEvent {
+                        if (it.key == Key.Enter) {
+                            onDone()
+                            true
+                        } else false
+                    },
+            )
+        }
     }
 }
 
@@ -165,4 +199,27 @@ fun SearchFieldIcon() {
         tint = SearchIconColor,
         contentDescription = null,
     )
+}
+
+@Composable
+fun SearchIntro(isVisible: Boolean, contentPadding: Dp) {
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = expandVertically() + fadeIn(),
+        exit = shrinkVertically() + fadeOut(),
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = contentPadding)
+        ) {
+            Text(
+                text = "Walk of fame",
+                style = MaterialTheme.typography.h2,
+            )
+            Text(
+                text = "Let's find movie stars and amazing creativity people!",
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier.padding(top = 16.dp),
+            )
+        }
+    }
 }

@@ -1,10 +1,5 @@
 package com.tutuland.wof.common.search
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,9 +21,6 @@ import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -46,40 +38,14 @@ private val contentPadding = 16.dp
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel, nav: WofNavigator) {
-    var showHeader by remember { mutableStateOf(true) }
-
     Scaffold { innerPadding ->
         Column(
             Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            SearchHeader(showHeader, contentPadding)
-            SearchField(viewModel, contentPadding, showHeader = { showHeader = it })
+            SearchHeader(viewModel, contentPadding)
             SearchContent(viewModel, contentPadding, onResultClicked = { nav.goToDetailsFor(it.id) })
-        }
-    }
-}
-
-@Composable
-fun SearchHeader(isVisible: Boolean, contentPadding: Dp) {
-    AnimatedVisibility(
-        visible = isVisible,
-        enter = expandVertically() + fadeIn(),
-        exit = shrinkVertically() + fadeOut(),
-    ) {
-        Column(
-            modifier = Modifier.padding(vertical = 16.dp, horizontal = contentPadding)
-        ) {
-            Text(
-                text = "Walk of fame",
-                style = MaterialTheme.typography.h2,
-            )
-            Text(
-                text = "Let's find movie stars and amazing creativity people!",
-                style = MaterialTheme.typography.h4,
-                modifier = Modifier.padding(top = 16.dp),
-            )
         }
     }
 }

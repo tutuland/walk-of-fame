@@ -38,6 +38,7 @@ class WofNavigator(
     fun goToDetailsFor(id: String) {
         detailsViewModel.requestDetailsWith(id)
         navigateTo { DetailsScreen(id, detailsViewModel, this) }
+        searchViewModel.searchFor("")
     }
 
     fun goToFullBio() {
