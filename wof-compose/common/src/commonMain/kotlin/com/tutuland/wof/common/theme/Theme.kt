@@ -23,6 +23,7 @@ val ButtonIconColor = Color(0xFFFFFFFF)
 val ButtonBackgroundColor = Color(0xA812121d)
 val SearchIconColor = Color(0xFF7B7988)
 val SearchBackgroundColor = Color(0xFF28272E)
+val BrandAccentColor = Color(0xFFFE1767)
 
 val ColorPalette = darkColors(
     primary = BrandPrimary,

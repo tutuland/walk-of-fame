@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
+import com.tutuland.wof.common.theme.BrandAccentColor
 import com.tutuland.wof.common.utils.BackButton
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 
@@ -47,7 +48,7 @@ fun DetailsLoading() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
-        CircularProgressIndicator()
+        CircularProgressIndicator(color = BrandAccentColor)
     }
 }
 

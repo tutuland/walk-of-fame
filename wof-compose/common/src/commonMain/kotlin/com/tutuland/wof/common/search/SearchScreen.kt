@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
+import com.tutuland.wof.common.theme.BrandAccentColor
 import com.tutuland.wof.core.search.Search
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 
@@ -114,7 +115,7 @@ fun SearchResult(model: Search.Model, contentPadding: Dp, onResultClicked: (Sear
 
 @Composable
 fun SearchLoading() {
-    CircularProgressIndicator()
+    CircularProgressIndicator(color = BrandAccentColor)
 }
 
 @Composable
