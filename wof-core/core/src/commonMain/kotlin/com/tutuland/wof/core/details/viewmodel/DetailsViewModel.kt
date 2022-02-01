@@ -12,37 +12,31 @@ class DetailsViewModel(
     private val scope: CoroutineScope,
     private val log: Logger = ServiceLocator.log,
     private val requestDetails: Details.Provider = ServiceLocator.requestDetails,
-    initialDetails: Details.Model? = null,
+    initialState: ViewState = ViewState(),
 ) {
-    private val _state = MutableStateFlow(ViewState(details = initialDetails))
+    private val _state = MutableStateFlow(initialState)
     val viewState: StateFlow<ViewState> = _state
 
     fun requestDetailsWith(id: String) {
-        if (_state.value.id != id) {
-            cleanDetails()
-        }
-        _state.value.details
-            ?.let { process(id) { it } }
-            ?: process(id) { requestDetails.with(id) }
+        scope.launch { executeRequestDetailsWith(id) }
     }
 
-    private fun process(id: String, request: suspend () -> Details.Model) {
-        scope.launch {
-            startLoadingWith(id)
-            try {
-                val model = request()
-                displayResult(model)
-                log.d("requestDetails succeeded: $model")
-            } catch (error: Exception) {
-                showError()
-                log.d("requestDetails failed: $error")
-            }
-            endLoading()
+    internal suspend fun executeRequestDetailsWith(id: String) {
+        if (_state.value.id != id) cleanDetails()
+        startLoadingWith(id)
+        try {
+            val model = _state.value.details ?: requestDetails.with(id)
+            displayResult(model)
+            log.d("requestDetails succeeded: $model")
+        } catch (error: Exception) {
+            showError()
+            log.d("requestDetails failed: $error")
         }
+        endLoading()
     }
 
     private fun cleanDetails() {
-        _state.value = _state.value.copy(id = "", details = null)
+        _state.value = _state.value.copy(id = "", details = null, showError = false)
     }
 
     private fun startLoadingWith(id: String) {

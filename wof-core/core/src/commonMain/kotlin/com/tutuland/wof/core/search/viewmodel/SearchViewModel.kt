@@ -16,14 +16,18 @@ class SearchViewModel(
     private val scope: CoroutineScope,
     private val log: Logger = ServiceLocator.log,
     private val searchForPeople: Search.Provider = ServiceLocator.searchForPeople,
-    initialResults: List<Search.Model> = listOf(),
+    initialState: ViewState = ViewState(),
 ) {
-    private val _state = MutableStateFlow(ViewState(searchResults = initialResults))
+    private val _state = MutableStateFlow(initialState)
     val viewState: StateFlow<ViewState> = _state
 
     fun searchFor(personName: String) {
+        scope.launch { executeSearchFor(personName) }
+    }
+
+    internal suspend fun executeSearchFor(personName: String) {
         cleanResults()
-        if (personName.isNotBlank()) scope.launch {
+        if (personName.isNotBlank()) {
             startLoadingSearchFor(personName)
             searchForPeople.withName(personName)
                 .onEach { model ->
@@ -32,8 +36,8 @@ class SearchViewModel(
                     showError()
                     log.d("searchForPeople failed: $it")
                 }.onCompletion {
-                    endLoading()
                     if (hasNoResults) showError()
+                    endLoading()
                     log.d("searchForPeople complete.")
                 }.collect()
         }
