@@ -47,7 +47,7 @@ fun FullBioContent(model: Details.Model, contentPadding: Dp) {
             .verticalScroll(scrollState)
     ) {
         Spacer(Modifier.height(96.dp))
-        DetailsHeaderTexts(model)
+        DetailsHeaderTexts(model, maxLines = 2)
         Text(
             text = model.biography + model.biography + model.biography,
             style = MaterialTheme.typography.body1,

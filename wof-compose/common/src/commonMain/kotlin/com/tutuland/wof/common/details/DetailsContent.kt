@@ -2,18 +2,16 @@ package com.tutuland.wof.common.details
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -25,7 +23,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.theme.OverlayColorEnd
 import com.tutuland.wof.common.theme.OverlayColorStart
@@ -33,45 +30,57 @@ import com.tutuland.wof.common.utils.NetworkImage
 import com.tutuland.wof.core.details.Details
 
 @Composable
-fun DetailsContent(model: Details.Model, contentPadding: Dp, columns: Int, fullBioClicked: () -> Unit) {
+fun DetailsContent(model: Details.Model, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
     val state = rememberLazyListState()
     LazyColumn(
         state = state,
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 16.dp)
+            .padding(bottom = config.contentPadding)
     ) {
-        item { DetailsHeader(model, contentPadding) }
+        if (config.isWide) addWideContent(model, config, fullBioClicked)
+        else addCompactContent(model, config, fullBioClicked)
 
-        if (model.biography.isNotBlank()) item { DetailsBio(model, contentPadding, fullBioClicked) }
+        addCredits(model, config)
+    }
+}
 
-        item { DetailsCreditsHeader(contentPadding) }
-
-        val rows = model.credits.chunked(columns)
-        items(rows.size) { index ->
-            DetailsCreditsRow(rows[index], columns, contentPadding)
+fun LazyListScope.addWideContent(model: Details.Model, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
+    item {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            DetailsHeaderImage(model, config, Modifier.weight(1f))
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = config.contentPadding),
+            ) {
+                DetailsHeaderTexts(
+                    model = model,
+                    maxLines = config.headerMaxLines,
+                    modifier = Modifier.padding(horizontal = config.contentPadding)
+                )
+                DetailsBio(model, config, fullBioClicked)
+            }
         }
     }
 }
 
+fun LazyListScope.addCompactContent(model: Details.Model, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
+    item { DetailsHeader(model, config) }
+    if (model.biography.isNotBlank()) item { DetailsBio(model, config, fullBioClicked) }
+}
+
 @Composable
-fun DetailsHeader(model: Details.Model, contentPadding: Dp) {
+fun DetailsHeader(model: Details.Model, config: DetailsScreenConfig, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.BottomStart,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .semantics(mergeDescendants = true) {}
     ) {
-        NetworkImage(
-            url = model.pictureUrl,
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth,
-            crossfade = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .defaultMinSize(minHeight = 500.dp)
-        )
+        DetailsHeaderImage(model, config)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,138 +89,85 @@ fun DetailsHeader(model: Details.Model, contentPadding: Dp) {
                         colors = listOf(OverlayColorEnd, OverlayColorStart)
                     )
                 )
-                .padding(horizontal = contentPadding)
+                .padding(horizontal = config.contentPadding)
                 .padding(bottom = 4.dp, top = 64.dp)
         ) {
-            DetailsHeaderTexts(model)
+            DetailsHeaderTexts(model, config.headerMaxLines)
         }
     }
 }
 
 @Composable
-fun DetailsHeaderTexts(model: Details.Model) {
-    Text(
-        text = model.name,
-        style = MaterialTheme.typography.h1,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-    )
-    if (model.department.isNotBlank()) Text(
-        text = model.department,
-        style = MaterialTheme.typography.subtitle1,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        modifier = Modifier.padding(top = 4.dp),
-    )
-    if (model.bornIn.isNotBlank()) Text(
-        text = model.bornIn,
-        style = MaterialTheme.typography.subtitle2,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        modifier = Modifier.padding(top = 8.dp),
-    )
-    if (model.diedIn.isNotBlank()) Text(
-        text = model.diedIn,
-        style = MaterialTheme.typography.subtitle2,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        modifier = Modifier.padding(top = 8.dp),
+fun DetailsHeaderImage(model: Details.Model, config: DetailsScreenConfig, modifier: Modifier = Modifier) {
+    NetworkImage(
+        url = model.pictureUrl,
+        contentDescription = null,
+        contentScale = ContentScale.FillWidth,
+        crossfade = true,
+        modifier = modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .defaultMinSize(minHeight = config.headerImageMinHeight)
     )
 }
 
 @Composable
-fun DetailsBio(model: Details.Model, contentPadding: Dp, fullBioClicked: () -> Unit) {
+fun DetailsHeaderTexts(model: Details.Model, maxLines: Int, modifier: Modifier = Modifier) {
+    Text(
+        text = model.name,
+        style = MaterialTheme.typography.h1,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier,
+    )
+    if (model.department.isNotBlank()) Text(
+        text = model.department,
+        style = MaterialTheme.typography.subtitle1,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier.padding(top = 4.dp),
+    )
+    if (model.bornIn.isNotBlank()) Text(
+        text = model.bornIn,
+        style = MaterialTheme.typography.subtitle2,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier.padding(top = 8.dp),
+    )
+    if (model.diedIn.isNotBlank()) Text(
+        text = model.diedIn,
+        style = MaterialTheme.typography.subtitle2,
+        maxLines = maxLines,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier.padding(top = 8.dp),
+    )
+}
+
+@Composable
+fun DetailsBio(
+    model: Details.Model,
+    config: DetailsScreenConfig,
+    fullBioClicked: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
-            .padding(horizontal = contentPadding)
-            .padding(top = 16.dp)
+        modifier = modifier
+            .padding(horizontal = config.contentPadding)
+            .padding(top = config.contentPadding)
     ) {
         Text(
             text = model.biography,
             style = MaterialTheme.typography.body1,
-            maxLines = 4,
+            maxLines = config.bioMaxLines,
             overflow = TextOverflow.Ellipsis,
         )
-        Text(
+        if (config.bioMaxLines < Int.MAX_VALUE) Text(
             text = "See full bio",
             style = MaterialTheme.typography.body2.copy(textDecoration = TextDecoration.Underline),
             modifier = Modifier
                 .clickable(onClickLabel = "Click to see full bio") { fullBioClicked() }
                 .padding(vertical = 16.dp)
                 .padding(end = 16.dp),
-        )
-    }
-}
-
-@Composable
-fun DetailsCreditsHeader(contentPadding: Dp) {
-    Text(
-        text = "Known For",
-        style = MaterialTheme.typography.h2,
-        modifier = Modifier
-            .padding(horizontal = contentPadding)
-            .padding(top = 16.dp)
-    )
-}
-
-@Composable
-fun DetailsCreditsRow(credits: List<Details.Model.Credit>, columns: Int, contentPadding: Dp) {
-    if (credits.isEmpty() || credits.size > columns)
-        throw IllegalArgumentException("Credits on a row cannot be zero or exceed number of columns")
-
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = contentPadding)
-            .padding(top = 16.dp)
-            .semantics(mergeDescendants = true) {}
-    ) {
-        repeat(columns) { index ->
-            val modifier = Modifier.weight(1f)
-            if (index < credits.size) DetailsCredit(credits[index], modifier)
-            else Spacer(modifier)
-            if (index < (columns - 1)) Spacer(Modifier.width(16.dp))
-        }
-    }
-}
-
-@Composable
-fun DetailsCredit(credit: Details.Model.Credit, modifier: Modifier) {
-    Column(
-        modifier = modifier.semantics(mergeDescendants = true) {}
-    ) {
-        NetworkImage(
-            url = credit.posterUrl,
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth,
-            crossfade = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .defaultMinSize(minHeight = 180.dp)
-        )
-        Text(
-            text = credit.title,
-            style = MaterialTheme.typography.h5,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top = 4.dp),
-        )
-        Text(
-            text = credit.credit,
-            style = MaterialTheme.typography.subtitle2,
-            color = MaterialTheme.colors.secondary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top = 4.dp),
-        )
-        Text(
-            text = credit.year,
-            style = MaterialTheme.typography.subtitle2,
-            color = MaterialTheme.colors.secondary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top = 4.dp),
         )
     }
 }

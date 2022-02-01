@@ -2,6 +2,8 @@ package com.tutuland.wof.common.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.BoxWithConstraintsScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,28 +18,56 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.common.theme.BrandAccentColor
 import com.tutuland.wof.common.utils.BackButton
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
+import kotlin.math.roundToInt
 
-// TODO: make these constants adaptive
-private val contentPadding = 16.dp
-private const val creditColumns = 2
+data class DetailsScreenConfig(
+    val isWide: Boolean,
+    val contentPadding: Dp,
+    val headerImageMinHeight: Dp,
+    val headerMaxLines: Int,
+    val bioMaxLines: Int,
+    val creditMaxLines: Int,
+    val creditColumns: Int,
+    val creditsImageMinHeight: Dp,
+)
+
+fun BoxWithConstraintsScope.getConfig(): DetailsScreenConfig {
+    val isWide = maxWidth > 480.dp
+    val isTall = maxHeight > 480.dp
+    val headerImageMinHeight = if (isTall) 480.dp else 240.dp
+    val bioMaxLines = if (isWide) Int.MAX_VALUE else 4
+    val creditColumns = maxWidth.value.div(200).roundToInt()
+    return DetailsScreenConfig(
+        isWide = isWide,
+        contentPadding = 16.dp,
+        headerImageMinHeight = headerImageMinHeight,
+        headerMaxLines = 1,
+        bioMaxLines = bioMaxLines,
+        creditMaxLines = 1,
+        creditColumns = creditColumns,
+        creditsImageMinHeight = 180.dp,
+    )
+}
 
 @Composable
 fun DetailsScreen(id: String, viewModel: DetailsViewModel, nav: Navigator) {
     val viewState: DetailsViewModel.ViewState by viewModel.viewState.collectAsState()
     Scaffold {
-        Box(
+        BoxWithConstraints(
             contentAlignment = Alignment.TopStart,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(),
         ) {
-            viewState.details?.let { DetailsContent(it, contentPadding, creditColumns, nav::goToFullBio) }
+            val config = getConfig()
+            viewState.details?.let { DetailsContent(it, config, nav::goToFullBio) }
             if (viewState.isLoading) DetailsLoading()
             if (viewState.showError) DetailsErrorState(onRetry = { viewModel.requestDetailsWith(id) })
-            BackButton(Modifier.padding(contentPadding), onClick = nav::goBack)
+            BackButton(Modifier.padding(config.contentPadding), onClick = nav::goBack)
         }
     }
 }

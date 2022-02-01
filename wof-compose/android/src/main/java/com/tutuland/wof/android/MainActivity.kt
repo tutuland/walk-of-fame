@@ -8,13 +8,10 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.tutuland.wof.common.WofApp
 import com.tutuland.wof.common.navigation.AndroidNavigator
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import com.tutuland.wof.android.WofApplication.Companion as Application
 
 @ExperimentalAnimationApi
 class MainActivity : ComponentActivity() {
-    private lateinit var scope: CoroutineScope
     private lateinit var navigator: AndroidNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,18 +19,18 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             val navController = rememberAnimatedNavController()
-            scope = MainScope()
-            navigator = AndroidNavigator(scope, navController)
+            navigator = AndroidNavigator(
+                navController = navController,
+                scope = Application.scope,
+                searchViewModel = Application.searchViewModel,
+                detailsViewModel = Application.detailsViewModel
+            )
             WofApp(navigator)
         }
-    }
-
-    override fun onDestroy() {
-        scope.cancel()
-        super.onDestroy()
     }
 
     override fun onBackPressed() {
         if (navigator.goBack().not()) super.onBackPressed()
     }
 }
+
