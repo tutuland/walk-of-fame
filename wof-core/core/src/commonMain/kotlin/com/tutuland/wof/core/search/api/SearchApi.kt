@@ -7,11 +7,14 @@ import io.ktor.client.request.get
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-class SearchApi(private val client: HttpClient) {
+interface SearchApi {
+    suspend fun searchFor(person: String): Result
 
-    suspend fun searchFor(person: String): Result = client.get {
-        makeUrlFor("search/person?query=$person")
-    }.body()
+    open class Impl(private val client: HttpClient) : SearchApi {
+        override suspend fun searchFor(person: String): Result = client.get {
+            makeUrlFor("search/person?query=$person")
+        }.body()
+    }
 
     @Serializable
     data class Result(

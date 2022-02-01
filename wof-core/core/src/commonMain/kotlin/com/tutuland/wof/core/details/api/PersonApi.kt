@@ -7,10 +7,14 @@ import io.ktor.client.request.get
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-class PersonApi(private val client: HttpClient) {
-    suspend fun getPersonFor(id: String): Result = client.get {
-        makeUrlFor("person/$id")
-    }.body()
+interface PersonApi {
+    suspend fun getPersonFor(id: String): Result
+
+    class Impl(private val client: HttpClient) : PersonApi {
+        override suspend fun getPersonFor(id: String): Result = client.get {
+            makeUrlFor("person/$id")
+        }.body()
+    }
 
     @Serializable
     data class Result(

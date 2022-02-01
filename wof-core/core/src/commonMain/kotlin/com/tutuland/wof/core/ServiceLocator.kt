@@ -13,9 +13,9 @@ import com.tutuland.wof.core.search.usecase.SearchForPeople
 object ServiceLocator {
     val log = Logger.withTag("WoF")
     private val client = makeHttpClient(log)
-    private val personApi: PersonApi = PersonApi(client)
-    private val creditsApi: CreditsApi = CreditsApi(client)
+    private val personApi: PersonApi = PersonApi.Impl(client)
+    private val creditsApi: CreditsApi = CreditsApi.Impl(client)
     val requestDetails: Details.Provider = RequestDetails(personApi, creditsApi)
-    private val searchApi: SearchApi = SearchApi(client)
+    private val searchApi: SearchApi = SearchApi.Impl(client)
     val searchForPeople: Search.Provider = SearchForPeople(searchApi)
 }

@@ -7,10 +7,14 @@ import io.ktor.client.request.get
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-class CreditsApi(private val client: HttpClient) {
-    suspend fun getCreditsFor(id: String): Result = client.get {
-        makeUrlFor("person/$id/combined_credits")
-    }.body()
+interface CreditsApi {
+    suspend fun getCreditsFor(id: String): Result
+
+    class Impl(private val client: HttpClient) : CreditsApi {
+        override suspend fun getCreditsFor(id: String): Result = client.get {
+            makeUrlFor("person/$id/combined_credits")
+        }.body()
+    }
 
     @Serializable
     data class Result(
