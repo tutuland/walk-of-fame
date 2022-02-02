@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.core"
-version = "0.0.1"
+version = "1.0.0"
 
 kotlin {
     android {
@@ -64,11 +64,7 @@ kotlin {
                 implementation(libs.ktor.client.okHttp)
             }
         }
-        val androidTest by getting {
-            dependencies {
-                implementation(libs.bundles.shared.androidTest)
-            }
-        }
+        val androidTest by getting
         val desktopMain by getting {
             dependencies {
                 implementation(libs.ktor.client.java)

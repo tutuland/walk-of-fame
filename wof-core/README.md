@@ -27,5 +27,6 @@ After you aquire your api key, please include it on your local.properties file a
 For now, no remote maven is configured. The library is meant to be published locally, with the `publishToMavenLocal` 
 gradle task.
 
-***Note:***
-<br>`Until enough test coverage is implemented, a driver application is available to quickly validate the core library on each platform.`
+***Note: Work in Progress***
+<br>~~- Until enough test coverage is implemented, a driver application is available to quickly validate the core library on each platform.~~
+<br>`- Driver applications are provided for iOS and JS to test the library until their proper clients are implemented.`

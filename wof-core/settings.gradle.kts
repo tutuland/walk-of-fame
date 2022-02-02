@@ -18,8 +18,6 @@ pluginManagement {
 rootProject.name = "WoFCore"
 
 include(":core")
-include(":driver-android")
-include(":driver-desktop")
 include(":driver-js")
 
 enableFeaturePreview("VERSION_CATALOGS")

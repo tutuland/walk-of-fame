@@ -1,5 +1,5 @@
 PODS:
-  - core (0.0.1)
+  - core (1.0.0)
 
 DEPENDENCIES:
   - core (from `../core`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../core"
 
 SPEC CHECKSUMS:
-  core: ff97f1c10697a0eeacff2a8bfbe14314f6cd11f8
+  core: 3ad03f2aef900d66ec93a9c50a15aa4e3cd06c4f
 
 PODFILE CHECKSUM: 56463c643d1751ed3d67e05d78cd840206e64a13
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.11.2
