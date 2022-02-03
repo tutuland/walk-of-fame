@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.core"
-version = "1.0.0"
+version = "1.0.1"
 
 kotlin {
     android {
@@ -22,7 +22,7 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-    js {
+    js(IR) {
         browser()
     }
     ios()

@@ -10,7 +10,6 @@ android-tools = "7.0.4" # https://developer.android.com/studio/releases/gradle-p
 androidx-activity = "1.4.0" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-core = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/core
 build-konfig = "0.11.0" # https://github.com/yshrsmz/BuildKonfig/releases
-compose-jb = "1.0.1" # https://github.com/JetBrains/compose-jb/releases
 coroutines = "1.6.0" # https://github.com/Kotlin/kotlinx.coroutines/releases
 dateTime = "0.3.2" # https://github.com/Kotlin/kotlinx-datetime/releases
 kotlin = "1.6.10" # https://github.com/JetBrains/kotlin/releases

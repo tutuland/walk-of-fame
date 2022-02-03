@@ -28,5 +28,6 @@ For now, no remote maven is configured. The library is meant to be published loc
 gradle task.
 
 ***Note: Work in Progress***
-<br>~~- Until enough test coverage is implemented, a driver application is available to quickly validate the core library on each platform.~~
-<br>`- Driver applications are provided for iOS and JS to test the library until their proper clients are implemented.`
+<br>v0.0.1: ~~Until enough test coverage is implemented, a driver application is available to quickly validate the core library on each platform.~~
+<br>v1.0.0: ~~Driver applications are provided for iOS and JS to test the library until their proper clients are implemented.~~
+<br>v1.0.1: `Driver application is provided for iOS to test the library until its proper clientis implemented.`
