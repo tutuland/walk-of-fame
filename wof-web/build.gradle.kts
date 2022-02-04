@@ -20,6 +20,12 @@ kotlin {
         binaries.executable()
     }
     sourceSets {
+        all {
+            languageSettings.apply {
+                optIn("kotlin.RequiresOptIn")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
         val jsMain by getting {
             dependencies {
                 implementation("com.tutuland.wof.core:core-js:1.0.1")

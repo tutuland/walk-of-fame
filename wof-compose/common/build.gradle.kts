@@ -18,6 +18,12 @@ kotlin {
         }
     }
     sourceSets {
+        all {
+            languageSettings.apply {
+                optIn("kotlin.RequiresOptIn")
+                optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
         val commonMain by getting {
             dependencies {
                 api(libs.moko.resources.common)

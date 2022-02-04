@@ -15,8 +15,8 @@ Walk Of Fame is an exercise in code sharing and modularization:
 - This core lib is deployed as a published artifact to multiple platforms.
 - For each platform a client implementation will be provided and the published artifact included as a dependency.
     - For Android and Desktop [Jetpack Compose](https://developer.android.com/jetpack/compose) and
-    [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) were used to build the UI, sharing most of
-    the components (see [wof-compose](/wof-compose))
+      [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) were used to build the UI, sharing most of the
+      components (see [wof-compose](/wof-compose))
     - JS will likely also use [Compose for Web](https://github.com/JetBrains/compose-jb/tree/master/tutorials/Web)
     - For iOS, we will probably use swift UI at first
     - And possibly there will be a JVM based CLI client too in the future (_because why not?_)
@@ -58,8 +58,8 @@ share UI components.
 _(remaining modules will be added in the future)_
 
 ### Who?
+
 *Design - [melocs](https://github.com/melocs)*
 <br>*[gacordeiro](https://github.com/gacordeiro) - Programming*
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 *by [tutuland](https://github.com/tutuland), with 💕*
-
