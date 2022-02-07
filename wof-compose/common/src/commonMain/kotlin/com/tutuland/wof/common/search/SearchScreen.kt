@@ -85,7 +85,7 @@ fun SearchResult(model: Search.Model, contentPadding: Dp, onResultClicked: (Sear
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .clickable(onClickLabel = "Click to see details") { onResultClicked(model) }
+            .clickable(onClickLabel = "See details") { onResultClicked(model) }
             .padding(vertical = 16.dp, horizontal = contentPadding)
             .semantics(mergeDescendants = true) {}
 
@@ -123,7 +123,10 @@ fun SearchErrorState(searchTerm: String) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize().padding(bottom = 48.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 48.dp)
+            .semantics(mergeDescendants = true) {},
     ) {
         Text(
             text = "Couldn't find\n\"$searchTerm\"",

@@ -42,6 +42,8 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -176,8 +178,8 @@ fun SearchFieldBack(onBackClicked: () -> Unit) {
     Icon(
         imageVector = Icons.Default.ArrowBack,
         tint = SearchIconColor,
-        contentDescription = null,
-        modifier = Modifier.clickable(onClickLabel = "Close search field") { onBackClicked() },
+        contentDescription = "Close search field",
+        modifier = Modifier.clickable { onBackClicked() },
     )
 }
 
@@ -186,8 +188,8 @@ fun SearchFieldClean(onCleanClicked: () -> Unit) {
     Icon(
         imageVector = Icons.Default.Close,
         tint = SearchIconColor,
-        contentDescription = null,
-        modifier = Modifier.clickable(onClickLabel = "Clear search field text") { onCleanClicked() },
+        contentDescription = "Clear search field text",
+        modifier = Modifier.clickable { onCleanClicked() },
     )
 }
 
@@ -197,6 +199,7 @@ fun SearchFieldIcon() {
         imageVector = Icons.Default.Search,
         tint = SearchIconColor,
         contentDescription = null,
+        modifier = Modifier.clearAndSetSemantics { },
     )
 }
 
@@ -208,14 +211,16 @@ fun SearchIntro(isVisible: Boolean, contentPadding: Dp) {
         exit = shrinkVertically() + fadeOut(),
     ) {
         Column(
-            modifier = Modifier.padding(vertical = 16.dp, horizontal = contentPadding)
+            modifier = Modifier
+                .padding(vertical = 16.dp, horizontal = contentPadding)
+                .semantics(mergeDescendants = true) {}
         ) {
             Text(
                 text = "Walk of fame",
                 style = MaterialTheme.typography.h2,
             )
             Text(
-                text = "Let's find movie stars and amazing creativity people!",
+                text = "Let's find movie stars and amazing creative people!",
                 style = MaterialTheme.typography.h4,
                 modifier = Modifier.padding(top = 16.dp),
             )

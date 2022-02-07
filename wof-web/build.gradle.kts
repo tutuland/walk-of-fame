@@ -12,7 +12,7 @@ repositories {
 }
 
 group = "com.tutuland.wof.web"
-version = "1.0"
+version = "1.0.1"
 
 kotlin {
     js(IR) {

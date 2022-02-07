@@ -14,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
@@ -45,6 +46,7 @@ fun FullBioContent(model: Details.Model, contentPadding: Dp) {
             .fillMaxSize()
             .padding(horizontal = contentPadding)
             .verticalScroll(scrollState)
+            .semantics(mergeDescendants = true) {},
     ) {
         Spacer(Modifier.height(96.dp))
         DetailsHeaderTexts(model, maxLines = 2)

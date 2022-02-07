@@ -165,7 +165,7 @@ fun DetailsBio(
             text = "See full bio",
             style = MaterialTheme.typography.body2.copy(textDecoration = TextDecoration.Underline),
             modifier = Modifier
-                .clickable(onClickLabel = "Click to see full bio") { fullBioClicked() }
+                .clickable { fullBioClicked() }
                 .padding(vertical = 16.dp)
                 .padding(end = 16.dp),
         )

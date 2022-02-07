@@ -26,7 +26,7 @@ fun SearchScreen(viewModel: SearchViewModel, nav: Navigator) {
     val searchText = remember { mutableStateOf("") }
     Container {
         TextHeader("Walk of fame")
-        TextBody("Let's find movie stars and amazing creativity people!")
+        TextBody("Let's find movie stars and amazing creative people!")
 
         Table(
             attrs = {
