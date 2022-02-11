@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.core"
-version = "1.0.1"
+version = "1.0.2"
 
 kotlin {
     android {
@@ -67,6 +67,7 @@ kotlin {
         val androidTest by getting
         val desktopMain by getting {
             dependencies {
+                api(libs.slf4j.simple)
                 implementation(libs.ktor.client.java)
             }
         }

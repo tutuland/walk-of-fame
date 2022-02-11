@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.compose"
-version = "1.0.1"
+version = "1.0.2"
 
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()

@@ -12,7 +12,7 @@ repositories {
 }
 
 group = "com.tutuland.wof.web"
-version = "1.0.1"
+version = "1.0.2"
 
 kotlin {
     js(IR) {
@@ -28,7 +28,7 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
-                implementation("com.tutuland.wof.core:core-js:1.0.1")
+                implementation("com.tutuland.wof.core:core-js:1.0.2")
                 implementation(compose.runtime)
                 implementation(compose.web.core)
                 implementation(compose.web.svg)

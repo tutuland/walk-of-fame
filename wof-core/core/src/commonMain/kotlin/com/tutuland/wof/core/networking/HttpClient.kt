@@ -27,6 +27,8 @@ fun HttpRequestBuilder.makeUrlFor(path: String) {
     url(finalUrl)
 }
 
+var loggingEnabled = true
+
 fun makeHttpClient(log: KermitLogger) = HttpClient {
     install(ContentNegotiation) {
         json(
@@ -36,7 +38,7 @@ fun makeHttpClient(log: KermitLogger) = HttpClient {
     install(Logging) {
         logger = object : KtorLogger {
             override fun log(message: String) {
-                log.d { message }
+                if (loggingEnabled) log.d { message }
             }
         }
 

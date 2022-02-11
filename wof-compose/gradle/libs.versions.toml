@@ -19,7 +19,7 @@ mockk = "1.10.3-jdk8" # https://github.com/mockk/mockk/releases
 moko-resources = "0.18.0" # https://github.com/icerockdev/moko-resources/releases
 touchlab-kermit = "1.0.0" # https://github.com/touchlab/Kermit/releases
 turbine = "0.7.0" # https://github.com/cashapp/turbine/releases
-wof-core = "1.0.1" # https://github.com/tutuland/walk-of-fame/tree/main/wof-core -> but currently it's published locally
+wof-core = "1.0.2" # https://github.com/tutuland/walk-of-fame/tree/main/wof-core -> but currently it's published locally
 
 [libraries]
 
