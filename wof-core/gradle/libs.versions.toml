@@ -6,7 +6,7 @@ compileSdk = "31"
 
 # Dependencies
 android-desugaring = "1.1.5" # https://github.com/google/desugar_jdk_libs/tags
-android-tools = "7.0.4" # https://developer.android.com/studio/releases/gradle-plugin
+android-tools = "7.1.0" # https://developer.android.com/studio/releases/gradle-plugin
 androidx-activity = "1.4.0" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-core = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/core
 build-konfig = "0.11.0" # https://github.com/yshrsmz/BuildKonfig/releases

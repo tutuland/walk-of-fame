@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.core"
-version = "1.0.2"
+version = "1.1.0"
 
 kotlin {
     android {
@@ -30,12 +30,12 @@ kotlin {
     iosSimulatorArm64()
 
     cocoapods {
-        summary = "Some description for the Shared Module"
-        homepage = "Link to the Shared Module homepage"
-        ios.deploymentTarget = "14.1"
+        summary = "Common library with business logic for walk-of-fam clients"
+        homepage = "https://github.com/tutuland/walk-of-fame"
+        ios.deploymentTarget = "12.4"
         podfile = project.file("../driver-iOS/Podfile")
         framework {
-            baseName = "core"
+            isStatic = false
         }
     }
 
@@ -50,6 +50,7 @@ kotlin {
             dependencies {
                 implementation(libs.coroutines.core)
                 implementation(libs.dateTime)
+                implementation(libs.koin.core)
                 implementation(libs.bundles.ktor.common)
                 api(libs.touchlab.kermit)
             }
@@ -102,11 +103,18 @@ kotlin {
 }
 
 android {
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkVersion(libs.versions.compileSdk.get().toInt())
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        minSdkVersion(libs.versions.minSdk.get().toInt())
+        targetSdkVersion(libs.versions.targetSdk.get().toInt())
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
     }
 }
 

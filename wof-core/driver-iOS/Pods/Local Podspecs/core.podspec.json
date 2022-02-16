@@ -1,19 +1,19 @@
 {
   "name": "core",
-  "version": "1.0.2",
-  "homepage": "Link to the Shared Module homepage",
+  "version": "1.1.0",
+  "homepage": "https://github.com/tutuland/walk-of-fame",
   "source": {
     "git": "Not Published",
-    "tag": "Cocoapods/core/1.0.2"
+    "tag": "Cocoapods/core/1.1.0"
   },
   "authors": "",
   "license": "",
-  "summary": "Some description for the Shared Module",
+  "summary": "Common library with business logic for walk-of-fam clients",
   "vendored_frameworks": "build/cocoapods/framework/core.framework",
   "libraries": "c++",
   "module_name": "core_umbrella",
   "platforms": {
-    "ios": "14.1"
+    "ios": "12.4"
   },
   "pod_target_xcconfig": {
     "KOTLIN_PROJECT_PATH": ":core",

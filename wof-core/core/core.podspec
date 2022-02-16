@@ -1,17 +1,17 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'core'
-    spec.version                  = '1.0.2'
-    spec.homepage                 = 'Link to the Shared Module homepage'
+    spec.version                  = '1.1.0'
+    spec.homepage                 = 'https://github.com/tutuland/walk-of-fame'
     spec.source                   = { :git => "Not Published", :tag => "Cocoapods/#{spec.name}/#{spec.version}" }
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'Some description for the Shared Module'
+    spec.summary                  = 'Common library with business logic for walk-of-fam clients'
 
     spec.vendored_frameworks      = "build/cocoapods/framework/core.framework"
     spec.libraries                = "c++"
     spec.module_name              = "#{spec.name}_umbrella"
 
-    spec.ios.deployment_target = '14.1'
+    spec.ios.deployment_target = '12.4'
 
                 
 
