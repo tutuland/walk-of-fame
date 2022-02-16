@@ -1,7 +1,7 @@
 package com.tutuland.wof.core.details
 
 interface Details {
-    interface Provider {
+    interface Request {
         suspend fun with(id: String): Model
     }
 

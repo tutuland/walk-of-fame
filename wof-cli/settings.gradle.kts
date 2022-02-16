@@ -1,1 +1,1 @@
-rootProject.name = "wof-cli"
+rootProject.name = "WofCli"

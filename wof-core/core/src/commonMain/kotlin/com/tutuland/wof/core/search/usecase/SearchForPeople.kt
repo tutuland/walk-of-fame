@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 
-class SearchForPeople(private val api: SearchApi) : Search.Provider {
+class SearchForPeople(private val api: SearchApi) : Search.ForPeople {
     override fun withName(name: String): Flow<Search.Model> = flow {
         val result = getPeopleWith(name)
         mapPeopleFrom(result.people)

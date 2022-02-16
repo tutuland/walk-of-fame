@@ -18,7 +18,7 @@ class DetailsViewModelTest {
     private val lastModel = fixDetailsModel.copy(name = "Last Model")
     private val scope: CoroutineScope = TestScope()
     private val log: Logger = Logger(StaticConfig(logWriterList = listOf()))
-    private val requestDetails = object : Details.Provider {
+    private val requestDetails = object : Details.Request {
         override suspend fun with(id: String): Details.Model = result ?: throw Exception()
     }
     private var result: Details.Model? = null

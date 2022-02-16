@@ -10,7 +10,7 @@ repositories {
 }
 
 group = "com.tutuland.wof.cli"
-version = "1.0.2"
+version = "1.1.0"
 
 kotlin {
     jvm {
@@ -22,8 +22,7 @@ kotlin {
     sourceSets {
         val jvmMain by getting {
             dependencies {
-                implementation("com.tutuland.wof.core:core-desktop:1.0.2")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("com.tutuland.wof.core:core-desktop:1.1.0")
                 implementation("com.github.kotlin-inquirer:kotlin-inquirer:0.1.0")
             }
         }

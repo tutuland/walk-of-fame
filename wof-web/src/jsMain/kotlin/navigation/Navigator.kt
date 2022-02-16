@@ -1,15 +1,17 @@
 package navigation
 
 import androidx.compose.runtime.Composable
-import com.tutuland.wof.core.ServiceLocator
+import co.touchlab.kermit.Logger
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 import details.DetailsScreen
 import details.FullBioScreen
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import org.koin.core.parameter.parametersOf
 import search.SearchScreen
 
 typealias Screen = @Composable () -> Unit
@@ -27,10 +29,11 @@ interface Navigator {
 }
 
 @OptIn(DelicateCoroutinesApi::class)
-class WebNavigator : Navigator {
+class WebNavigator : Navigator, KoinComponent {
+    private val log: Logger by inject { parametersOf("WoF WebNavigator") }
+    private val searchViewModel: SearchViewModel by inject()
+    private val detailsViewModel: DetailsViewModel by inject()
     private val screenStack: MutableList<Screen> = mutableListOf()
-    private val searchViewModel: SearchViewModel = SearchViewModel(GlobalScope)
-    private val detailsViewModel: DetailsViewModel = DetailsViewModel(GlobalScope)
     private val noScreen: Screen = { }
     private val _screenState = MutableStateFlow(noScreen)
     override val currentScreen: StateFlow<Screen> = _screenState
@@ -54,7 +57,7 @@ class WebNavigator : Navigator {
 
     override fun goBack(): Boolean {
         if (screenStack.count() > 1) screenStack.pop()
-        screenStack.peek()?.let { _screenState.value = it } ?: ServiceLocator.log.d("Navigation reached root")
+        screenStack.peek()?.let { _screenState.value = it } ?: log.d("Navigation reached root")
         return true
     }
 

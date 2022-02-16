@@ -17,7 +17,7 @@ Walk Of Fame is an exercise in code sharing and modularization:
     - For Android and Desktop [Jetpack Compose](https://developer.android.com/jetpack/compose) and
       [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) were used to build the UI, sharing most of the
       components (see [wof-compose](/wof-compose))
-    - JS will likely also use [Compose for Web](https://github.com/JetBrains/compose-jb/tree/master/tutorials/Web)
+    - JS uses [Compose for Web](https://github.com/JetBrains/compose-jb/tree/master/tutorials/Web)
     - A JVM based CLI application built with [kotlin-inquirer](https://github.com/kotlin-inquirer/kotlin-inquirer)
     - For iOS, we will probably use swift UI at first
 - The application will be using [The Movie DB api](https://www.themoviedb.org/about) to:

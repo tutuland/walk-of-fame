@@ -1,7 +1,6 @@
 package com.tutuland.wof.core.search.viewmodel
 
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.ServiceLocator
 import com.tutuland.wof.core.search.Search
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,8 +13,8 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val scope: CoroutineScope,
-    private val log: Logger = ServiceLocator.log,
-    private val searchForPeople: Search.Provider = ServiceLocator.searchForPeople,
+    private val log: Logger,
+    private val searchForPeople: Search.ForPeople,
     initialState: ViewState = ViewState(),
 ) {
     private val _state = MutableStateFlow(initialState)

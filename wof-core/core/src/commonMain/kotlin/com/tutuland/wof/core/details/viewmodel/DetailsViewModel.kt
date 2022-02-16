@@ -1,7 +1,6 @@
 package com.tutuland.wof.core.details.viewmodel
 
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.ServiceLocator
 import com.tutuland.wof.core.details.Details
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,8 +9,8 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val scope: CoroutineScope,
-    private val log: Logger = ServiceLocator.log,
-    private val requestDetails: Details.Provider = ServiceLocator.requestDetails,
+    private val log: Logger,
+    private val requestDetails: Details.Request,
     initialState: ViewState = ViewState(),
 ) {
     private val _state = MutableStateFlow(initialState)

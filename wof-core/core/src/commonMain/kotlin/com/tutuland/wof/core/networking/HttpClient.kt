@@ -3,6 +3,7 @@ package com.tutuland.wof.core.networking
 import com.tutuland.wof.core.BuildKonfig.API_KEY
 import com.tutuland.wof.core.BuildKonfig.BASE_URL
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.ContentNegotiation
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.logging.LogLevel
@@ -27,9 +28,7 @@ fun HttpRequestBuilder.makeUrlFor(path: String) {
     url(finalUrl)
 }
 
-var loggingEnabled = true
-
-fun makeHttpClient(log: KermitLogger) = HttpClient {
+fun makeHttpClient(engine: HttpClientEngine, log: KermitLogger) = HttpClient(engine) {
     install(ContentNegotiation) {
         json(
             Json { ignoreUnknownKeys = true }
@@ -38,7 +37,7 @@ fun makeHttpClient(log: KermitLogger) = HttpClient {
     install(Logging) {
         logger = object : KtorLogger {
             override fun log(message: String) {
-                if (loggingEnabled) log.d { message }
+                log.v { message }
             }
         }
 

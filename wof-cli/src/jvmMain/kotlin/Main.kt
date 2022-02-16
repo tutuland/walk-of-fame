@@ -2,10 +2,11 @@ import com.github.kinquirer.KInquirer
 import com.github.kinquirer.components.promptInput
 import com.github.kinquirer.components.promptListObject
 import com.github.kinquirer.core.Choice
-import com.tutuland.wof.core.ServiceLocator.requestDetails
-import com.tutuland.wof.core.ServiceLocator.searchForPeople
 import com.tutuland.wof.core.details.Details
-import com.tutuland.wof.core.networking.loggingEnabled
+import com.tutuland.wof.core.injectOnDesktop
+import com.tutuland.wof.core.search.Search
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.toCollection
 import kotlinx.coroutines.runBlocking
 
@@ -20,15 +21,19 @@ val HEADER = """
 """
 
 fun main() {
-    loggingEnabled = false
+    val scope = MainScope()
+    val dependencies = injectOnDesktop(scope, shouldDisableLogger = true).koin
+    val searchForPeople: Search.ForPeople = dependencies.get()
+    val requestDetails: Details.Request = dependencies.get()
     runBlocking {
         println(HEADER)
-        val id = searchForId()
-        detailsFor(id)
+        val id = searchForId(searchForPeople)
+        detailsFor(id, requestDetails)
     }
+    scope.cancel()
 }
 
-private suspend fun searchForId(): String {
+private suspend fun searchForId(searchForPeople: Search.ForPeople): String {
     val name = KInquirer.promptInput(message = "Who are you looking for?")
     val result = searchForPeople.withName(name).toCollection(mutableListOf())
     val choices = result.map { Choice(it.name, it) }
@@ -41,7 +46,7 @@ private suspend fun searchForId(): String {
     return person.id
 }
 
-private suspend fun detailsFor(id: String) {
+private suspend fun detailsFor(id: String, requestDetails: Details.Request) {
     val model = requestDetails.with(id)
     val option = KInquirer.promptListObject(
         message = "Are you interested in:",

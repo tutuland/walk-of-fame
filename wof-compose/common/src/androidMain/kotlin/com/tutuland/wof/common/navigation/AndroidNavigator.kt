@@ -18,16 +18,16 @@ import com.tutuland.wof.common.details.FullBioScreen
 import com.tutuland.wof.common.search.SearchScreen
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class AndroidNavigator(
-    scope: CoroutineScope,
     private val navController: NavHostController,
-    private val searchViewModel: SearchViewModel = SearchViewModel(scope),
-    private val detailsViewModel: DetailsViewModel = DetailsViewModel(scope),
-) : Navigator {
+) : Navigator, KoinComponent {
+    private val searchViewModel: SearchViewModel by inject()
+    private val detailsViewModel: DetailsViewModel by inject()
     private val initialScreen: Screen = {
         AndroidNavHost(
             navController = navController,

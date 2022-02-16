@@ -3,7 +3,7 @@ package com.tutuland.wof.core.search
 import kotlinx.coroutines.flow.Flow
 
 interface Search {
-    interface Provider {
+    interface ForPeople {
         fun withName(name: String): Flow<Model>
     }
 

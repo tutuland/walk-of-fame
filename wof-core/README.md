@@ -30,4 +30,5 @@ gradle task.
 ***Note: Work in Progress***
 <br>v0.0.1: ~~Until enough test coverage is implemented, a driver application is available to quickly validate the core library on each platform.~~
 <br>v1.0.0: ~~Driver applications are provided for iOS and JS to test the library until their proper clients are implemented.~~
-<br>v1.0.1: `Driver application is provided for iOS to test the library until its proper clientis implemented.`
+<br>v1.0.1: ~~Driver application is provided for iOS to test the library until its proper clientis implemented.~~
+<br>v1.1.0: `Dependency injection added and test coverage improved`

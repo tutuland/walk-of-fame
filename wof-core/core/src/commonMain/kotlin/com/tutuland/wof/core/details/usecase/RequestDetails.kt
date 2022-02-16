@@ -8,11 +8,10 @@ import com.tutuland.wof.core.details.mapPosterPictureFrom
 import com.tutuland.wof.core.details.mapProfilePictureFrom
 import com.tutuland.wof.core.details.mapYear
 
-
 class RequestDetails(
     private val personApi: PersonApi,
     private val creditsApi: CreditsApi,
-) : Details.Provider {
+) : Details.Request {
 
     override suspend fun with(id: String): Details.Model {
         val personResult = getPersonFor(id)

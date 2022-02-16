@@ -5,21 +5,21 @@ targetSdk = "31"
 compileSdk = "31"
 
 # Dependencies
-accompanist = "0.22.0-rc" # https://github.com/google/accompanist/releases
+accompanist = "0.23.0" # https://github.com/google/accompanist/releases
 android-desugaring = "1.1.5" # https://github.com/google/desugar_jdk_libs/tags
-android-tools = "7.0.4" # https://developer.android.com/studio/releases/gradle-plugin
+android-tools = "7.1.0" # https://developer.android.com/studio/releases/gradle-plugin
 androidx-activity = "1.4.0" # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-core = "1.7.0" # https://developer.android.com/jetpack/androidx/releases/core
 androidx-splashscreen = "1.0.0-beta01" # https://developer.android.com/jetpack/androidx/releases/core
 coil = "1.4.0" # https://github.com/coil-kt/coil/releases/tag/1.4.0
-compose-jb = "1.1.0-alpha02" # https://github.com/JetBrains/compose-jb/releases
+compose-jb = "1.1.0-alpha04" # https://github.com/JetBrains/compose-jb/releases
 coroutines = "1.6.0" # https://github.com/Kotlin/kotlinx.coroutines/releases
 kotlin = "1.6.10" # https://github.com/JetBrains/kotlin/releases
 mockk = "1.10.3-jdk8" # https://github.com/mockk/mockk/releases
 moko-resources = "0.18.0" # https://github.com/icerockdev/moko-resources/releases
 touchlab-kermit = "1.0.0" # https://github.com/touchlab/Kermit/releases
 turbine = "0.7.0" # https://github.com/cashapp/turbine/releases
-wof-core = "1.0.2" # https://github.com/tutuland/walk-of-fame/tree/main/wof-core -> but currently it's published locally
+wof-core = "1.1.0" # https://github.com/tutuland/walk-of-fame/tree/main/wof-core -> but currently it's published locally
 
 [libraries]
 

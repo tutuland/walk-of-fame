@@ -48,11 +48,11 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation(libs.coroutines.core)
-                implementation(libs.dateTime)
-                implementation(libs.koin.core)
-                implementation(libs.bundles.ktor.common)
+                api(libs.coroutines.core)
+                api(libs.koin.core)
                 api(libs.touchlab.kermit)
+                implementation(libs.dateTime)
+                implementation(libs.bundles.ktor.common)
             }
         }
         val commonTest by getting {

@@ -19,7 +19,7 @@ import kotlinx.coroutines.test.runTest
 class SearchViewModelTest {
     private val scope: CoroutineScope = TestScope()
     private val log: Logger = Logger(StaticConfig(logWriterList = listOf()))
-    private val searchForPeople = object : Search.Provider {
+    private val searchForPeople = object : Search.ForPeople {
         override fun withName(name: String): Flow<Search.Model> = resultFlow
     }
     private lateinit var resultFlow: Flow<Search.Model>

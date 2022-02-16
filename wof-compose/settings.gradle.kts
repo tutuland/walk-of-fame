@@ -9,9 +9,18 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "org.jetbrains.compose") {
-                useModule("org.jetbrains.compose:compose-gradle-plugin:1.1.0-alpha02")
+                useModule("org.jetbrains.compose:compose-gradle-plugin:1.1.0-alpha04")
             }
         }
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenLocal()
+        mavenCentral()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
 

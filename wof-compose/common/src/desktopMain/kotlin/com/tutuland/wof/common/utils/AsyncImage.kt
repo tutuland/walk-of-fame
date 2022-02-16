@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.res.painterResource
-import com.tutuland.wof.core.ServiceLocator.log
 import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -36,7 +35,6 @@ actual fun NetworkImage(
                 if (url.isBlank()) throw IllegalArgumentException("Image url cannot be empty")
                 loadImageBitmap(url)
             } catch (e: Exception) {
-                log.e("AsyncImage error: $e")
                 null
             }
         }
