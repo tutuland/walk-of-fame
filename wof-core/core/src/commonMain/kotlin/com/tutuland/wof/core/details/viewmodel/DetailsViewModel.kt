@@ -26,7 +26,7 @@ class DetailsViewModel(
         try {
             val model = _state.value.details ?: requestDetails.with(id)
             displayResult(model)
-            log.d("requestDetails succeeded: $model")
+            log.d("requestDetails complete.")
         } catch (error: Exception) {
             showError()
             log.d("requestDetails failed: $error")

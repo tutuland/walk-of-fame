@@ -1,20 +1,12 @@
-package com.tutuland.wof.core.details.api
+package com.tutuland.wof.core.details.service
 
-import com.tutuland.wof.core.networking.makeUrlFor
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
+import com.tutuland.wof.core.details.service.api.CreditsApi
+import com.tutuland.wof.core.details.service.cache.CreditsCache
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-interface CreditsApi {
+interface CreditsService {
     suspend fun getCreditsFor(id: String): Result
-
-    class Impl(private val client: HttpClient) : CreditsApi {
-        override suspend fun getCreditsFor(id: String): Result = client.get {
-            makeUrlFor("person/$id/combined_credits")
-        }.body()
-    }
 
     @Serializable
     data class Result(
@@ -34,6 +26,12 @@ interface CreditsApi {
             val isValid: Boolean get() = id != null && title.isNullOrEmpty().not()
             val job: String? get() = _job ?: _character
             val releaseDate: String? get() = _releaseDate ?: _firstAirDate
+        }
+    }
+
+    class Impl(private val api: CreditsApi, private val cache: CreditsCache) : CreditsService {
+        override suspend fun getCreditsFor(id: String): Result {
+            return cache.cachedResultsFor(id) ?: api.getCreditsFor(id).also { cache.store(id, it) }
         }
     }
 }

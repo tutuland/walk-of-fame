@@ -1,0 +1,7 @@
+deleteAll {
+    DELETE FROM SearchResultsCache;
+    DELETE FROM SearchPersonCache;
+    DELETE FROM PersonCache;
+    DELETE FROM CreditsCache;
+    DELETE FROM WorksCache;
+}

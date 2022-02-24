@@ -12,7 +12,7 @@ class WofApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         scope = MainScope()
-        injectOnAndroid(scope)
+        injectOnAndroid(scope, applicationContext)
     }
 
     override fun onTerminate() {

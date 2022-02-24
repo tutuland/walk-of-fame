@@ -1,4 +1,4 @@
-package com.tutuland.wof.core.search.api
+package com.tutuland.wof.core.search.service.api
 
 import com.tutuland.wof.core.emptyLogger
 import com.tutuland.wof.core.fixSearchPayload

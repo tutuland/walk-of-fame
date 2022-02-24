@@ -8,6 +8,7 @@ plugins {
     id("com.codingfeline.buildkonfig")
     id("com.android.library")
     id("maven-publish")
+    id("com.squareup.sqldelight")
 }
 
 group = "com.tutuland.wof.core"
@@ -52,6 +53,7 @@ kotlin {
                 api(libs.koin.core)
                 api(libs.touchlab.kermit)
                 implementation(libs.dateTime)
+                implementation(libs.sqlDelight.coroutinesExt)
                 implementation(libs.bundles.ktor.common)
             }
         }
@@ -63,6 +65,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.ktor.client.okHttp)
+                implementation(libs.sqlDelight.android)
             }
         }
         val androidTest by getting
@@ -70,18 +73,21 @@ kotlin {
             dependencies {
                 api(libs.slf4j.simple)
                 implementation(libs.ktor.client.java)
+                implementation(libs.sqlDelight.jvm)
             }
         }
         val desktopTest by getting
         val jsMain by getting {
             dependencies {
                 implementation(libs.ktor.client.js)
+                //JS will not use a real DB for now
             }
         }
         val jsTest by getting
         val iosMain by getting {
             dependencies {
                 implementation(libs.ktor.client.ios)
+                implementation(libs.sqlDelight.native)
                 val coroutineCore = libs.coroutines.core.get()
                 implementation(
                     "${coroutineCore.module.group}:${coroutineCore.module.name}:${coroutineCore.versionConstraint.displayName}"
@@ -127,5 +133,11 @@ buildkonfig {
 
         buildConfigField(STRING, "API_KEY", apiKey)
         buildConfigField(STRING, "BASE_URL", "https://api.themoviedb.org/3/")
+    }
+}
+
+sqldelight {
+    database("WofDb") {
+        packageName = "com.tutuland.wof.core.db"
     }
 }

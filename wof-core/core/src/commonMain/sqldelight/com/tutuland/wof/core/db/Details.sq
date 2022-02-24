@@ -1,0 +1,47 @@
+import kotlin.collections.List;
+
+CREATE TABLE PersonCache (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    picturePath TEXT,
+    department TEXT,
+    birthday TEXT,
+    deathday TEXT,
+    placeOfBirth TEXT,
+    biography TEXT
+);
+
+CREATE TABLE CreditsCache (
+    id INTEGER NOT NULL ,
+    castIds TEXT AS List<Int> NOT NULL,
+    crewIds TEXT AS List<Int> NOT NULL
+);
+
+CREATE TABLE WorksCache (
+    id INTEGER NOT NULL ,
+    title TEXT NOT NULL,
+    posterPath TEXT,
+    job TEXT,
+    releaseDate TEXT
+);
+
+insertPersonCache:
+INSERT OR IGNORE INTO PersonCache(id, name, picturePath, department, birthday, deathday, placeOfBirth, biography)
+VALUES (?,?, ?,?, ?,?, ?, ?);
+
+insertCreditsCache:
+INSERT OR IGNORE INTO CreditsCache(id, castIds, crewIds)
+VALUES (?,?, ?);
+
+insertWorksCache:
+INSERT OR IGNORE INTO WorksCache(id, title, posterPath, job, releaseDate)
+VALUES (?,?, ?, ?, ?);
+
+selectByIdFromPersonCache:
+SELECT * FROM PersonCache WHERE id = ?;
+
+selectByIdFromCreditsCache:
+SELECT * FROM CreditsCache WHERE id = ?;
+
+selectByIdsFromWorksCache:
+SELECT * FROM WorksCache WHERE id IN ?;

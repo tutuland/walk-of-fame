@@ -5,10 +5,10 @@ import co.touchlab.kermit.StaticConfig
 import com.tutuland.wof.core.BuildKonfig.API_KEY
 import com.tutuland.wof.core.BuildKonfig.BASE_URL
 import com.tutuland.wof.core.details.Details
-import com.tutuland.wof.core.details.api.CreditsApi
-import com.tutuland.wof.core.details.api.PersonApi
+import com.tutuland.wof.core.details.service.CreditsService
+import com.tutuland.wof.core.details.service.PersonService
 import com.tutuland.wof.core.search.Search
-import com.tutuland.wof.core.search.api.SearchApi
+import com.tutuland.wof.core.search.service.SearchService
 
 const val fixId = 172069
 const val fixStringId = "$fixId"
@@ -224,13 +224,13 @@ const val fixPersonPayload = """
 }
 """
 
-val fixSearchPerson = SearchApi.Result.Person(
+val fixSearchPerson = SearchService.Result.Person(
     id = fixId,
     name = fixName,
     department = fixDepartment,
 )
 
-val fixSearchResult = SearchApi.Result(listOf(fixSearchPerson))
+val fixSearchResult = SearchService.Result(listOf(fixSearchPerson))
 
 val fixSearchModel = Search.Model(
     id = "$fixId",
@@ -238,7 +238,7 @@ val fixSearchModel = Search.Model(
     department = "Known for $fixDepartment",
 )
 
-val fixPersonApiResult = PersonApi.Result(
+val fixPersonApiResult = PersonService.Result(
     id = fixId,
     name = fixName,
     picturePath = fixPicturePath,
@@ -249,7 +249,7 @@ val fixPersonApiResult = PersonApi.Result(
     biography = fixBiography,
 )
 
-val fixCreditsApiCrew = CreditsApi.Result.Work(
+val fixCreditsApiCrew = CreditsService.Result.Work(
     id = fixCreditId,
     title = fixTitle,
     posterPath = fixPosterPath,
@@ -270,7 +270,7 @@ val fixCreditsApiUncredited = fixCreditsApiCrew.copy(
     _job = null,
 )
 
-val fixCreditsApiResult = CreditsApi.Result(
+val fixCreditsApiResult = CreditsService.Result(
     cast = listOf(fixCreditsApiCast),
     crew = listOf(fixCreditsApiCrew, fixCreditsApiUncredited),
 )

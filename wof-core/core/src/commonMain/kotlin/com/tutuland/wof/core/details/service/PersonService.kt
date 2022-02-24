@@ -1,20 +1,12 @@
-package com.tutuland.wof.core.details.api
+package com.tutuland.wof.core.details.service
 
-import com.tutuland.wof.core.networking.makeUrlFor
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
+import com.tutuland.wof.core.details.service.api.PersonApi
+import com.tutuland.wof.core.details.service.cache.PersonCache
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-interface PersonApi {
+interface PersonService {
     suspend fun getPersonFor(id: String): Result
-
-    class Impl(private val client: HttpClient) : PersonApi {
-        override suspend fun getPersonFor(id: String): Result = client.get {
-            makeUrlFor("person/$id")
-        }.body()
-    }
 
     @Serializable
     data class Result(
@@ -28,5 +20,11 @@ interface PersonApi {
         @SerialName("biography") val biography: String? = null,
     ) {
         val isValid: Boolean get() = id != null && name.isNullOrEmpty().not()
+    }
+
+    class Impl(private val api: PersonApi, private val cache: PersonCache) : PersonService {
+        override suspend fun getPersonFor(id: String): Result {
+            return cache.cachedResultsFor(id) ?: api.getPersonFor(id).also { cache.store(id, it) }
+        }
     }
 }

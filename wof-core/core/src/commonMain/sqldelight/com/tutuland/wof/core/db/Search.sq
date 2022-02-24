@@ -1,0 +1,30 @@
+import kotlin.collections.List;
+
+CREATE TABLE SearchResultsCache (
+    term TEXT NOT NULL PRIMARY KEY,
+    ids TEXT AS List<Int> NOT NULL
+);
+
+CREATE TABLE SearchPersonCache (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    department TEXT
+);
+
+insertSearchResultsCache:
+INSERT OR IGNORE INTO SearchResultsCache(term, ids)
+VALUES (?,?);
+
+insertSearchPersonCache:
+INSERT OR IGNORE INTO SearchPersonCache(id, name, department)
+VALUES (?,?, ?);
+
+selectIdsByTermFromSearchResultsCache:
+SELECT ids
+FROM SearchResultsCache
+WHERE term = ?;
+
+selectAllByIdFromSearchPersonCache:
+SELECT *
+FROM SearchPersonCache
+WHERE id IN ?;

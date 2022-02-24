@@ -16,6 +16,7 @@ koin = "3.2.0-beta-1" # https://github.com/InsertKoinIO/koin/tags
 kotlin = "1.6.10" # https://github.com/JetBrains/kotlin/releases
 ktor = "2.0.0-beta-1" # https://github.com/ktorio/ktor/releases
 slf4j-simple = "1.7.36" # https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+sqlDelight = "1.5.3" # https://github.com/cashapp/sqldelight/releases
 touchlab-kermit = "1.0.0" # https://github.com/touchlab/Kermit/releases
 turbine = "0.7.0" # https://github.com/cashapp/turbine/releases
 
@@ -33,6 +34,7 @@ dateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "d
 gradlePlugin-android-tools = { module = "com.android.tools.build:gradle", version.ref = "android-tools" }
 gradlePlugin-build-konfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "build-konfig" }
 gradlePlugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
+gradlePlugin-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 
@@ -50,6 +52,11 @@ ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j-simple" }
 
+sqlDelight-android = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
+sqlDelight-coroutinesExt = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+sqlDelight-jvm = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+sqlDelight-native = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
+
 touchlab-kermit = { module = "co.touchlab:kermit", version.ref = "touchlab-kermit" }
 
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
@@ -64,6 +71,7 @@ gradlePlugins = [
     "gradlePlugin-android-tools",
     "gradlePlugin-build-konfig",
     "gradlePlugin-kotlinSerialization",
+    'gradlePlugin-sqlDelight',
 ]
 ktor-common = [
     "ktor-client-core",

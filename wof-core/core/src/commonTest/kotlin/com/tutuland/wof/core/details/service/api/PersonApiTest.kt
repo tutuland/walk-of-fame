@@ -1,9 +1,9 @@
-package com.tutuland.wof.core.details.api
+package com.tutuland.wof.core.details.service.api
 
 import com.tutuland.wof.core.emptyLogger
-import com.tutuland.wof.core.fixCreditsApiResult
-import com.tutuland.wof.core.fixCreditsPayload
-import com.tutuland.wof.core.fixCreditsRequest
+import com.tutuland.wof.core.fixPersonApiResult
+import com.tutuland.wof.core.fixPersonPayload
+import com.tutuland.wof.core.fixPersonRequest
 import com.tutuland.wof.core.fixStringId
 import com.tutuland.wof.core.networking.makeHttpClient
 import io.ktor.client.engine.mock.MockEngine
@@ -18,31 +18,31 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlinx.coroutines.test.runTest
 
-class CreditsApiTest {
+class PersonApiTest {
     @Test
-    fun when_getCreditsFor_succeeds_return_result() = runTest {
+    fun when_getPersonFor_succeeds_return_result() = runTest {
         val engine = MockEngine {
-            assertEquals(fixCreditsRequest, it.url.toString())
+            assertEquals(fixPersonRequest, it.url.toString())
             respond(
-                content = fixCreditsPayload,
+                content = fixPersonPayload,
                 headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
             )
         }
-        val api = CreditsApi.Impl(makeHttpClient(engine, emptyLogger))
-        val result = api.getCreditsFor(fixStringId)
-        assertEquals(fixCreditsApiResult, result)
+        val api = PersonApi.Impl(makeHttpClient(engine, emptyLogger))
+        val result = api.getPersonFor(fixStringId)
+        assertEquals(fixPersonApiResult, result)
     }
 
     @Test
-    fun when_getCreditsFor_fails_throw_exception() = runTest {
+    fun when_getPersonFor_fails_throw_exception() = runTest {
         val engine = MockEngine {
-            assertEquals(fixCreditsRequest, it.url.toString())
+            assertEquals(fixPersonRequest, it.url.toString())
             respond(
                 content = "",
                 status = HttpStatusCode.NotFound,
             )
         }
-        val api = CreditsApi.Impl(makeHttpClient(engine, emptyLogger))
-        assertFailsWith<ClientRequestException> { api.getCreditsFor(fixStringId) }
+        val api = PersonApi.Impl(makeHttpClient(engine, emptyLogger))
+        assertFailsWith<ClientRequestException> { api.getPersonFor(fixStringId) }
     }
 }
