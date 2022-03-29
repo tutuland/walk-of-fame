@@ -1,24 +1,33 @@
 import SwiftUI
 import core
 
+let injector = KoinIOSKt.injectOnIOS().koin
+
 class ViewModel : ObservableObject{
-    @Published var content: String = "loading"
-//     let searchForPeople = ServiceLocator.shared.searchForPeople
-//     let requestDetails = ServiceLocator.shared.requestDetails
-    
+    @Published var content: String = "searching for Chadwick"
+
     init() {
         load()
     }
 
     func load() -> Void {
-        //skipping searchForPeople for now
-//         requestDetails.with(id: "172069") { [weak self] data, error in
-//             if (error != nil) {
-//                 self?.content = "Failure!"
-//             } else {
-//                self?.content = "Success!"
-//             }
-//         }
+        let log = injector.getLoggerWith(tag: "Driver iOS")
+        let searchViewModel = injector.getSearchViewModel()
+        let detailsViewModel = injector.getDetailsViewModel()
+        searchViewModel.onViewState { [weak self] searchState in
+            if (searchState.searchResults.count > 0) {
+                self?.content += "\nsearch complete"
+                log.d { "Received Search: \(searchState)" }
+                detailsViewModel.requestDetailsWith(id: "172069")
+            }
+        }
+        detailsViewModel.onViewState { [weak self] detailsState in
+            if (detailsState.details != nil) {
+                self?.content += "\ndetails received"
+                log.d { "Received Details: \(detailsState)" }
+            }
+        }
+        searchViewModel.searchFor(personName: "Chadwick")
     }
 }
 
