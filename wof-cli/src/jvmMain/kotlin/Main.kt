@@ -7,7 +7,8 @@ import com.tutuland.wof.core.injectOnDesktop
 import com.tutuland.wof.core.search.Search
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.toCollection
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.runBlocking
 
 val HEADER = """
@@ -23,19 +24,29 @@ val HEADER = """
 fun main() {
     val scope = MainScope()
     val dependencies = injectOnDesktop(scope, shouldDisableLogger = true).koin
-    val searchForPeople: Search.ForPeople = dependencies.get()
+    val resultsRepository: Search.ResultsRepository = dependencies.get()
     val requestDetails: Details.Request = dependencies.get()
     runBlocking {
         println(HEADER)
-        val id = searchForId(searchForPeople)
-        detailsFor(id, requestDetails)
+        searchForId(resultsRepository)?.let { id -> detailsFor(id, requestDetails) }
+        println("\n ~ The End ~")
     }
     scope.cancel()
 }
 
-private suspend fun searchForId(searchForPeople: Search.ForPeople): String {
+private suspend fun searchForId(resultsRepository: Search.ResultsRepository): String? {
     val name = KInquirer.promptInput(message = "Who are you looking for?")
-    val result = searchForPeople.withName(name).toCollection(mutableListOf())
+    val result = resultsRepository
+        .searchFor(name)
+        .catch { }
+        .firstOrNull()
+        .orEmpty()
+
+    if (result.isEmpty()) {
+        println("\nNo results for: $name")
+        return null
+    }
+
     val choices = result.map { Choice(it.name, it) }
     val person = KInquirer.promptListObject(
         message = "You mean:",
@@ -57,7 +68,6 @@ private suspend fun detailsFor(id: String, requestDetails: Details.Request) {
         hint = "press Enter to pick",
     )
     option()
-    println("\n ~ The End ~")
 }
 
 private fun printFullBio(model: Details.Model) {

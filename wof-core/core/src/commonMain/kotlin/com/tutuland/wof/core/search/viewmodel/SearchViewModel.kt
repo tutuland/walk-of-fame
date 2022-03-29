@@ -1,7 +1,8 @@
 package com.tutuland.wof.core.search.viewmodel
 
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.search.Search
+import com.tutuland.wof.core.search.repository.SearchModel
+import com.tutuland.wof.core.search.repository.SearchRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 class SearchViewModel(
     private val scope: CoroutineScope,
     private val log: Logger,
-    private val searchForPeople: Search.ForPeople,
+    private val repository: SearchRepository,
     initialState: ViewState = ViewState(),
 ) {
     private val _state = MutableStateFlow(initialState)
@@ -28,9 +29,9 @@ class SearchViewModel(
         cleanResults()
         if (personName.isNotBlank()) {
             startLoadingSearchFor(personName)
-            searchForPeople.withName(personName)
-                .onEach { model ->
-                    displayResult(model)
+            repository.searchFor(personName)
+                .onEach { people ->
+                    displayResult(people)
                 }.catch {
                     showError()
                     log.d("searchForPeople failed: $it")
@@ -54,9 +55,8 @@ class SearchViewModel(
         _state.value = _state.value.copy(isLoading = false)
     }
 
-    private fun displayResult(result: Search.Model) {
-        val searchResults = _state.value.searchResults
-        _state.value = _state.value.copy(searchResults = searchResults + result)
+    private fun displayResult(people: List<SearchModel>) {
+        _state.value = _state.value.copy(searchResults = people)
     }
 
     private fun showError() {
@@ -67,7 +67,7 @@ class SearchViewModel(
 
     data class ViewState(
         val searchedTerm: String = "",
-        val searchResults: List<Search.Model> = listOf(),
+        val searchResults: List<SearchModel> = listOf(),
         val showHeader: Boolean = true,
         val isLoading: Boolean = false,
         val showError: Boolean = false,

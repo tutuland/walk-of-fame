@@ -1,6 +1,6 @@
 package com.tutuland.wof.core
 
-import com.tutuland.wof.core.search.service.cache.SearchCache
+import com.tutuland.wof.core.search.repository.cache.SearchCache
 import io.ktor.client.engine.js.Js
 import kotlinx.coroutines.CoroutineScope
 import org.koin.core.parameter.parametersOf

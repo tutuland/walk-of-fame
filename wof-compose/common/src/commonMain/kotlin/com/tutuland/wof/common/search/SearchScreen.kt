@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.common.theme.BrandAccentColor
-import com.tutuland.wof.core.search.Search
+import com.tutuland.wof.core.search.repository.SearchModel
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 
 // TODO: make these constants adaptive
@@ -53,7 +53,7 @@ fun SearchScreen(viewModel: SearchViewModel, nav: Navigator) {
 
 
 @Composable
-fun SearchContent(viewModel: SearchViewModel, contentPadding: Dp, onResultClicked: (Search.Model) -> Unit) {
+fun SearchContent(viewModel: SearchViewModel, contentPadding: Dp, onResultClicked: (SearchModel) -> Unit) {
     val state: SearchViewModel.ViewState by viewModel.viewState.collectAsState()
     Box(
         contentAlignment = Alignment.Center,
@@ -66,7 +66,7 @@ fun SearchContent(viewModel: SearchViewModel, contentPadding: Dp, onResultClicke
 }
 
 @Composable
-fun SearchResults(searchResults: List<Search.Model>, contentPadding: Dp, onResultClicked: (Search.Model) -> Unit) {
+fun SearchResults(searchResults: List<SearchModel>, contentPadding: Dp, onResultClicked: (SearchModel) -> Unit) {
     val scrollState = rememberLazyListState()
     LazyColumn(
         state = scrollState,
@@ -81,7 +81,7 @@ fun SearchResults(searchResults: List<Search.Model>, contentPadding: Dp, onResul
 }
 
 @Composable
-fun SearchResult(model: Search.Model, contentPadding: Dp, onResultClicked: (Search.Model) -> Unit) {
+fun SearchResult(model: SearchModel, contentPadding: Dp, onResultClicked: (SearchModel) -> Unit) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier

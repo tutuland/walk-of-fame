@@ -7,8 +7,8 @@ import com.tutuland.wof.core.BuildKonfig.BASE_URL
 import com.tutuland.wof.core.details.Details
 import com.tutuland.wof.core.details.service.CreditsService
 import com.tutuland.wof.core.details.service.PersonService
-import com.tutuland.wof.core.search.Search
-import com.tutuland.wof.core.search.service.SearchService
+import com.tutuland.wof.core.search.repository.SearchModel
+import com.tutuland.wof.core.search.repository.api.SearchPayload
 
 const val fixId = 172069
 const val fixStringId = "$fixId"
@@ -39,7 +39,7 @@ val emptyLogger = Logger(config = StaticConfig(logWriterList = emptyList()))
 fun makeUrl(path: String) = "$BASE_URL${path}api_key=$API_KEY"
 
 val fixSearchRequest = makeUrl("search/person?query=$fixStringId&")
-const val fixSearchPayload = """
+const val fixSearchResponse = """
 {
   "page": 1,
   "results": [
@@ -224,18 +224,16 @@ const val fixPersonPayload = """
 }
 """
 
-val fixSearchPerson = SearchService.Result.Person(
+val fixSearchPersonPayload = SearchPayload.PersonPayload(
     id = fixId,
     name = fixName,
     department = fixDepartment,
 )
 
-val fixSearchResult = SearchService.Result(listOf(fixSearchPerson))
-
-val fixSearchModel = Search.Model(
-    id = "$fixId",
+val fixSearchResult = SearchModel(
+    id = fixStringId,
     name = fixName,
-    department = "Known for $fixDepartment",
+    department = fixKnownForDepartment,
 )
 
 val fixPersonApiResult = PersonService.Result(

@@ -26,6 +26,6 @@ fun injectOnIOS(): KoinApplication =
         }
     )
 
-fun Koin.getLoggerWith(tag: String): Logger = get { parametersOf("$TAG tag") }
+fun Koin.getLoggerWith(tag: String): Logger = get { parametersOf("$TAG $tag") }
 fun Koin.getSearchViewModel(): NativeSearchViewModel = get()
 fun Koin.getDetailsViewModel(): NativeDetailsViewModel = get()

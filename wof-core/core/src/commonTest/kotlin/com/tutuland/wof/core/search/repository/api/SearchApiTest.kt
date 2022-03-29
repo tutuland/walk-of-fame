@@ -1,7 +1,7 @@
-package com.tutuland.wof.core.search.service.api
+package com.tutuland.wof.core.search.repository.api
 
 import com.tutuland.wof.core.emptyLogger
-import com.tutuland.wof.core.fixSearchPayload
+import com.tutuland.wof.core.fixSearchResponse
 import com.tutuland.wof.core.fixSearchRequest
 import com.tutuland.wof.core.fixSearchResult
 import com.tutuland.wof.core.fixStringId
@@ -24,13 +24,13 @@ class SearchApiTest {
         val engine = MockEngine {
             assertEquals(fixSearchRequest, it.url.toString())
             respond(
-                content = fixSearchPayload,
+                content = fixSearchResponse,
                 headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
             )
         }
         val api = SearchApi.Impl(makeHttpClient(engine, emptyLogger))
         val result = api.searchFor(fixStringId)
-        assertEquals(fixSearchResult, result)
+        assertEquals(listOf(fixSearchResult), result)
     }
 
     @Test

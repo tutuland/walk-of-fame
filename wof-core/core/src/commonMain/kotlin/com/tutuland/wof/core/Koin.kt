@@ -14,11 +14,9 @@ import com.tutuland.wof.core.details.service.cache.PersonCache
 import com.tutuland.wof.core.details.usecase.RequestDetails
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 import com.tutuland.wof.core.networking.makeHttpClient
-import com.tutuland.wof.core.search.Search
-import com.tutuland.wof.core.search.service.SearchService
-import com.tutuland.wof.core.search.service.api.SearchApi
-import com.tutuland.wof.core.search.service.cache.SearchCache
-import com.tutuland.wof.core.search.usecase.SearchForPeople
+import com.tutuland.wof.core.search.repository.SearchRepository
+import com.tutuland.wof.core.search.repository.api.SearchApi
+import com.tutuland.wof.core.search.repository.cache.SearchCache
 import com.tutuland.wof.core.search.viewmodel.SearchViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.KoinApplication
@@ -48,8 +46,7 @@ internal val coreDependencies = module {
 
     single<SearchApi> { SearchApi.Impl(get()) }
     single<SearchCache> { SearchCache.Impl(get(), get { parametersOf("$TAG SearchCache") }, get()) }
-    single<SearchService> { SearchService.Impl(get(), get()) }
-    single<Search.ForPeople> { SearchForPeople(get()) }
+    single<SearchRepository> { SearchRepository.Impl(get(), get()) }
     single { SearchViewModel(get(), get { parametersOf("$TAG SearchViewModel") }, get()) }
 
     single<PersonApi> { PersonApi.Impl(get()) }
