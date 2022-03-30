@@ -4,7 +4,8 @@ import app.cash.turbine.FlowTurbine
 import app.cash.turbine.test
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.StaticConfig
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
+import com.tutuland.wof.core.details.repository.DetailsRepository
 import com.tutuland.wof.core.fixDetailsModel
 import com.tutuland.wof.core.fixStringId
 import kotlin.test.Test
@@ -18,17 +19,17 @@ class DetailsViewModelTest {
     private val lastModel = fixDetailsModel.copy(name = "Last Model")
     private val scope: CoroutineScope = TestScope()
     private val log: Logger = Logger(StaticConfig(logWriterList = listOf()))
-    private val requestDetails = object : Details.Request {
-        override suspend fun with(id: String): Details.Model = result ?: throw Exception()
+    private val repository = object : DetailsRepository {
+        override suspend fun getDetailsFor(id: String): DetailsModel = result ?: throw Exception()
     }
-    private var result: Details.Model? = null
+    private var result: DetailsModel? = null
     private lateinit var viewModel: DetailsViewModel
     private lateinit var currState: DetailsViewModel.ViewState
 
     @Test
     fun when_id_equals_last_id_return_cached_model() = runTest {
         result = null
-        viewModel = DetailsViewModel(scope, log, requestDetails, initialState())
+        viewModel = DetailsViewModel(scope, log, repository, initialState())
         viewModel.viewState.test {
             viewModel.executeRequestDetailsWith(lastId)
             expect(initialState())
@@ -42,7 +43,7 @@ class DetailsViewModelTest {
     @Test
     fun when_requestDetails_throws_showError() = runTest {
         result = null
-        viewModel = DetailsViewModel(scope, log, requestDetails, initialState())
+        viewModel = DetailsViewModel(scope, log, repository, initialState())
         viewModel.viewState.test {
             viewModel.executeRequestDetailsWith(fixStringId)
             expect(initialState())
@@ -57,7 +58,7 @@ class DetailsViewModelTest {
     @Test
     fun when_requestDetails_returns_a_model_displayResult() = runTest {
         result = fixDetailsModel
-        viewModel = DetailsViewModel(scope, log, requestDetails, initialState())
+        viewModel = DetailsViewModel(scope, log, repository, initialState())
         viewModel.viewState.test {
             viewModel.executeRequestDetailsWith(fixStringId)
             expect(initialState())
@@ -73,7 +74,7 @@ class DetailsViewModelTest {
     private fun cleanDetails() = currState.copy(id = "", details = null, showError = false)
     private fun startLoadingWith(id: String) = currState.copy(id = id, isLoading = true, showError = false)
     private fun endLoading() = currState.copy(isLoading = false)
-    private fun displayResult(details: Details.Model) = currState.copy(details = details)
+    private fun displayResult(details: DetailsModel) = currState.copy(details = details)
     private fun showError() = currState.copy(details = null, showError = true)
     private suspend fun FlowTurbine<DetailsViewModel.ViewState>.expect(expectedState: DetailsViewModel.ViewState) {
         currState = awaitItem()

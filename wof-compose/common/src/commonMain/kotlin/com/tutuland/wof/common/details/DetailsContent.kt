@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.theme.OverlayColorEnd
 import com.tutuland.wof.common.theme.OverlayColorStart
 import com.tutuland.wof.common.utils.NetworkImage
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
 
 @Composable
-fun DetailsContent(model: Details.Model, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
+fun DetailsContent(model: DetailsModel, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
     val state = rememberLazyListState()
     LazyColumn(
         state = state,
@@ -45,7 +45,7 @@ fun DetailsContent(model: Details.Model, config: DetailsScreenConfig, fullBioCli
     }
 }
 
-fun LazyListScope.addWideContent(model: Details.Model, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
+fun LazyListScope.addWideContent(model: DetailsModel, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
     item {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -67,13 +67,13 @@ fun LazyListScope.addWideContent(model: Details.Model, config: DetailsScreenConf
     }
 }
 
-fun LazyListScope.addCompactContent(model: Details.Model, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
+fun LazyListScope.addCompactContent(model: DetailsModel, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
     item { DetailsHeader(model, config) }
     if (model.biography.isNotBlank()) item { DetailsBio(model, config, fullBioClicked) }
 }
 
 @Composable
-fun DetailsHeader(model: Details.Model, config: DetailsScreenConfig, modifier: Modifier = Modifier) {
+fun DetailsHeader(model: DetailsModel, config: DetailsScreenConfig, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.BottomStart,
         modifier = modifier
@@ -98,7 +98,7 @@ fun DetailsHeader(model: Details.Model, config: DetailsScreenConfig, modifier: M
 }
 
 @Composable
-fun DetailsHeaderImage(model: Details.Model, config: DetailsScreenConfig, modifier: Modifier = Modifier) {
+fun DetailsHeaderImage(model: DetailsModel, config: DetailsScreenConfig, modifier: Modifier = Modifier) {
     NetworkImage(
         url = model.pictureUrl,
         contentDescription = null,
@@ -112,7 +112,7 @@ fun DetailsHeaderImage(model: Details.Model, config: DetailsScreenConfig, modifi
 }
 
 @Composable
-fun DetailsHeaderTexts(model: Details.Model, maxLines: Int, modifier: Modifier = Modifier) {
+fun DetailsHeaderTexts(model: DetailsModel, maxLines: Int, modifier: Modifier = Modifier) {
     Text(
         text = model.name,
         style = MaterialTheme.typography.h1,
@@ -145,7 +145,7 @@ fun DetailsHeaderTexts(model: Details.Model, maxLines: Int, modifier: Modifier =
 
 @Composable
 fun DetailsBio(
-    model: Details.Model,
+    model: DetailsModel,
     config: DetailsScreenConfig,
     fullBioClicked: () -> Unit,
     modifier: Modifier = Modifier

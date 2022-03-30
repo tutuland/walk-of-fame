@@ -1,13 +1,14 @@
 package com.tutuland.wof.core.search.repository.api
 
 import com.tutuland.wof.core.emptyLogger
-import com.tutuland.wof.core.fixSearchResponse
 import com.tutuland.wof.core.fixSearchRequest
+import com.tutuland.wof.core.fixSearchResponse
 import com.tutuland.wof.core.fixSearchResult
 import com.tutuland.wof.core.fixStringId
 import com.tutuland.wof.core.networking.makeHttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.respondError
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -37,8 +38,7 @@ class SearchApiTest {
     fun when_searchFor_fails_throw_exception() = runTest {
         val engine = MockEngine {
             assertEquals(fixSearchRequest, it.url.toString())
-            respond(
-                content = "",
+            respondError(
                 status = HttpStatusCode.NotFound,
             )
         }

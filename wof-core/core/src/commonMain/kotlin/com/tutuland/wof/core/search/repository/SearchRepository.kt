@@ -14,7 +14,7 @@ interface SearchRepository {
     ) : SearchRepository {
         override fun searchFor(name: String): Flow<List<SearchModel>> = flow {
             val people = getPeopleWith(name)
-            if (people.isEmpty()) throw NoSearchResultsException(name) //TODO: needed?
+            if (people.isEmpty()) throw NoSearchResultsException(name)
             emit(people)
         }
 

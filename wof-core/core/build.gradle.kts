@@ -54,12 +54,12 @@ kotlin {
                 api(libs.touchlab.kermit)
                 implementation(libs.dateTime)
                 implementation(libs.sqlDelight.coroutinesExt)
-                implementation(libs.bundles.ktor.common)
+                implementation(libs.bundles.commonKtor)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.bundles.shared.commonTest)
+                implementation(libs.bundles.commonTest)
             }
         }
         val androidMain by getting {

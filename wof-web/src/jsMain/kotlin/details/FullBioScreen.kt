@@ -3,7 +3,7 @@ package details
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 import components.Container
 import components.TextBody
@@ -24,7 +24,7 @@ fun FullBioScreen(viewModel: DetailsViewModel, nav: Navigator) {
 }
 
 @Composable
-fun FullBioHeader(details: Details.Model) {
+fun FullBioHeader(details: DetailsModel) {
     TextHeader(details.name)
     TextBody(details.department)
     TextBody(details.bornIn)

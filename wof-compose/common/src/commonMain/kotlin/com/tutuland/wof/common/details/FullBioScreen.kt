@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.common.utils.BackButton
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 
 // TODO: make these constants adaptive
@@ -39,7 +39,7 @@ fun FullBioScreen(viewModel: DetailsViewModel, nav: Navigator) {
 }
 
 @Composable
-fun FullBioContent(model: Details.Model, contentPadding: Dp) {
+fun FullBioContent(model: DetailsModel, contentPadding: Dp) {
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier

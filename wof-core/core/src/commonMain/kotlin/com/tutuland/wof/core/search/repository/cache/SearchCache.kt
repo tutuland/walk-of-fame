@@ -21,7 +21,6 @@ interface SearchCache {
                 .selectIdsByTermFromSearchResultsCache(term)
                 .executeAsOneOrNull()
                 .orEmpty()
-                .map { it.toLong() }
 
             val cachedResults = db.searchQueries
                 .selectAllByIdFromSearchPersonCache(resultIds)
@@ -37,11 +36,11 @@ interface SearchCache {
             db.performTransactionOn(backgroundDispatcher) {
                 db.searchQueries.insertSearchResultsCache(
                     term = term,
-                    ids = results.map { it.id.toInt() }
+                    ids = results.map { it.id }
                 )
                 results.forEach { person ->
                     db.searchQueries.insertSearchPersonCache(
-                        id = person.id.toLong(),
+                        id = person.id,
                         name = person.name,
                         department = person.department
                     )
@@ -50,9 +49,9 @@ interface SearchCache {
         }
 
         private inline fun SearchPersonCache.toPerson() = SearchModel(
-            id = "$id",
+            id = id,
             name = name,
-            department = department.orEmpty(),
+            department = department,
         )
     }
 }

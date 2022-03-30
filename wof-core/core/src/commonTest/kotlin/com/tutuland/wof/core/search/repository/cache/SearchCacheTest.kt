@@ -1,5 +1,5 @@
 package com.tutuland.wof.core.search.repository.cache
 
 class SearchCacheTest {
-    //TODO:
+    //TODO: investigate a way to test SQLDelight in all platforms
 }

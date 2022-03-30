@@ -1,14 +1,15 @@
+import java.lang.String;
 import kotlin.collections.List;
 
 CREATE TABLE SearchResultsCache (
     term TEXT NOT NULL PRIMARY KEY,
-    ids TEXT AS List<Int> NOT NULL
+    ids TEXT AS List<String> NOT NULL
 );
 
 CREATE TABLE SearchPersonCache (
-    id INTEGER NOT NULL PRIMARY KEY,
+    id TEXT NOT NULL PRIMARY KEY,
     name TEXT NOT NULL UNIQUE,
-    department TEXT
+    department TEXT NOT NULL
 );
 
 insertSearchResultsCache:

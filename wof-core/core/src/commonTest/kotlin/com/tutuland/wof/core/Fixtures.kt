@@ -4,11 +4,19 @@ import co.touchlab.kermit.Logger
 import co.touchlab.kermit.StaticConfig
 import com.tutuland.wof.core.BuildKonfig.API_KEY
 import com.tutuland.wof.core.BuildKonfig.BASE_URL
-import com.tutuland.wof.core.details.Details
-import com.tutuland.wof.core.details.service.CreditsService
-import com.tutuland.wof.core.details.service.PersonService
+import com.tutuland.wof.core.details.repository.DetailsModel
+import com.tutuland.wof.core.details.repository.api.CreditsPayload
+import com.tutuland.wof.core.details.repository.api.PersonPayload
 import com.tutuland.wof.core.search.repository.SearchModel
 import com.tutuland.wof.core.search.repository.api.SearchPayload
+import io.ktor.client.engine.mock.MockRequestHandleScope
+import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.respondError
+import io.ktor.client.request.HttpResponseData
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
 
 const val fixId = 172069
 const val fixStringId = "$fixId"
@@ -25,6 +33,7 @@ const val fixBornInUnknown = "Born in November 29, 1976, Unknown location"
 const val fixDiedIn = "Died in August 28, 2020"
 const val fixBiography = "Chadwick Boseman was an American actor, playwright, and screenwriter hailing from Anderson, South Carolina. He graduated from Howard University and went on to study at the British American Dramatic Academy in Oxford.  Boseman's play \"Deep Azure\" was nominated for a 2006 Joseph Jefferson Award for New Work.  His breakout role was playing the lead Jackie Robinson in 2013's 42.\n\nBoseman was best remembered for portraying T’Challa/Black Panther in the Marvel Cinematic Universe. He has portrayed the character in Captain America: Civil War (2016), Black Panther (2018), Avengers: Infinity War (2018), and Avengers: Endgame (2019)."
 const val fixCreditId = 392982
+const val fixStringCreditId = "$fixCreditId"
 const val fixTitle = "Marshall"
 const val fixPosterPath = "/2KfdXsXTCbMie0wB1mSmIX60C2F.jpg"
 const val fixPosterUrl = "https://image.tmdb.org/t/p/w300$fixPosterPath"
@@ -37,6 +46,17 @@ const val fixReleaseYear = "2017"
 
 val emptyLogger = Logger(config = StaticConfig(logWriterList = emptyList()))
 fun makeUrl(path: String) = "$BASE_URL${path}api_key=$API_KEY"
+
+fun MockRequestHandleScope.respond(content: String): HttpResponseData =
+    respond(
+        content = content,
+        headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
+    )
+
+fun MockRequestHandleScope.respondError(): HttpResponseData =
+    respondError(
+        status = HttpStatusCode.NotFound,
+    )
 
 val fixSearchRequest = makeUrl("search/person?query=$fixStringId&")
 const val fixSearchResponse = """
@@ -121,7 +141,7 @@ const val fixSearchResponse = """
 """
 
 val fixCreditsRequest = makeUrl("person/$fixStringId/combined_credits?")
-const val fixCreditsPayload = """
+const val fixCreditsResponse = """
 {
   "cast": [
     {
@@ -197,7 +217,7 @@ const val fixCreditsPayload = """
 """
 
 val fixPersonRequest = makeUrl("person/$fixStringId?")
-const val fixPersonPayload = """
+const val fixPersonResponse = """
 {
   "adult": false,
   "also_known_as": [
@@ -236,7 +256,7 @@ val fixSearchResult = SearchModel(
     department = fixKnownForDepartment,
 )
 
-val fixPersonApiResult = PersonService.Result(
+val fixPersonPayload = PersonPayload(
     id = fixId,
     name = fixName,
     picturePath = fixPicturePath,
@@ -247,33 +267,44 @@ val fixPersonApiResult = PersonService.Result(
     biography = fixBiography,
 )
 
-val fixCreditsApiCrew = CreditsService.Result.Work(
+val fixIncompletePersonPayload = PersonPayload(id = fixId, name = fixName)
+
+val fixCreditsApiCrew = CreditsPayload.Work(
     id = fixCreditId,
     title = fixTitle,
     posterPath = fixPosterPath,
-    _job = fixJob,
-    _character = null,
-    _firstAirDate = fixAirDate,
-    _releaseDate = null,
+    job = fixJob,
+    character = null,
+    firstAirDate = fixAirDate,
+    releaseDate = null,
 )
 
 val fixCreditsApiCast = fixCreditsApiCrew.copy(
-    _job = null,
-    _character = fixCharacter,
-    _firstAirDate = null,
-    _releaseDate = fixReleaseDate,
+    job = null,
+    character = fixCharacter,
+    firstAirDate = null,
+    releaseDate = fixReleaseDate,
 )
 
 val fixCreditsApiUncredited = fixCreditsApiCrew.copy(
-    _job = null,
+    job = null,
 )
 
-val fixCreditsApiResult = CreditsService.Result(
+val fixCreditsPayload = CreditsPayload(
     cast = listOf(fixCreditsApiCast),
     crew = listOf(fixCreditsApiCrew, fixCreditsApiUncredited),
 )
 
-val fixDetailsCreditModelCrew = Details.Model.Credit(
+val fixDetailsCreditModelEmpty = DetailsModel.Credit(
+    id = "",
+    posterUrl = "",
+    title = "",
+    credit = "",
+    year = "",
+)
+
+val fixDetailsCreditModelCrew = DetailsModel.Credit(
+    id = fixStringCreditId,
     posterUrl = fixPosterUrl,
     title = fixTitle,
     credit = fixJob,
@@ -289,16 +320,30 @@ val fixDetailsCreditModelUncredited = fixDetailsCreditModelCrew.copy(
     credit = "uncredited",
 )
 
-val fixDetailsModel = Details.Model(
+val fixDetailModelCredits = listOf(
+    fixDetailsCreditModelCast,
+    fixDetailsCreditModelCrew,
+    fixDetailsCreditModelUncredited,
+)
+
+val fixDetailsModel = DetailsModel(
+    id = fixStringId,
     pictureUrl = fixPictureUrl,
     name = fixName,
     department = fixKnownForDepartment,
     bornIn = fixBornIn,
     diedIn = fixDiedIn,
     biography = fixBiography,
-    credits = listOf(
-        fixDetailsCreditModelCast,
-        fixDetailsCreditModelCrew,
-        fixDetailsCreditModelUncredited,
-    ),
+    credits = fixDetailModelCredits,
+)
+
+val fixIncompleteDetailsModel = DetailsModel(
+    id = fixStringId,
+    pictureUrl = "",
+    name = fixName,
+    department = "",
+    bornIn = "",
+    diedIn = "",
+    biography = "",
+    credits = emptyList(),
 )

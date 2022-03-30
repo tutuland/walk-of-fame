@@ -48,7 +48,7 @@ class WebNavigator : Navigator, KoinComponent {
 
     override fun goToDetailsFor(id: String) {
         detailsViewModel.requestDetailsWith(id)
-        navigateTo { DetailsScreen(id, detailsViewModel, this) }
+        navigateTo { DetailsScreen(detailsViewModel, this) }
     }
 
     override fun goToFullBio() {

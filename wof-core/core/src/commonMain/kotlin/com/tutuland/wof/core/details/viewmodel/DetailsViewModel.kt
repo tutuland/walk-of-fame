@@ -1,7 +1,8 @@
 package com.tutuland.wof.core.details.viewmodel
 
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
+import com.tutuland.wof.core.details.repository.DetailsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.launch
 class DetailsViewModel(
     private val scope: CoroutineScope,
     private val log: Logger,
-    private val requestDetails: Details.Request,
+    private val repository: DetailsRepository,
     initialState: ViewState = ViewState(),
 ) {
     private val _state = MutableStateFlow(initialState)
@@ -24,7 +25,7 @@ class DetailsViewModel(
         if (_state.value.id != id) cleanDetails()
         startLoadingWith(id)
         try {
-            val model = _state.value.details ?: requestDetails.with(id)
+            val model = _state.value.details ?: repository.getDetailsFor(id)
             displayResult(model)
             log.d("requestDetails complete.")
         } catch (error: Exception) {
@@ -46,7 +47,7 @@ class DetailsViewModel(
         _state.value = _state.value.copy(isLoading = false)
     }
 
-    private fun displayResult(details: Details.Model) {
+    private fun displayResult(details: DetailsModel) {
         _state.value = _state.value.copy(details = details)
     }
 
@@ -56,7 +57,7 @@ class DetailsViewModel(
 
     data class ViewState(
         val id: String = "",
-        val details: Details.Model? = null,
+        val details: DetailsModel? = null,
         val isLoading: Boolean = false,
         val showError: Boolean = false,
     )

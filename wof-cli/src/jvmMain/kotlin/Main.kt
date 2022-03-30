@@ -2,9 +2,10 @@ import com.github.kinquirer.KInquirer
 import com.github.kinquirer.components.promptInput
 import com.github.kinquirer.components.promptListObject
 import com.github.kinquirer.core.Choice
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
+import com.tutuland.wof.core.details.repository.DetailsRepository
 import com.tutuland.wof.core.injectOnDesktop
-import com.tutuland.wof.core.search.Search
+import com.tutuland.wof.core.search.repository.SearchRepository
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
@@ -24,19 +25,19 @@ val HEADER = """
 fun main() {
     val scope = MainScope()
     val dependencies = injectOnDesktop(scope, shouldDisableLogger = true).koin
-    val resultsRepository: Search.ResultsRepository = dependencies.get()
-    val requestDetails: Details.Request = dependencies.get()
+    val searchRepository: SearchRepository = dependencies.get()
+    val detailsRepository: DetailsRepository = dependencies.get()
     runBlocking {
         println(HEADER)
-        searchForId(resultsRepository)?.let { id -> detailsFor(id, requestDetails) }
+        searchForId(searchRepository)?.let { id -> detailsFor(id, detailsRepository) }
         println("\n ~ The End ~")
     }
     scope.cancel()
 }
 
-private suspend fun searchForId(resultsRepository: Search.ResultsRepository): String? {
+private suspend fun searchForId(searchRepository: SearchRepository): String? {
     val name = KInquirer.promptInput(message = "Who are you looking for?")
-    val result = resultsRepository
+    val result = searchRepository
         .searchFor(name)
         .catch { }
         .firstOrNull()
@@ -57,8 +58,8 @@ private suspend fun searchForId(resultsRepository: Search.ResultsRepository): St
     return person.id
 }
 
-private suspend fun detailsFor(id: String, requestDetails: Details.Request) {
-    val model = requestDetails.with(id)
+private suspend fun detailsFor(id: String, detailsRepository: DetailsRepository) {
+    val model = detailsRepository.getDetailsFor(id)
     val option = KInquirer.promptListObject(
         message = "Are you interested in:",
         choices = listOf(
@@ -70,7 +71,7 @@ private suspend fun detailsFor(id: String, requestDetails: Details.Request) {
     option()
 }
 
-private fun printFullBio(model: Details.Model) {
+private fun printFullBio(model: DetailsModel) {
     println()
     println(model.name)
     if (model.department.isNotBlank()) println(model.department)
@@ -82,7 +83,7 @@ private fun printFullBio(model: Details.Model) {
     }
 }
 
-private fun printCredits(model: Details.Model) {
+private fun printCredits(model: DetailsModel) {
     println()
     println("${model.name} is Known for:")
     model.credits.forEach { credit ->

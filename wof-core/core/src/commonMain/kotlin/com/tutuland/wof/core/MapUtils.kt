@@ -1,4 +1,4 @@
-package com.tutuland.wof.core.details
+package com.tutuland.wof.core
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDate

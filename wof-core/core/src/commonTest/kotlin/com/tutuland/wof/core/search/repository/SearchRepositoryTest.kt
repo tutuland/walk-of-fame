@@ -11,6 +11,9 @@ import kotlin.test.assertIs
 import kotlinx.coroutines.test.runTest
 
 class SearchRepositoryTest {
+    private object ApiException : Exception()
+    private object CacheException : Exception()
+
     private val api = object : SearchApi {
         var results: List<SearchModel>? = null
 
@@ -82,6 +85,3 @@ class SearchRepositoryTest {
         }
     }
 }
-
-object ApiException : Exception()
-object CacheException : Exception()

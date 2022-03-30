@@ -3,7 +3,7 @@ package details
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
 import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
 import components.Container
 import components.SingleLineText
@@ -20,7 +20,7 @@ import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.dom.Tr
 
 @Composable
-fun DetailsScreen(id: String, viewModel: DetailsViewModel, nav: Navigator) {
+fun DetailsScreen(viewModel: DetailsViewModel, nav: Navigator) {
     val state: DetailsViewModel.ViewState by viewModel.viewState.collectAsState()
     Container {
         WofButton("Back", 64) { nav.goBack() }
@@ -31,7 +31,7 @@ fun DetailsScreen(id: String, viewModel: DetailsViewModel, nav: Navigator) {
 }
 
 @Composable
-fun DetailsContent(details: Details.Model, nav: Navigator) {
+fun DetailsContent(details: DetailsModel, nav: Navigator) {
     Br()
     Img(
         src = details.pictureUrl,
@@ -45,7 +45,7 @@ fun DetailsContent(details: Details.Model, nav: Navigator) {
 }
 
 @Composable
-fun DetailsCredits(details: Details.Model) {
+fun DetailsCredits(details: DetailsModel) {
     TextSubHeader("Known for")
     Table(
         attrs = {
@@ -58,14 +58,14 @@ fun DetailsCredits(details: Details.Model) {
 }
 
 @Composable
-fun DetailsCreditsRow(creditsRow: List<Details.Model.Credit>) {
+fun DetailsCreditsRow(creditsRow: List<DetailsModel.Credit>) {
     Tr {
         creditsRow.forEach { DetailsCredit(it) }
     }
 }
 
 @Composable
-fun DetailsCredit(credit: Details.Model.Credit) {
+fun DetailsCredit(credit: DetailsModel.Credit) {
     Td {
         Img(
             src = credit.posterUrl.ifBlank { "placeholder.svg" },

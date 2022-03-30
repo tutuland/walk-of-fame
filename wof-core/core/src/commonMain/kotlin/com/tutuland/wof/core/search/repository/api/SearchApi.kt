@@ -11,9 +11,9 @@ interface SearchApi {
 
     class Impl(private val client: HttpClient) : SearchApi {
         override suspend fun searchFor(person: String): List<SearchModel> {
-            val response: SearchPayload = client.get {
-                makeUrlFor("search/person?query=$person")
-            }.body()
+            val response: SearchPayload = client
+                .get { makeUrlFor("search/person?query=$person") }
+                .body()
             return response.mapToResults()
         }
     }

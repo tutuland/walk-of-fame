@@ -19,9 +19,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.utils.NetworkImage
-import com.tutuland.wof.core.details.Details
+import com.tutuland.wof.core.details.repository.DetailsModel
 
-fun LazyListScope.addCredits(model: Details.Model, config: DetailsScreenConfig) {
+fun LazyListScope.addCredits(model: DetailsModel, config: DetailsScreenConfig) {
     item { DetailsCreditsHeader(config.contentPadding) }
 
     val rows = model.credits.chunked(config.creditColumns)
@@ -42,7 +42,7 @@ fun DetailsCreditsHeader(contentPadding: Dp) {
 }
 
 @Composable
-fun DetailsCreditsRow(credits: List<Details.Model.Credit>, config: DetailsScreenConfig) {
+fun DetailsCreditsRow(credits: List<DetailsModel.Credit>, config: DetailsScreenConfig) {
     if (credits.isEmpty() || credits.size > config.creditColumns)
         throw IllegalArgumentException("Credits on a row cannot be zero or exceed number of columns")
 
@@ -64,7 +64,7 @@ fun DetailsCreditsRow(credits: List<Details.Model.Credit>, config: DetailsScreen
 }
 
 @Composable
-fun DetailsCredit(credit: Details.Model.Credit, config: DetailsScreenConfig, modifier: Modifier) {
+fun DetailsCredit(credit: DetailsModel.Credit, config: DetailsScreenConfig, modifier: Modifier) {
     Column(
         modifier = modifier.semantics(mergeDescendants = true) {}
     ) {
