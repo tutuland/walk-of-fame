@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.common.theme.BrandAccentColor
 import com.tutuland.wof.common.utils.BackButton
-import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
+import com.tutuland.wof.core.details.ui.DetailsViewModel
 import kotlin.math.roundToInt
 
 data class DetailsScreenConfig(

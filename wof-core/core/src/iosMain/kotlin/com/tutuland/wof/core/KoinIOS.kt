@@ -5,8 +5,8 @@ import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import com.tutuland.wof.core.database.WOFDB
 import com.tutuland.wof.core.db.WofDb
-import com.tutuland.wof.core.details.viewmodel.NativeDetailsViewModel
-import com.tutuland.wof.core.search.viewmodel.NativeSearchViewModel
+import com.tutuland.wof.core.details.ui.NativeDetailsViewModel
+import com.tutuland.wof.core.search.ui.NativeSearchViewModel
 import io.ktor.client.engine.darwin.Darwin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

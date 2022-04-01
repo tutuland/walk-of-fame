@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.common.utils.BackButton
-import com.tutuland.wof.core.details.repository.DetailsModel
-import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
+import com.tutuland.wof.core.details.data.DetailsModel
+import com.tutuland.wof.core.details.ui.DetailsViewModel
 
 // TODO: make these constants adaptive
 private val contentPadding = 16.dp

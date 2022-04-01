@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.utils.NetworkImage
-import com.tutuland.wof.core.details.repository.DetailsModel
+import com.tutuland.wof.core.details.data.DetailsModel
 
 fun LazyListScope.addCredits(model: DetailsModel, config: DetailsScreenConfig) {
     item { DetailsCreditsHeader(config.contentPadding) }

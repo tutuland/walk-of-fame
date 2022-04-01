@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import com.tutuland.wof.core.search.viewmodel.SearchViewModel
+import com.tutuland.wof.core.search.ui.SearchViewModel
 import components.Container
 import components.TextBody
 import components.TextHeader

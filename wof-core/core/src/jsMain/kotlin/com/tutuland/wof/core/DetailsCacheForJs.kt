@@ -1,8 +1,8 @@
 package com.tutuland.wof.core
 
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.details.repository.DetailsModel
-import com.tutuland.wof.core.details.repository.cache.DetailsCache
+import com.tutuland.wof.core.details.data.DetailsModel
+import com.tutuland.wof.core.details.data.local.DetailsCache
 
 class DetailsCacheForJs(private val log: Logger) : DetailsCache {
     private val detailsMap: HashMap<String, DetailsModel> = hashMapOf()

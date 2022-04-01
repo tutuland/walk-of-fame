@@ -4,11 +4,11 @@ import co.touchlab.kermit.Logger
 import co.touchlab.kermit.StaticConfig
 import com.tutuland.wof.core.BuildKonfig.API_KEY
 import com.tutuland.wof.core.BuildKonfig.BASE_URL
-import com.tutuland.wof.core.details.repository.DetailsModel
-import com.tutuland.wof.core.details.repository.api.CreditsPayload
-import com.tutuland.wof.core.details.repository.api.PersonPayload
-import com.tutuland.wof.core.search.repository.SearchModel
-import com.tutuland.wof.core.search.repository.api.SearchPayload
+import com.tutuland.wof.core.details.data.DetailsModel
+import com.tutuland.wof.core.details.data.remote.CreditsPayload
+import com.tutuland.wof.core.details.data.remote.PersonPayload
+import com.tutuland.wof.core.search.data.SearchModel
+import com.tutuland.wof.core.search.data.remote.SearchPayload
 import io.ktor.client.engine.mock.MockRequestHandleScope
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError

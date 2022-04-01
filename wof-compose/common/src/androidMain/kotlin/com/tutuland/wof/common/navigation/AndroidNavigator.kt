@@ -16,8 +16,8 @@ import com.google.accompanist.navigation.animation.composable
 import com.tutuland.wof.common.details.DetailsScreen
 import com.tutuland.wof.common.details.FullBioScreen
 import com.tutuland.wof.common.search.SearchScreen
-import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
-import com.tutuland.wof.core.search.viewmodel.SearchViewModel
+import com.tutuland.wof.core.details.ui.DetailsViewModel
+import com.tutuland.wof.core.search.ui.SearchViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.component.KoinComponent

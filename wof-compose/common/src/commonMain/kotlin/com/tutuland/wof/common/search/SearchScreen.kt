@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.navigation.Navigator
 import com.tutuland.wof.common.theme.BrandAccentColor
-import com.tutuland.wof.core.search.repository.SearchModel
-import com.tutuland.wof.core.search.viewmodel.SearchViewModel
+import com.tutuland.wof.core.search.data.SearchModel
+import com.tutuland.wof.core.search.ui.SearchViewModel
 
 // TODO: make these constants adaptive
 private val contentPadding = 16.dp

@@ -2,8 +2,8 @@ package navigation
 
 import androidx.compose.runtime.Composable
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
-import com.tutuland.wof.core.search.viewmodel.SearchViewModel
+import com.tutuland.wof.core.details.ui.DetailsViewModel
+import com.tutuland.wof.core.search.ui.SearchViewModel
 import details.DetailsScreen
 import details.FullBioScreen
 import kotlinx.coroutines.DelicateCoroutinesApi

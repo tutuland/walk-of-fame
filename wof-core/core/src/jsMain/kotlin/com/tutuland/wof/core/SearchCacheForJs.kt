@@ -1,8 +1,8 @@
 package com.tutuland.wof.core
 
 import co.touchlab.kermit.Logger
-import com.tutuland.wof.core.search.repository.SearchModel
-import com.tutuland.wof.core.search.repository.cache.SearchCache
+import com.tutuland.wof.core.search.data.SearchModel
+import com.tutuland.wof.core.search.data.local.SearchCache
 
 class SearchCacheForJs(private val log: Logger) : SearchCache {
     private val searchMap: HashMap<String, List<SearchModel>> = hashMapOf()

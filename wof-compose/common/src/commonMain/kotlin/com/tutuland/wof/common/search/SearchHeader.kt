@@ -51,7 +51,7 @@ import com.tutuland.wof.common.theme.BrandOnPrimary
 import com.tutuland.wof.common.theme.CircleCornerShape
 import com.tutuland.wof.common.theme.SearchBackgroundColor
 import com.tutuland.wof.common.theme.SearchIconColor
-import com.tutuland.wof.core.search.viewmodel.SearchViewModel
+import com.tutuland.wof.core.search.ui.SearchViewModel
 
 @Composable
 fun SearchHeader(viewModel: SearchViewModel, contentPadding: Dp) {

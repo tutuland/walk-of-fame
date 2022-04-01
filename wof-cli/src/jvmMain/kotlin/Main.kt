@@ -2,10 +2,10 @@ import com.github.kinquirer.KInquirer
 import com.github.kinquirer.components.promptInput
 import com.github.kinquirer.components.promptListObject
 import com.github.kinquirer.core.Choice
-import com.tutuland.wof.core.details.repository.DetailsModel
-import com.tutuland.wof.core.details.repository.DetailsRepository
+import com.tutuland.wof.core.details.data.DetailsModel
+import com.tutuland.wof.core.details.data.DetailsRepository
 import com.tutuland.wof.core.injectOnDesktop
-import com.tutuland.wof.core.search.repository.SearchRepository
+import com.tutuland.wof.core.search.data.SearchRepository
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch

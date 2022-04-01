@@ -3,8 +3,8 @@ package details
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.tutuland.wof.core.details.repository.DetailsModel
-import com.tutuland.wof.core.details.viewmodel.DetailsViewModel
+import com.tutuland.wof.core.details.data.DetailsModel
+import com.tutuland.wof.core.details.ui.DetailsViewModel
 import components.Container
 import components.TextBody
 import components.TextHeader

@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.theme.OverlayColorEnd
 import com.tutuland.wof.common.theme.OverlayColorStart
 import com.tutuland.wof.common.utils.NetworkImage
-import com.tutuland.wof.core.details.repository.DetailsModel
+import com.tutuland.wof.core.details.data.DetailsModel
 
 @Composable
 fun DetailsContent(model: DetailsModel, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
