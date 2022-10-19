@@ -1,19 +1,17 @@
 {
   "name": "core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "homepage": "https://github.com/tutuland/walk-of-fame",
   "source": {
-    "git": "Not Published",
-    "tag": "Cocoapods/core/1.1.0"
+    "http": ""
   },
   "authors": "",
   "license": "",
   "summary": "Common library with business logic for walk-of-fam clients",
   "vendored_frameworks": "build/cocoapods/framework/core.framework",
   "libraries": "c++",
-  "module_name": "core_umbrella",
   "platforms": {
-    "ios": "12.4"
+    "ios": "14.1"
   },
   "pod_target_xcconfig": {
     "KOTLIN_PROJECT_PATH": ":core",
@@ -24,7 +22,7 @@
       "name": "Build core",
       "execution_position": "before_compile",
       "shell_path": "/bin/sh",
-      "script": "                if [ \"YES\" = \"$COCOAPODS_SKIP_KOTLIN_BUILD\" ]; then\n                  echo \"Skipping Gradle build task invocation due to COCOAPODS_SKIP_KOTLIN_BUILD environment variable set to \"YES\"\"\n                  exit 0\n                fi\n                set -ev\n                REPO_ROOT=\"$PODS_TARGET_SRCROOT\"\n                \"$REPO_ROOT/../gradlew\" -p \"$REPO_ROOT\" $KOTLIN_PROJECT_PATH:syncFramework                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME                     -Pkotlin.native.cocoapods.archs=\"$ARCHS\"                     -Pkotlin.native.cocoapods.configuration=$CONFIGURATION\n"
+      "script": "                if [ \"YES\" = \"$COCOAPODS_SKIP_KOTLIN_BUILD\" ]; then\n                  echo \"Skipping Gradle build task invocation due to COCOAPODS_SKIP_KOTLIN_BUILD environment variable set to \"YES\"\"\n                  exit 0\n                fi\n                set -ev\n                REPO_ROOT=\"$PODS_TARGET_SRCROOT\"\n                \"$REPO_ROOT/../gradlew\" -p \"$REPO_ROOT\" $KOTLIN_PROJECT_PATH:syncFramework                     -Pkotlin.native.cocoapods.platform=$PLATFORM_NAME                     -Pkotlin.native.cocoapods.archs=\"$ARCHS\"                     -Pkotlin.native.cocoapods.configuration=\"$CONFIGURATION\"\n"
     }
   ]
 }

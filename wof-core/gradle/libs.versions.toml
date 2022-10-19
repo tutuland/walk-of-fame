@@ -1,21 +1,21 @@
 [versions]
 ## SDK Versions
 minSdk = "21"
-targetSdk = "31"
-compileSdk = "31"
+targetSdk = "33"
+compileSdk = "33"
 
 # Dependencies
-android-tools = "7.1.0" # https://developer.android.com/studio/releases/gradle-plugin
-build-konfig = "0.11.0" # https://github.com/yshrsmz/BuildKonfig/releases
-coroutines = "1.6.0" # https://github.com/Kotlin/kotlinx.coroutines/releases
-dateTime = "0.3.2" # https://github.com/Kotlin/kotlinx-datetime/releases
-koin = "3.2.0-beta-1" # https://github.com/InsertKoinIO/koin/tags
-kotlin = "1.6.10" # https://github.com/JetBrains/kotlin/releases
-ktor = "2.0.0-beta-1" # https://github.com/ktorio/ktor/releases
-slf4j-simple = "1.7.36" # https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-sqlDelight = "1.5.3" # https://github.com/cashapp/sqldelight/releases
-touchlab-kermit = "1.0.0" # https://github.com/touchlab/Kermit/releases
-turbine = "0.7.0" # https://github.com/cashapp/turbine/releases
+android-tools = "7.2.2" # https://developer.android.com/studio/releases/gradle-plugin
+build-konfig = "0.13.3" # https://github.com/yshrsmz/BuildKonfig/releases
+coroutines = "1.6.4" # https://github.com/Kotlin/kotlinx.coroutines/releases
+dateTime = "0.4.0" # https://github.com/Kotlin/kotlinx-datetime/releases
+koin = "3.2.2" # https://github.com/InsertKoinIO/koin/tags
+kotlin = "1.7.10" # https://github.com/JetBrains/kotlin/releases
+ktor = "2.1.2" # https://github.com/ktorio/ktor/releases
+slf4j-simple = "2.0.3" # https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+sqlDelight = "1.5.4" # https://github.com/cashapp/sqldelight/releases
+touchlab-kermit = "1.1.3" # https://github.com/touchlab/Kermit/releases
+turbine = "0.12.0" # https://github.com/cashapp/turbine/releases
 
 [libraries]
 
@@ -33,6 +33,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
+ktor-client-content = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
 ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
@@ -63,6 +64,7 @@ gradlePlugins = [
     'gradlePlugin-sqlDelight',
 ]
 commonKtor = [
+    "ktor-client-content",
     "ktor-client-core",
     "ktor-client-logging",
     "ktor-client-serialization",

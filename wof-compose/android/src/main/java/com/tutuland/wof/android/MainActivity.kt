@@ -2,6 +2,7 @@ package com.tutuland.wof.android
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -21,9 +22,10 @@ class MainActivity : ComponentActivity() {
             navigator = AndroidNavigator(navController)
             WofApp(navigator)
         }
+        onBackPressedDispatcher.addCallback(this) { backPressed() }
     }
 
-    override fun onBackPressed() {
-        if (navigator.goBack().not()) super.onBackPressed()
+    private fun backPressed() {
+        if (navigator.goBack().not()) finish()
     }
 }

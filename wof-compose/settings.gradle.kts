@@ -9,7 +9,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "org.jetbrains.compose") {
-                useModule("org.jetbrains.compose:compose-gradle-plugin:1.1.0-alpha04")
+                useModule("org.jetbrains.compose:compose-gradle-plugin:1.2.0")
             }
         }
     }

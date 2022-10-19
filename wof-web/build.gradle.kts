@@ -1,8 +1,8 @@
 import org.jetbrains.compose.compose
 
 plugins {
-    kotlin("multiplatform") version "1.6.10"
-    id("org.jetbrains.compose") version "1.1.0-alpha02"
+    kotlin("multiplatform") version "1.7.10"
+    id("org.jetbrains.compose") version "1.2.0"
 }
 
 repositories {
@@ -12,7 +12,7 @@ repositories {
 }
 
 group = "com.tutuland.wof.web"
-version = "1.1.0"
+version = "1.1.1"
 
 kotlin {
     js(IR) {
@@ -28,7 +28,7 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
-                implementation("com.tutuland.wof.core:core-js:1.1.0")
+                implementation("com.tutuland.wof.core:core-js:1.1.1")
                 implementation(compose.runtime)
                 implementation(compose.web.core)
                 implementation(compose.web.svg)

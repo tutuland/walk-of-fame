@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.core"
-version = "1.1.0"
+version = "1.1.1"
 
 kotlin {
     android {
@@ -33,7 +33,7 @@ kotlin {
     cocoapods {
         summary = "Common library with business logic for walk-of-fam clients"
         homepage = "https://github.com/tutuland/walk-of-fame"
-        ios.deploymentTarget = "12.4"
+        ios.deploymentTarget = "14.1"
         podfile = project.file("../driver-iOS/Podfile")
         framework {
             isStatic = false
