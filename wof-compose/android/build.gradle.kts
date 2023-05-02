@@ -37,7 +37,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.jb.get()
+        kotlinCompilerExtensionVersion = libs.versions.compose.multiplatform.get()
     }
     packagingOptions {
         resources {

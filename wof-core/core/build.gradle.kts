@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.core"
-version = "1.1.1"
+version = "1.2.0"
 
 kotlin {
     android {
@@ -68,7 +68,6 @@ kotlin {
                 implementation(libs.sqlDelight.android)
             }
         }
-        val androidTest by getting
         val desktopMain by getting {
             dependencies {
                 api(libs.slf4j.simple)
@@ -76,15 +75,20 @@ kotlin {
                 implementation(libs.sqlDelight.jvm)
             }
         }
-        val desktopTest by getting
         val jsMain by getting {
             dependencies {
                 implementation(libs.ktor.client.js)
                 //JS will not use a real DB for now
             }
         }
-        val jsTest by getting
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
         val iosMain by getting {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation(libs.ktor.client.ios)
                 implementation(libs.sqlDelight.native)
@@ -98,13 +102,6 @@ kotlin {
                 }
             }
         }
-        val iosTest by getting
-        val iosSimulatorArm64Main by getting {
-            dependsOn(iosMain)
-        }
-        val iosSimulatorArm64Test by getting {
-            dependsOn(iosTest)
-        }
     }
 }
 
@@ -114,6 +111,13 @@ android {
     defaultConfig {
         minSdkVersion(libs.versions.minSdk.get().toInt())
         targetSdkVersion(libs.versions.targetSdk.get().toInt())
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlin {
+        jvmToolchain(11)
     }
 
     publishing {
@@ -140,4 +144,5 @@ sqldelight {
     database("WofDb") {
         packageName = "com.tutuland.wof.core.db"
     }
+    linkSqlite = true
 }

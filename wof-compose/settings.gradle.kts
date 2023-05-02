@@ -9,7 +9,7 @@ pluginManagement {
     resolutionStrategy {
         eachPlugin {
             if (requested.id.id == "org.jetbrains.compose") {
-                useModule("org.jetbrains.compose:compose-gradle-plugin:1.2.0")
+                useModule("org.jetbrains.compose:compose-gradle-plugin:1.4.0")
             }
         }
     }
@@ -29,5 +29,3 @@ rootProject.name = "WoFCompose"
 include(":android")
 include(":common")
 include(":desktop")
-
-enableFeaturePreview("VERSION_CATALOGS")

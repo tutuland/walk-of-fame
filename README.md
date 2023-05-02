@@ -14,12 +14,11 @@ Walk Of Fame is an exercise in code sharing and modularization:
   containing the business logic and external dependencies, deploying to Android, iOS, JVM for Desktop and JS.
 - This core lib is deployed as a published artifact to multiple platforms.
 - For each platform a client implementation will be provided and the published artifact included as a dependency.
-    - For Android and Desktop [Jetpack Compose](https://developer.android.com/jetpack/compose) and
-      [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) were used to build the UI, sharing most of the
-      components (see [wof-compose](/wof-compose))
+    - For Android, Desktop and iOS [Jetpack Compose](https://developer.android.com/jetpack/compose) and
+      [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) were used to build the UI,
+      sharing most of the components (see [wof-compose](/wof-compose))
     - JS uses [Compose for Web](https://github.com/JetBrains/compose-jb/tree/master/tutorials/Web)
     - A JVM based CLI application built with [kotlin-inquirer](https://github.com/kotlin-inquirer/kotlin-inquirer)
-    - For iOS, we will probably use swift UI at first
 - The application will be using [The Movie DB api](https://www.themoviedb.org/about) to:
     - Search for personalities listed in the DB
     - See details about them and their work
@@ -50,14 +49,12 @@ issues.
 
 **[wof-core](/wof-core)** is a Kotlin Multiplatform library where the business logic motor lives.
 
-**[wof-compose](/wof-compose)** is where the Android and Desktop clients are defined. Using Compose library, they can
-share UI components.
+**[wof-compose](/wof-compose)** is where the Android, Desktop and iOS clients are defined. Using Compose library,
+they can share UI components.
 
 **[wof-web](/wof-web)** is a web client built with Compose for Web.
 
 **[wof-cli](/wof-cli)** is a simple CLI java application.
-
-_(remaining modules will be added in the future)_
 
 ### Who?
 

@@ -11,7 +11,7 @@ Currently, it supports the following platforms:
 
 ### Building the Library
 
-To build the library, you may have to [set up your environment for KMM](https://kotlinlang.org/docs/kmm-setup.html), 
+To build the library, you may have to [set up your environment for KMM](https://kotlinlang.org/docs/multiplatform-mobile-setup.html), 
 in case you haven't done it before.
 
 Also, it's possible that your will have to set you JAVA_HOME to point do JDK11. I did it in my global gradle.properties 
@@ -32,4 +32,5 @@ gradle task.
 <br>v1.0.0: ~~Driver applications are provided for iOS and JS to test the library until their proper clients are implemented.~~
 <br>v1.0.1: ~~Driver application is provided for iOS to test the library until its proper clientis implemented.~~
 <br>v1.1.0: ~~Dependency injection added and test coverage improved~~
-<br>v1.1.1: `Updated dependencies`
+<br>v1.1.1: ~~Updated dependencies~~
+<br>v1.2.0: `Updated dependencies to support iOS`

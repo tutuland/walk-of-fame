@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.tutuland.wof.compose"
-version = "1.1.1"
+version = "1.2.0"
 
 kotlin {
     android()
@@ -47,13 +47,11 @@ kotlin {
                 implementation(libs.moko.resources.compose)
             }
         }
-        val androidTest by getting
         val desktopMain by getting {
             dependencies {
                 implementation(libs.moko.resources.compose)
             }
         }
-        val desktopTest by getting
     }
 }
 
@@ -65,8 +63,11 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlin {
+        jvmToolchain(11)
     }
 }
 

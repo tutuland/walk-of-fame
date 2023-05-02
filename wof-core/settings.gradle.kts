@@ -9,5 +9,3 @@ dependencyResolutionManagement {
 rootProject.name = "WoFCore"
 
 include(":core")
-
-enableFeaturePreview("VERSION_CATALOGS")
