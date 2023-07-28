@@ -21,7 +21,11 @@ import androidx.compose.ui.unit.dp
 import com.tutuland.wof.common.utils.NetworkImage
 import com.tutuland.wof.core.details.data.DetailsModel
 
-fun LazyListScope.addCredits(model: DetailsModel, config: DetailsScreenConfig) {
+fun LazyListScope.addCredits(
+    model: DetailsModel,
+    config: DetailsScreenConfig,
+    t: @Composable () -> Unit = {},  // https://github.com/JetBrains/compose-multiplatform/issues/3087
+) {
     item { DetailsCreditsHeader(config.contentPadding) }
 
     val rows = model.credits.chunked(config.creditColumns)

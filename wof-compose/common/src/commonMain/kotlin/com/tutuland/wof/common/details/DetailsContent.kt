@@ -45,7 +45,12 @@ fun DetailsContent(model: DetailsModel, config: DetailsScreenConfig, fullBioClic
     }
 }
 
-fun LazyListScope.addWideContent(model: DetailsModel, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
+fun LazyListScope.addWideContent(
+    model: DetailsModel,
+    config: DetailsScreenConfig,
+    fullBioClicked: () -> Unit,
+    t: @Composable () -> Unit = {}, // https://github.com/JetBrains/compose-multiplatform/issues/3087
+) {
     item {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -67,7 +72,12 @@ fun LazyListScope.addWideContent(model: DetailsModel, config: DetailsScreenConfi
     }
 }
 
-fun LazyListScope.addCompactContent(model: DetailsModel, config: DetailsScreenConfig, fullBioClicked: () -> Unit) {
+fun LazyListScope.addCompactContent(
+    model: DetailsModel,
+    config: DetailsScreenConfig,
+    fullBioClicked: () -> Unit,
+    t: @Composable () -> Unit = {}, // https://github.com/JetBrains/compose-multiplatform/issues/3087
+) {
     item { DetailsHeader(model, config) }
     if (model.biography.isNotBlank()) item { DetailsBio(model, config, fullBioClicked) }
 }
@@ -98,7 +108,11 @@ fun DetailsHeader(model: DetailsModel, config: DetailsScreenConfig, modifier: Mo
 }
 
 @Composable
-fun DetailsHeaderImage(model: DetailsModel, config: DetailsScreenConfig, modifier: Modifier = Modifier) {
+fun DetailsHeaderImage(
+    model: DetailsModel,
+    config: DetailsScreenConfig,
+    modifier: Modifier = Modifier
+) {
     NetworkImage(
         url = model.pictureUrl,
         contentDescription = null,
